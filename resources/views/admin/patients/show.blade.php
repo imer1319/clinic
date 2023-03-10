@@ -86,7 +86,7 @@
                     <ul class="list-unstyled timeline">
                         <li>
                             <div class="block">
-                                <div class="tags bg-primary">
+                                <div class="tags bg-primary">clear
                                     <a href="" class="tag">
                                         <span>Entertainment</span>
                                     </a>
