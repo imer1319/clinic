@@ -28,7 +28,12 @@ class StoreRequest extends FormRequest
             'surnames' => 'required|max:150',
             'ci' => 'required|numeric',
             'phone' => 'required|numeric|min:8',
+            'peso' => 'required|numeric',
+            'altura' => 'required|numeric',
+            'presion' => 'required|numeric',
             'address' => 'required|min:20',
+            'gender'=> 'required|in:male,female',
+            'nacimiento' => 'required|date|date_format:Y-m-d|before:'. date("Y-m-d"),
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }

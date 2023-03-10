@@ -32,7 +32,6 @@ class UpdateRequest extends FormRequest
             'color' => 'required',
             'time_start' => 'required|date_format:H:i',
             'time_end' => 'required|date_format:H:i|after:time_start',
-            'subServices' => 'required',
             'total' => 'required',
         ];
     }
