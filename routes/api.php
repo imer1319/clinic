@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\PhysicalExplorationController;
 use App\Http\Controllers\Api\PrescriptionController;
 use App\Http\Controllers\Api\StudioCarriedOutController;
 use App\Http\Controllers\Api\StudioInstructionController;
+use App\Http\Controllers\Api\ArchiveController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -77,3 +78,7 @@ Route::delete('studioCarriedOut/{studioCarriedOut}', [StudioCarriedOutController
 Route::get('studioInstruction/{consultation}', [StudioInstructionController::class, 'index']);
 Route::post('studioInstruction', [StudioInstructionController::class,'store']);
 Route::put('studioInstruction/{studioInstruction}', [StudioInstructionController::class, 'update']);
+
+Route::get('archives/{patient}', [ArchiveController::class, 'index']);
+Route::post('archives', [ArchiveController::class,'store']);
+Route::delete('archives/{archive}', [ArchiveController::class, 'destroy']);

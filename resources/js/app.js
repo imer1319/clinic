@@ -24,6 +24,8 @@ Vue.component('tab-consulta', require('./components/TabConsulta.vue').default);
 Vue.component('tab-receta', require('./components/TabReceta.vue').default);
 Vue.component('tab-estudio', require('./components/TabEstudio.vue').default);
 Vue.component('tab-historial', require('./components/TabHistorial.vue').default);
+Vue.component('archivo-paciente', require('./components/ArchivoPaciente.vue').default);
+Vue.component('archivo-show-paciente', require('./components/ArchivoShowPaciente.vue').default);
 
 Vue.use(VueToastr);
 

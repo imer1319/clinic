@@ -25,4 +25,9 @@ class Patient extends Model
     {
         return $this->hasMany(Consultation::class);
     }
+
+    public function archives()
+    {
+        return $this->hasMany(Archive::class);
+    }
 }
