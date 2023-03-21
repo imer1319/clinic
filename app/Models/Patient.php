@@ -9,15 +9,20 @@ class Patient extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','surnames','ci','phone','address','peso','altura','presion','gender','nacimiento'];
-
-    public function image()
-    {
-        return $this->morphOne(Image::class, 'imageable');
-    }
+    protected $fillable = ['name', 'surnames', 'ci', 'celular', 'address', 'gender', 'nacimiento', 'notas', 'image', 'city'];
 
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function vitalSigns()
+    {
+        return $this->hasMany(VitalSign::class);
+    }
+
+    public function consultations()
+    {
+        return $this->hasMany(Consultation::class);
     }
 }

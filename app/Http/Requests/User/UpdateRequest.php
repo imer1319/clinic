@@ -25,13 +25,14 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => 'required|max:255',
             'username' => [
                 'required',
                 Rule::unique('users')->ignore($this->route('user')->id)
             ],
             'email' => [
-                'required|email|max:255',
+                'required','email','max:255',
                 Rule::unique('users')->ignore($this->route('user')->id)
             ]
         ];

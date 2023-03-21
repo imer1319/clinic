@@ -3,51 +3,32 @@
 @section('title', 'Detalle del usuario')
 
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="text-center">Vista usuario</h5>
+    <div class="card">
+        <div class="card-header text-center">
+            <h4>Datos del usuario</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <img src="{{ Storage::url($user->image) }}" alt="{{ $user->image }}" height="80">
+                        <h5 class="mt-3">{{ $user->name }}</h5>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <th>Nombre</th>
-                                <td>{{ $user->name }}</td>
-                            </tr>
-                            <tr>
-                                <th>Username</th>
-                                <td>{{ $user->username }}</td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>{{ $user->email }}</td>
-                            </tr>
-                            <tr>
-                                <th>Roles</th>
-                                <td class="d-flex flex-wrap">
-                                    @forelse ($user->roles as $role)
-                                        <span>{{ $role->name }}</span>
-                                    @empty
-                                        <span>No tiene rol asignado</span>
-                                    @endforelse
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Permisos adicionales</th>
-                                <td class="d-flex flex-wrap">
-                                    @forelse ($user->permissions as $permission)
-                                        <span class="badge bg-green m-1">{{ $permission->display_name }}</span>
-                                    @empty
-                                        <span>No tiene permisos adicionales</span>
-                                    @endforelse
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="mt-3">
-                        <a href="{{ route('admin.users.index') }}" class="btn btn-dark">Regresar</a>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-4">
+                            <h5 class="text-muted">Nombre</h5>
+                            <h6 class="text-dark">{{ $user->name }}</h6>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="text-muted">Email</h5>
+                            <h6 class="text-dark">{{ $user->email }}</h6>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="text-muted">Rol</h5>
+                            <h6 class="text-dark">{{ $user->getRoleDisplayNames() }}</h6>
+                        </div>
                     </div>
                 </div>
             </div>

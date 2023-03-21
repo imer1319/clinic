@@ -2,11 +2,19 @@
 
 namespace Database\Seeders;
 
+use App\Models\AppointmentType;
+use App\Models\Diagnosis;
 use App\Models\User;
 use App\Models\Service;
 use App\Models\SubService;
 use App\Models\Doctor;
+use App\Models\HistoryQuestion;
+use App\Models\HistoryType;
+use App\Models\Laboratory;
+use App\Models\Medicine;
 use App\Models\Patient;
+use App\Models\PhysicalExploration;
+use App\Models\Specialty;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -29,9 +37,16 @@ class DatabaseSeeder extends Seeder
         Permission::truncate();
         Service::truncate();
         SubService::truncate();
-        Doctor::truncate();
         Patient::truncate();
-        \App\Models\Service::truncate();
+        Specialty::truncate();
+        Doctor::truncate();
+        AppointmentType::truncate();
+        PhysicalExploration::truncate();
+        HistoryType::truncate();
+        HistoryQuestion::truncate();
+        Laboratory::truncate();
+        Medicine::truncate();
+        Diagnosis::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Storage::disk('public')->deleteDirectory('images');
@@ -40,11 +55,17 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             PermissionsSeeder::class,
             UsersSeeder::class,
+            ExplorationSeeder::class,
+            HistoryTypeSeeder::class,
+            HistoryQuestionSeeder::class,
+            LaboratorySeeder::class,
+            MedicineSeeder::class,
+            DiagnosisSeeder::class,
         ]);
-
+        Specialty::factory(6)->create();
         Service::factory(4)->create();
         SubService::factory(20)->create();
-        Doctor::factory(10)->create();
         Patient::factory(20)->create();
+        AppointmentType::factory(5)->create();
     }
 }

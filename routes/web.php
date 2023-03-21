@@ -10,8 +10,10 @@ use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\SubServiceController;
 use App\Http\Controllers\Admin\UsersRolesController;
 use App\Http\Controllers\Admin\AppointmentController;
+use App\Http\Controllers\Admin\ConsultationController;
 use App\Http\Controllers\Admin\UsersPermissionsController;
 use App\Http\Controllers\Admin\DebtController;
+use App\Http\Controllers\Admin\ProfileController;
 
 Route::view('/','welcome');
 Route::view('/about','about');
@@ -45,6 +47,8 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::put('users/{user}/permissions', [UsersPermissionsController::class, 'update'])
     ->name('users.permissions.update');
     
+
+    Route::put('profiles/{user}', [ProfileController::class, 'update'])->name('profiles.update');
     // Datatables
     Route::get('api/citas', [AppointmentController::class, 'appointments']);
 
@@ -55,4 +59,8 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::get('api/doctors', [DoctorController::class, 'datatables']);
     Route::get('api/users', [UserController::class, 'datatables']);
     Route::get('api/roles', [RoleController::class, 'datatables']);
+
+    Route::view('settings', 'admin.settings')->name('settings');
+
+    Route::get('consultations/{consultation}/edit', [ConsultationController::class, 'edit'])->name('consultations.edit');
 });

@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body">
                     @include('admin.partials.flash-error')
-                    <form action="{{ route('admin.users.store') }}" method="POST">
+                    <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data">
                         @include('admin.users.partials._form', ['text' => 'Crear usuario'])
                     </form>
                 </div>

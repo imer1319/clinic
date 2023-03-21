@@ -78,7 +78,7 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
-        if ($role->id === 1) {
+        if ($role->id === 1 || $role->id === 2) {
             return redirect()->route('admin.roles.index')->withFlash('Este rol no se puede eliminar');
         }
 

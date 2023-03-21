@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Doctor;
-use App\Models\Image;
 use App\Http\Requests\Doctor\StoreRequest;
 use App\Http\Requests\Doctor\UpdateRequest;
+use App\Models\Appointment;
+use App\Models\Specialty;
+use App\Models\User;
 use Yajra\Datatables\Datatables;
 
 class DoctorController extends Controller
@@ -23,10 +24,19 @@ class DoctorController extends Controller
     
     public function datatables()
     {
-        return DataTables::of(Doctor::select('id', 'name', 'ci', 'surnames'))
-        ->addColumn('btn', 'admin.doctors.partials.btn')
-        ->rawColumns(['btn'])
-        ->toJson();
+        return DataTables::of(Doctor::select('id','ci','user_id','specialty_id'))
+            ->addColumn('name', function (Doctor $doctor) {
+                return $doctor->user->name;
+            })
+            ->addColumn('username', function (Doctor $doctor) {
+                return $doctor->user->username;
+            })
+            ->addColumn('speciality', function (Doctor $doctor) {
+                return $doctor->specialty->description;
+            })
+            ->addColumn('btn', 'admin.doctors.partials.btn')
+            ->rawColumns(['btn', 'name', 'usename','speciality'])
+            ->toJson();
     }
 
     public function index()
@@ -37,49 +47,59 @@ class DoctorController extends Controller
     public function create()
     {
         $doctor = new Doctor();
-        return view('admin.doctors.create', compact('doctor'));
+        $specialties = Specialty::all();
+        return view('admin.doctors.create', compact('doctor', 'specialties'));
     }
 
     public function store(StoreRequest $request)
     {
-        $doctor = Doctor::create($request->validated());
-
-        $path = $request->file('image')->store('public/images');
-
-        $image = new Image([
-            'image' => $path
+        $user = (new User)->fill([
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => $request->password,
         ]);
-        
-        $doctor->image()->save($image);
+
+        $user->image = $request->file('image')->store('public/images');
+
+        $user->save();
+
+        $user->doctor()->create($request->validated());
+
+        $user->assignRole("Doctor");
 
         return redirect()->route('admin.doctors.index')->with('flash', 'Doctor creado corretamente');
     }
 
     public function show(Doctor $doctor)
     {
+        $fecha_nacimiento = $doctor->nacimiento;
+        $dia_actual = date("Y-m-d");
+        $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
         return view('admin.doctors.show', [
-            'doctor' => $doctor
-        ]);
+            'doctor' => $doctor,
+            'edad' => $edad_diff->format('%y'),
+            'appointments' => Appointment::where('doctor_id', $doctor->id)->get()
+         ]);
     }
 
     public function edit(Doctor $doctor)
     {
-        return view('admin.doctors.edit', compact('doctor'));
+        $specialties = Specialty::all();
+        return view('admin.doctors.edit', compact('doctor', 'specialties'));
     }
 
     public function update(UpdateRequest $request, Doctor $doctor)
     {
-        if($request->hasFile('image'))
-        {
-            $path = $request->file('image')->store('public/images');
-
-            $doctor->image()->update([
-                'image' => $path,
-            ]);
-        }
-
-        $doctor->update($request->validated());
-
+        $doctor->update([
+            'surnames' => $request->surnames,
+            'ci' => $request->ci,
+            'nacimiento' => $request->nacimiento,
+            'celular' => $request->celular,
+            'address' => $request->address,
+            'specialty_id' => $request->specialty_id,
+            'gender' => $request->gender,
+        ]);
         return redirect()->route('admin.doctors.index')->with('flash', 'Doctor actualizado corretamente');
     }
 
@@ -88,7 +108,7 @@ class DoctorController extends Controller
         $doctor->image()->delete();
 
         $doctor->delete();
-        
+
         return redirect()->route('admin.doctors.index')->with('flash', 'Doctor eliminado corretamente');
     }
 }

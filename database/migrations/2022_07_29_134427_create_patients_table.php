@@ -19,12 +19,12 @@ class CreatePatientsTable extends Migration
             $table->string('surnames');
             $table->string('ci')->unique();
             $table->string('address');
-            $table->string('phone');
-            $table->integer('peso');
-            $table->integer('altura');
-            $table->integer('presion');
-            $table->enum('gender',['male','female']);
+            $table->string('city');
+            $table->string('celular');
+            $table->string('image')->nullable();
+            $table->enum('gender',['Masculino','Femenino']);
             $table->date('nacimiento');
+            $table->text('notas');
             $table->timestamps();
         });
     }

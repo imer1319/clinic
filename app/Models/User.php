@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
+        'image'
     ];
 
     /**
@@ -52,5 +53,10 @@ class User extends Authenticatable
     public function getRoleDisplayNames()
     {
         return $this->roles->pluck('display_name')->implode(', ');
+    }
+
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class);
     }
 }

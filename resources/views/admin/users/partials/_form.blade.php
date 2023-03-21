@@ -1,4 +1,3 @@
-<form method="POST" action="{{ route('admin.users.store') }}">
     @csrf
     <div class="row">
         <div class="form-group col-md-6">
@@ -23,17 +22,27 @@
 
         <div class="form-group col-md-6">
             <label for="password-confirm">Confirmar contraseña</label>
-            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
+            <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
+                autocomplete="new-password">
+        </div>
+
+        <div class="col-md-6">
+            <label>Imagen</label>
+            @if ($user->image)
+                <span class="text-muted">Dejar en blanco si no quieres editar la imagen</span>
+                <br>
+                <img src="{{ Storage::url($user->image) }}" alt="{{ $user->image }}" width="120px">
+            @endif
+            <div class="custom-file">
+                <input type="file" name="image" class="custom-file-input" id="image-doctor" accept="image/*">
+                <label class="custom-file-label" for="image-doctor">Seleccionar imagen</label>
+            </div>
         </div>
 
         <div class="row">
             <div class="form-group col-md-6">
                 <label>Roles</label>
                 @include('admin.roles.checkboxes')
-            </div>
-            <div class="form-group col-md-6">
-                <label class="col-12">Permisos adicionales</label>
-                @include('admin.permissions.checkboxes', ['model' => $user])
             </div>
         </div>
         <br>
@@ -42,4 +51,3 @@
         <a href="{{ route('admin.users.index') }}" class="btn btn-dark">Regresar</a>
         <button class="btn btn-primary">Crear usuario</button>
     </div>
-</form>

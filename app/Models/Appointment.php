@@ -40,4 +40,9 @@ class Appointment extends Model
     {
         return $this->hasMany(Debt::class);
     }
+    
+    public function appointmentType()
+    {
+        return $this->belongsTo(AppointmentType::class);
+    }
 }

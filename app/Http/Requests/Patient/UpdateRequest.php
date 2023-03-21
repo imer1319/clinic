@@ -27,12 +27,10 @@ class UpdateRequest extends FormRequest
             'name' => 'required|max:255',
             'surnames' => 'required|max:255',
             'ci' => 'required|numeric',
-            'phone' => 'required|numeric|min:8',
-            'peso' => 'required|numeric',
-            'altura' => 'required|numeric',
-            'presion' => 'required|numeric',
-            'address' => 'required|min:20',
-            'gander'=> 'required|in:male,female',
+            'celular' => 'required|numeric|min:8',
+            'city' => 'required|min:5',
+            'address' => 'required|min:5',
+            'gender'=> 'required|in:Masculino,Femenino',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }

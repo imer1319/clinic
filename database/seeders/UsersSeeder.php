@@ -22,16 +22,10 @@ class UsersSeeder extends Seeder
             'name' => 'Admin',
             'username' => 'Administrador',
             'email' => 'admin@admin.com', 
-            'password' => '123123'
-        ]);
-        $user = User::create([
-            'name' => 'User', 
-            'username' => 'Usuario',
-            'email' => 'user@user.com',
-            'password' => '123123'
+            'password' => '123123',
+            'image' => 'https://picsum.photos/200/300'
         ]);
         //Asignar roles a los usuarios
         $admin->assignRole(Role::findByName('Admin'));
-        $user->assignRole(Role::findByName('User'));
     }
 }

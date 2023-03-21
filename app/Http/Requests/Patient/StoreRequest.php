@@ -27,14 +27,13 @@ class StoreRequest extends FormRequest
             'name' => 'required|max:60',
             'surnames' => 'required|max:150',
             'ci' => 'required|numeric',
-            'phone' => 'required|numeric|min:8',
-            'peso' => 'required|numeric',
-            'altura' => 'required|numeric',
-            'presion' => 'required|numeric',
-            'address' => 'required|min:20',
-            'gender'=> 'required|in:male,female',
+            'celular' => 'required|numeric|min:8',
+            'address' => 'required|min:5',
+            'city' => 'required|min:5',
+            'gender'=> 'required|in:Masculino,Femenino',
             'nacimiento' => 'required|date|date_format:Y-m-d|before:'. date("Y-m-d"),
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'notas' => 'required|min:5'
         ];
     }
 

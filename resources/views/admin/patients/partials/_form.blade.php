@@ -1,57 +1,41 @@
 @csrf
 <div class="row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
         <label for="name">Nombre:</label>
         <input name="name" value="{{ old('name', $patient->name) }}" class="form-control">
     </div>
 
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
         <label for="surnames">Apellidos:</label>
         <input name="surnames" value="{{ old('surnames', $patient->surnames) }}" type="text" class="form-control">
     </div>
 
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
         <label for="ci">CI:</label>
         <input name="ci" value="{{ old('ci', $patient->ci) }}" type="text" class="form-control">
     </div>
 
-    <div class="form-group col-md-6">
-        <label for="gender">Genero :</label>
-        <br>
-        <label class="mr-3">
-            <input type=radio name="gender" value="male" {{ old('gender',$patient->gender) == 'male' ? 'checked' : '' }}>
-            <b>Hombre</b>
-        </label>
-        <label>
-            <input type=radio name="gender" value="female" {{ old('gender',$patient->gender) == 'female' ? 'checked' : '' }}>
-            <b>Mujer</b>
-        </label>
+    <div class="form-group col-md-4">
+        <label for="celular">Celular:</label>
+        <input name="celular" id="celular" value="{{ old('celular', $patient->celular) }}" type="text" class="form-control">
     </div>
 
-    <div class="form-group col-md-6">
-        <label for="peso">Peso:</label>
-        <input type="number" name="peso" value="{{ old('peso', $patient->peso) }}" type="text"
-            class="form-control">
+    <div class="form-group col-md-4">
+        <label for="nacimiento">Fecha de nacimiento</label>
+        <input type="date" name="nacimiento" id="nacimiento" value="{{ old('nacimiento', $patient->nacimiento) }}" class="form-control">
     </div>
 
-    <div class="form-group col-md-6">
-        <label for="presion">Presion:</label>
-        <input type="number" name="presion" value="{{ old('presion', $patient->presion) }}" type="text"
-            class="form-control">
+    <div class="form-group col-md-4">
+        <label for="address">Direccion:</label>
+        <input name="address" value="{{ old('address', $patient->address) }}" class="form-control">
     </div>
 
-    <div class="form-group col-md-6">
-        <label for="altura">Altura:</label>
-        <input type="number" name="altura" value="{{ old('altura', $patient->altura) }}" type="text"
-            class="form-control">
+    <div class="form-group col-md-4">
+        <label>Ciudad</label>
+        <input type="text" name="city" class="form-control" value="{{ old('city', $patient->city) }}">
     </div>
 
-    <div class="form-group col-md-6">
-        <label for="phone">Telefono:</label>
-        <input name="phone" id="phone" value="{{ old('phone', $patient->phone) }}" type="text" class="form-control">
-    </div>
-
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
         <label for="image">Imagen</label>
         <div class="custom-file">
             <input type="file" name="image" class="custom-file-input" id="image-patient">
@@ -60,18 +44,26 @@
         @if ($patient->image)
             <span class="text-muted">Dejar en blanco si no quieres editar la imagen</span>
             <br>
-            <img src="{{ Storage::url($patient->image->image) }}" alt="{{ $patient->image->image }}" width="120px">
+            <img src="{{ Storage::url($patient->image) }}" alt="{{ $patient->image }}" width="120px">
         @endif
     </div>
+    
 
-    <div class="form-group col-md-6">
-        <label for="nacimiento">Fecha de nacimiento</label>
-        <input type="date" name="nacimiento" id="nacimiento" value="{{ old('nacimiento', $patient->nacimiento) }}" class="form-control">
+    <div class="form-group col-md-4">
+        <label for="gender">Genero :</label>
+        <br>
+        <label class="mr-3">
+            <input type=radio name="gender" value="Masculino" {{ old('gender',$patient->gender) == 'Masculino' ? 'checked' : '' }}>
+            <b>Hombre</b>
+        </label>
+        <label>
+            <input type=radio name="gender" value="Femenino" {{ old('gender',$patient->gender) == 'Femenino' ? 'checked' : '' }}>
+            <b>Mujer</b>
+        </label>
     </div>
-
-    <div class="form-group col-md-6">
-        <label for="address">Direccion:</label>
-        <textarea name="address" id="address" rows="2" class="form-control">{{ old('address', $patient->address) }}</textarea>
+    <div class="form-group col-md-4">
+        <label>Notas internas</label>
+        <textarea name="notas" rows="3" class="form-control"style="background-color:#FFF7E6; border:2px solid #FCE2AA !important">{{ old('notas', $patient->notas) }}</textarea>
     </div>
 </div>
 <div class="form-group btn-group">

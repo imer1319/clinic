@@ -20,12 +20,23 @@
     <link href="{{ asset('admin/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="{{ asset('admin/build/css/custom.min.css') }}" rel="stylesheet">
+
     @yield('styles')
+    <style>
+        .nav-link {
+            border: 0px;
+        }
+
+        .nav-link:focus {
+            outline: none;
+            box-shadow: none;
+        }
+    </style>
 </head>
 
 <body class="nav-md">
     <div class="container body" id="app">
-        <div class="main_container">
+        <div class="main_container" style="background: #102562;">
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
@@ -40,7 +51,8 @@
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
                         <div class="profile_pic">
-                            <img src="{{ asset('admin/images/img.jpg') }}" alt="..." class="img-circle profile_img">
+                            <img src="{{ Storage::url(auth()->user()->image) }}" alt="..."
+                                class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
                             <span>Bienvenido,</span>
@@ -81,6 +93,7 @@
             <!-- /footer content -->
         </div>
     </div>
+    <script src="/js/app.js"></script>
     <!-- jQuery -->
     <script src="{{ asset('admin/vendors/jquery/dist/jquery.min.js') }}"></script>
     <!-- Bootstrap -->
@@ -93,11 +106,12 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('admin/build/js/custom.min.js') }}"></script>
     <script>
-     $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
-@yield('scripts')
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    @yield('scripts')
 
 </body>
+
 </html>

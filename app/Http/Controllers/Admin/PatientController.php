@@ -9,6 +9,10 @@ use Yajra\Datatables\Datatables;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Patient\StoreRequest;
 use App\Http\Requests\Patient\UpdateRequest;
+use App\Models\AppointmentType;
+use App\Models\Doctor;
+use App\Models\Reason;
+use App\Models\VitalSigns;
 
 class PatientController extends Controller
 {
@@ -20,13 +24,13 @@ class PatientController extends Controller
         $this->middleware('permission:patients_edit')->only(['edit', 'update']);
         $this->middleware('permission:patients_destroy')->only('destroy');
     }
-    
+
     public function datatables()
     {
-        return DataTables::of(Patient::select('id', 'name','surnames', 'ci'))
-        ->addColumn('btn', 'admin.patients.partials.btn')
-        ->rawColumns(['btn'])
-        ->toJson();
+        return DataTables::of(Patient::select('id', 'name', 'surnames', 'ci')->orderBy('id', 'Desc'))
+            ->addColumn('btn', 'admin.patients.partials.btn')
+            ->rawColumns(['btn'])
+            ->toJson();
     }
 
     public function index()
@@ -42,23 +46,27 @@ class PatientController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $patient = Patient::create($request->validated());
+        $patient = (new Patient)->fill($request->validated());
 
-        $path = $request->file('image')->store('public/images');
+        if ($request->hasFile('image')) {
 
-        $image = new Image([
-            'image' => $path
-        ]);
-        
-        $patient->image()->save($image);
+            $patient->image = $request->file('image')->store('public/images');
+        }
+        $patient->save();
 
         return redirect()->route('admin.patients.index')->with('flash', 'Paciente creado corretamente');
     }
 
     public function show(Patient $patient)
     {
+        $fecha_nacimiento = $patient->nacimiento;
+        $dia_actual = date("Y-m-d");
+        $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
         return view('admin.patients.show', [
-            'patient' => $patient
+            'patient' => $patient,
+            'edad' => $edad_diff->format('%y'),
+            'doctors' => Doctor::with('user')->get(),
+            'vitals' => VitalSigns::orderBy('created_at', 'desc')->where('patient_id', $patient->id)->first(),
         ]);
     }
 
@@ -69,18 +77,13 @@ class PatientController extends Controller
 
     public function update(UpdateRequest $request, Patient $patient)
     {
-        if($request->hasFile('image'))
-        {
-            $path = $request->file('image')->store('public/images');
+        if ($request->hasFile('image')) {
 
-            $patient->image()->update([
-                'image' => $path,
-            ]);
+            $patient->image = $request->file('image')->store('public/images');
         }
+        $patient->update($request->except(['image']));
 
-        $patient->update($request->validated());
-
-        return redirect()->route('admin.patients.index')->with('flash', 'Paciente actualizado corretamente');
+        return redirect()->route('admin.patients.show', $patient->id)->with('flash', 'Paciente actualizado corretamente');
     }
 
     public function destroy(Patient $patient)
@@ -88,7 +91,7 @@ class PatientController extends Controller
         $patient->image()->delete();
 
         $patient->delete();
-        
+
         return redirect()->route('admin.patients.index')->with('flash', 'Doctor eliminado corretamente');
     }
 }

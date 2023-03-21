@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Requests\User\StoreRequest;
+use App\Models\Profile;
+use App\Models\Specialty;
 use Yajra\Datatables\Datatables;
 
 class UserController extends Controller
@@ -21,7 +23,7 @@ class UserController extends Controller
         $this->middleware('permission:users_edit')->only(['edit', 'update']);
         $this->middleware('permission:users_destroy')->only('destroy');
     }
-    
+
     public function datatables()
     {
         return DataTables::of(User::select('id', 'username', 'name'))
@@ -52,17 +54,18 @@ class UserController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $user = User::create($request->validated());
+        $user = (new User)->fill($request->validated());
+
+        $user->image = $request->file('image')->store('public/images');
+
+        $user->save();
+
 
         if ($request->filled('roles')) {
             $user->assignRole($request->roles);
         }
 
-        if ($request->filled('permissions')) {
-            $user->givePermissionTo($request->permissions);
-        }
-
-        return redirect()->route('admin.users.index')->with('flash', 'Usuario creado corretamente');
+        return redirect()->route('admin.users.edit', $user)->with('flash', 'Usuario creado corretamente');
     }
 
     public function show(User $user)
@@ -75,19 +78,19 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::with('permissions')->get();
-        $permissions = Permission::all();
-        return view('admin.users.edit', compact('user', 'roles', 'permissions'));
+        $specialties = Specialty::all();
+        return view('admin.users.edit', compact('user', 'roles', 'specialties'));
     }
 
     public function update(UpdateRequest $request, User $user)
     {
-        $user->update($request->validated());
+        if ($request->hasFile('image')) {
+            $user->image = $request->file('image')->store('public/images');
+        }
+        $user->update($request->except(['image']));
+
         if ($request->filled('roles')) {
             $user->assignRole($request->roles);
-        }
-
-        if ($request->filled('permissions')) {
-            $user->givePermissionTo($request->permissions);
         }
         return redirect()->route('admin.users.index')->with('flash', 'Usuario actualizado corretamente');
     }

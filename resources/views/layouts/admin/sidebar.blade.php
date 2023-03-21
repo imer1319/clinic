@@ -160,5 +160,10 @@
             </ul>
         </li>
         @endcan
+        <li>
+            <a href="{{ route('admin.settings') }}">
+                <i class="fa fa-cog"></i> Configuraciones
+            </a>
+        </li>
     </ul>
 </div>

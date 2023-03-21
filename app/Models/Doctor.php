@@ -9,10 +9,16 @@ class Doctor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','surnames','ci'];
+    protected $fillable = ['surnames','ci','specialty_id','celular','nacimiento','gender','address'];
 
-    public function image()
+
+    public function specialty()
     {
-        return $this->morphOne(Image::class, 'imageable');
+        return $this->belongsTo(Specialty::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
