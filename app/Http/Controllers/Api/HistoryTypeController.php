@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\HistoryTypeResource;
 use App\Models\HistoryType;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,7 @@ class HistoryTypeController extends Controller
 {
     public function index()
     {
-        return HistoryType::with('historyQuestions')->get();
+        return HistoryTypeResource::collection(HistoryType::all());
     }
 
     public function store(Request $request)

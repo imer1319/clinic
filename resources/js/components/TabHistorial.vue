@@ -13,72 +13,147 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(question, index) in historyType.history_questions" :key="index">
-                                   <td>{{ question.question }}</td>
-                                   <td @click.prevent="openModal(question,index)"></td> 
-                               </tr>
-                           </tbody>
-                       </table>
-                   </div>
+                                <tr v-for="question in historyType.history_questions" :key="question.id">
+                                    <td>{{ question.question }}</td>
+                                    <td @click.prevent="openModal(question)">
+                                        {{ question.history_patient ? question.history_patient.answer : '' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-               </div>
-           </div>
-       </div>
-       <div class="modal fade" id="modalPatientAnswer" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">{{ formPatientAnswer.question }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" v-model="formPatientAnswer.answer" class="form-control" placeholder="Respuesta">
                 </div>
             </div>
-        </div>  
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <label>Fecha de elaboracion</label>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button @click.prevent="createOrUpdate" class="btn border">
+                            <img src="/imagenes/guardar.png" alt="guardar" width="35">
+                            &nbsp;Guardar </button>
+                        <button class="btn border">
+                            <img src="/imagenes/impresora.png" alt="impresora" width="35">
+                            &nbsp;Imprimir </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalPatientAnswer" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">{{ formPatientAnswer.question }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" v-model="formPatientAnswer.answer" class="form-control" placeholder="Respuesta">
+                        <div class="d-flex justify-content-end mt-3">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-success"
+                                @click.prevent="createOrUpdatePatientAnswer">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 </template>
 <script>
-export default{
-    props:['consultation'],
-    mounted(){
+export default {
+    props: ['consultation'],
+    mounted() {
         axios.get('/api/historyTypes')
-        .then(res => {
-            this.historyTypes = res.data
-        })
+            .then(res => {
+                this.historyTypes = res.data.data
+            })
     },
-    data(){
-        return{
-            historyTypes:[],
-            formPatient:{},
-            formPatientAnswer:{
-                question:'',
-                patient_id:'',
-                answer:''
+    data() {
+        return {
+            historyTypes: [],
+            errors: [],
+            formPatientAnswer: {
+                id: '',
+                question: '',
+                patient_id: '',
+                history_question_id: '',
+                answer: ''
             },
-            answerPatient:''
+            editar: false
         }
     },
-    methods:{
-        openModal(question,index){
-            axios.get('/api/historyPatients/'+question.id)
-            .then(res => {
-                this.formPatient = res.data
+    methods: {
+        getHistoryTypes() {
+            axios.get('/api/historyTypes')
+                .then(res => {
+                    this.historyTypes = res.data.data
+                })
+        },
+        openModal(question) {
+            this.historyTypes[question.history_type_id - 1].history_questions.forEach(element => {
+                if (element.question == question.question) {
+                    this.formPatientAnswer.question = element.question
+                    this.formPatientAnswer.patient_id = this.consultation.patient.id
+                    this.formPatientAnswer.history_question_id = element.id
+                    if (element.history_patient !== null) {
+                        this.formPatientAnswer.id = element.history_patient.id
+                        this.formPatientAnswer.answer = element.history_patient.answer
+                    } else {
+                        this.formPatientAnswer.answer = ""
+                    }
+
+                }
             })
-            if(this.formPatient == ""){
-                console.log("dajfilsa")
-            }
-            this.formPatientAnswer.answer = ''
-            this.formPatientAnswer.question = question.question
-            this.formPatientAnswer.patient_id = this.consultation.patient.id
-            
+            question.history_patient
+                ? this.editar = true
+                : this.editar = false
+
             $('#modalPatientAnswer').modal('show');
         },
-        savePatientAnswer(){
-
+        createOrUpdatePatientAnswer() {
+            if (this.editar) {
+                this.updatePatientAnswer()
+            } else {
+                this.savePatientAnswer()
+            }
+        },
+        updatePatientAnswer() {
+            axios.put('/api/historyPatients/' + this.formPatientAnswer.id,
+                this.formPatientAnswer
+            ).then(() => {
+                this.getHistoryTypes()
+                $('#modalPatientAnswer').modal('hide')
+                this.$toastr.s("SE GUARDARON LOS CAMBIOS CORRECTMENTE", "");
+            }).catch(err => {
+                this.errors.push(err.response.data.errors);
+                this.$toastr.e("ERROR AL GUARDAR LOS CAMBIOS", "");
+            })
+        },
+        savePatientAnswer() {
+            axios.post('/api/historyPatients', this.formPatientAnswer)
+                .then(() => {
+                    $('#modalPatientAnswer').modal('hide');
+                    this.getHistoryTypes()
+                    this.formPatientAnswer = {
+                        question: '',
+                        patient_id: '',
+                        history_question_id: '',
+                        answer: ''
+                    },
+                        this.$toastr.s("SE GUARDO CORRECTMENTE", "");
+                }).catch(err => {
+                    this.errors.push(err.response.data.errors);
+                    this.$toastr.e("HAY ERRORES");
+                })
         }
     }
 }

@@ -85,3 +85,5 @@ Route::post('archives', [ArchiveController::class,'store']);
 Route::delete('archives/{archive}', [ArchiveController::class, 'destroy']);
 
 Route::get('historyPatients/{historyQuestion}', [HistoryPatientController::class, 'index']);
+Route::post('historyPatients', [HistoryPatientController::class,'store']);
+Route::put('historyPatients/{historyPatient}', [HistoryPatientController::class, 'update']);
