@@ -15,7 +15,7 @@ class CreateHistoryQuestionsTable extends Migration
     {
         Schema::create('history_questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('history_question_id');
+            $table->foreignId('history_type_id');
             $table->string('question');
             $table->enum('status',['ACTIVO','BAJA']);
             $table->timestamps();

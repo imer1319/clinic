@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\PrescriptionController;
 use App\Http\Controllers\Api\StudioCarriedOutController;
 use App\Http\Controllers\Api\StudioInstructionController;
 use App\Http\Controllers\Api\ArchiveController;
+use App\Http\Controllers\Api\HistoryPatientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -82,3 +83,5 @@ Route::put('studioInstruction/{studioInstruction}', [StudioInstructionController
 Route::get('archives/{patient}', [ArchiveController::class, 'index']);
 Route::post('archives', [ArchiveController::class,'store']);
 Route::delete('archives/{archive}', [ArchiveController::class, 'destroy']);
+
+Route::get('historyPatients/{historyQuestion}', [HistoryPatientController::class, 'index']);

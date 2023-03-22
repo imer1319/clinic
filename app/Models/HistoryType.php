@@ -9,4 +9,9 @@ class HistoryType extends Model
 {
     protected $fillable = ['title'];
     use HasFactory;
+
+    public function historyQuestions()
+    {
+        return $this->hasMany(HistoryQuestion::class);
+    }
 }

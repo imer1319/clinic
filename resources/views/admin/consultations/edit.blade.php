@@ -63,8 +63,9 @@
 		<hr>
 		<div class="tab-content" id="pills-tabContent">
 			<div class="tab-pane" id="pills-historial" role="tabpanel" aria-labelledby="pills-historial-tab">
+				<h5>historia clinica</h5>
 
-				<tab-historial :consultation="{{ $consultation }}" />
+				<tab-historial :consultation="{{ $consultation->load('patient') }}" />
 
 			</div>
 			<div class="tab-pane show active" id="pills-consulta" role="tabpanel"

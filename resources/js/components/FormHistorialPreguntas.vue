@@ -4,7 +4,7 @@
         <form @submit.prevent="updateOrCreate">
             <div class="row">
                 <div class="form-group col-12">
-                    <select class="form-control" v-model="form.history_question_id">
+                    <select class="form-control" v-model="form.history_type_id">
                         <option :value="historyType.id" v-for="historyType in historyTypes" :key="historyType.id">{{
                             historyType.title }}</option>
                     </select>
@@ -67,7 +67,7 @@ export default {
                 id: '',
                 question: '',
                 status: 'ACTIVO',
-                history_question_id: 1
+                history_type_id: 1
             },
             errors: [],
             historyTypes: [],
@@ -78,7 +78,7 @@ export default {
         show(historyQuestion) {
             this.form.id = historyQuestion.id
             this.form.question = historyQuestion.question
-            this.form.history_question_id = historyQuestion.history_question_id
+            this.form.history_type_id = historyQuestion.history_type_id
             this.form.status = historyQuestion.status
             this.txt_button = 'Actualizar'
             this.errors = []
@@ -119,7 +119,7 @@ export default {
                         id: '',
                         question: '',
                         status: 'ACTIVO',
-                        history_question_id: 1
+                        history_type_id: 1
                     }
                     this.errors = []
                 }).catch((err) => {
@@ -134,7 +134,7 @@ export default {
                         id: '',
                         question: '',
                         status: 'ACTIVO',
-                        history_question_id: 1
+                        history_type_id: 1
                     }
                     this.txt_button = 'Guardar'
                     this.errors = []
@@ -148,7 +148,7 @@ export default {
         filterHistoryType() {
             let questions = [];
             this.historyQuestions.map(question => {
-                if (question.history_question_id === this.form.history_question_id) {
+                if (question.history_type_id === this.form.history_type_id) {
                     questions.push(question);
                 }
             })

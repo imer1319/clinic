@@ -18,7 +18,7 @@ class HistoryQuestionController extends Controller
         $request->validate([
             'question' => 'required|min:5',
             'status' => 'required|in:ACTIVO,BAJA',
-            'history_question_id' => 'required|numeric|exists:App\Models\HistoryType,id'
+            'history_type_id' => 'required|numeric|exists:App\Models\HistoryType,id'
         ]);
 
         return HistoryQuestion::create($request->all());
@@ -30,7 +30,7 @@ class HistoryQuestionController extends Controller
         $request->validate([
             'question' => 'required|min:5',
             'status' => 'required|in:ACTIVO,BAJA',
-            'history_question_id' => 'required|numeric|exists:App\Models\HistoryType,id'
+            'history_type_id' => 'required|numeric|exists:App\Models\HistoryType,id'
         ]);
 
         return $historyQuestion->update($request->all());

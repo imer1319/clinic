@@ -10,7 +10,7 @@ class HistoryTypeController extends Controller
 {
     public function index()
     {
-        return HistoryType::all();
+        return HistoryType::with('historyQuestions')->get();
     }
 
     public function store(Request $request)

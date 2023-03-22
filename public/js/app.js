@@ -2587,7 +2587,7 @@ __webpack_require__.r(__webpack_exports__);
         id: '',
         question: '',
         status: 'ACTIVO',
-        history_question_id: 1
+        history_type_id: 1
       },
       errors: [],
       historyTypes: [],
@@ -2598,7 +2598,7 @@ __webpack_require__.r(__webpack_exports__);
     show: function show(historyQuestion) {
       this.form.id = historyQuestion.id;
       this.form.question = historyQuestion.question;
-      this.form.history_question_id = historyQuestion.history_question_id;
+      this.form.history_type_id = historyQuestion.history_type_id;
       this.form.status = historyQuestion.status;
       this.txt_button = 'Actualizar';
       this.errors = [];
@@ -2637,7 +2637,7 @@ __webpack_require__.r(__webpack_exports__);
           id: '',
           question: '',
           status: 'ACTIVO',
-          history_question_id: 1
+          history_type_id: 1
         };
         _this4.errors = [];
       })["catch"](function (err) {
@@ -2652,7 +2652,7 @@ __webpack_require__.r(__webpack_exports__);
           id: '',
           question: '',
           status: 'ACTIVO',
-          history_question_id: 1
+          history_type_id: 1
         };
         _this5.txt_button = 'Guardar';
         _this5.errors = [];
@@ -2666,7 +2666,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this6 = this;
       var questions = [];
       this.historyQuestions.map(function (question) {
-        if (question.history_question_id === _this6.form.history_question_id) {
+        if (question.history_type_id === _this6.form.history_type_id) {
           questions.push(question);
         }
       });
@@ -3432,7 +3432,43 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['consultation'],
+  mounted: function mounted() {
+    var _this = this;
+    axios.get('/api/historyTypes').then(function (res) {
+      _this.historyTypes = res.data;
+    });
+  },
+  data: function data() {
+    return {
+      historyTypes: [],
+      formPatient: {},
+      formPatientAnswer: {
+        question: '',
+        patient_id: '',
+        answer: ''
+      },
+      answerPatient: ''
+    };
+  },
+  methods: {
+    openModal: function openModal(question, index) {
+      var _this2 = this;
+      axios.get('/api/historyPatients/' + question.id).then(function (res) {
+        _this2.formPatient = res.data;
+      });
+      if (this.formPatient == "") {
+        console.log("dajfilsa");
+      }
+      this.formPatientAnswer.answer = '';
+      this.formPatientAnswer.question = question.question;
+      this.formPatientAnswer.patient_id = this.consultation.patient.id;
+      $('#modalPatientAnswer').modal('show');
+    },
+    savePatientAnswer: function savePatientAnswer() {}
+  }
+});
 
 /***/ }),
 
@@ -4610,8 +4646,8 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.form.history_question_id,
-      expression: "form.history_question_id"
+      value: _vm.form.history_type_id,
+      expression: "form.history_type_id"
     }],
     staticClass: "form-control",
     on: {
@@ -4622,7 +4658,7 @@ var render = function render() {
           var val = "_value" in o ? o._value : o.value;
           return val;
         });
-        _vm.$set(_vm.form, "history_question_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
+        _vm.$set(_vm.form, "history_type_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
       }
     }
   }, _vm._l(_vm.historyTypes, function (historyType) {
@@ -6433,9 +6469,95 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("h5", [_vm._v("historal")]);
+  return _c("div", {
+    staticClass: "row"
+  }, [_vm._l(_vm.historyTypes, function (historyType) {
+    return _c("div", {
+      staticClass: "col-md-4"
+    }, [_c("div", {
+      staticClass: "card mb-2"
+    }, [_c("div", {
+      staticClass: "card-body"
+    }, [_c("h6", [_vm._v(_vm._s(historyType.title))]), _vm._v(" "), _c("div", {
+      staticClass: "pre-scrollable"
+    }, [_c("table", {
+      staticClass: "table table-bordered"
+    }, [_vm._m(0, true), _vm._v(" "), _c("tbody", _vm._l(historyType.history_questions, function (question, index) {
+      return _c("tr", {
+        key: index
+      }, [_c("td", [_vm._v(_vm._s(question.question))]), _vm._v(" "), _c("td", {
+        on: {
+          click: function click($event) {
+            $event.preventDefault();
+            return _vm.openModal(question, index);
+          }
+        }
+      })]);
+    }), 0)])])])])]);
+  }), _vm._v(" "), _c("div", {
+    staticClass: "modal fade",
+    attrs: {
+      id: "modalPatientAnswer",
+      tabindex: "-1",
+      "aria-labelledby": "modalLabel",
+      "aria-hidden": "true"
+    }
+  }, [_c("div", {
+    staticClass: "modal-dialog"
+  }, [_c("div", {
+    staticClass: "modal-content"
+  }, [_c("div", {
+    staticClass: "modal-header"
+  }, [_c("h5", {
+    staticClass: "modal-title",
+    attrs: {
+      id: "modalLabel"
+    }
+  }, [_vm._v(_vm._s(_vm.formPatientAnswer.question))]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c("div", {
+    staticClass: "modal-body"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.formPatientAnswer.answer,
+      expression: "formPatientAnswer.answer"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      placeholder: "Respuesta"
+    },
+    domProps: {
+      value: _vm.formPatientAnswer.answer
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.formPatientAnswer, "answer", $event.target.value);
+      }
+    }
+  })])])])])], 2);
 };
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("Antecedentes")]), _vm._v(" "), _c("th", [_vm._v("Descripcion")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("button", {
+    staticClass: "close",
+    attrs: {
+      type: "button",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }
+  }, [_c("span", {
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("×")])]);
+}];
 render._withStripped = true;
 
 

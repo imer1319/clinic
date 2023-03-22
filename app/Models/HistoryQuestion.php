@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class HistoryQuestion extends Model
 {
-    protected $fillable = ['history_question_id','question','status'];
+    protected $fillable = ['history_type_id','question','status'];
     use HasFactory;
+
+    public function historyPatient()
+    {
+        return $this->hasOne(HistoryPatient::class);
+    }
 }

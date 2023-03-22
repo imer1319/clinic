@@ -50,7 +50,7 @@ class HistoryQuestionSeeder extends Seeder
         $ids = [1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,3,3,4,4,4,4,5,5];
         for ($i = 0; $i<count($historyQuestions); $i++) {
             HistoryQuestion::create([
-                'history_question_id' => $ids[$i],
+                'history_type_id' => $ids[$i],
                 'question' => $historyQuestions[$i],
                 'status' => 'ACTIVO',
             ]);
