@@ -30,4 +30,9 @@ class Patient extends Model
     {
         return $this->hasMany(Archive::class);
     }
+
+    public function dateHistorial()
+    {
+        return $this->hasOne(DateHistorial::class);
+    }
 }

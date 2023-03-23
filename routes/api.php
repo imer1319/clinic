@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\StudioCarriedOutController;
 use App\Http\Controllers\Api\StudioInstructionController;
 use App\Http\Controllers\Api\ArchiveController;
 use App\Http\Controllers\Api\HistoryPatientController;
+use App\Http\Controllers\Api\DateHistorialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -87,3 +88,6 @@ Route::delete('archives/{archive}', [ArchiveController::class, 'destroy']);
 Route::get('historyPatients/{historyQuestion}', [HistoryPatientController::class, 'index']);
 Route::post('historyPatients', [HistoryPatientController::class,'store']);
 Route::put('historyPatients/{historyPatient}', [HistoryPatientController::class, 'update']);
+
+Route::get('dateHistorial/{patient}', [DateHistorialController::class, 'index']);
+Route::put('dateHistorial/{dateHistorial}', [DateHistorialController::class, 'update']);

@@ -32,6 +32,7 @@ class UpdateRequest extends FormRequest
             'address' => 'required|min:5',
             'gender'=> 'required|in:Masculino,Femenino',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'date_historial' => 'nullable|date|date_format:Y-m-d'
         ];
     }
 

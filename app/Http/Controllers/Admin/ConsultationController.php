@@ -8,6 +8,7 @@ use App\Http\Requests\Consultation\UpdateRequest;
 use App\Models\Consultation;
 use App\Models\Reason;
 use App\Models\VitalSigns;
+use App\Models\DateHistorial;
 
 class ConsultationController extends Controller
 {
@@ -27,6 +28,11 @@ class ConsultationController extends Controller
         VitalSigns::create([
             'consultation_id' => $consultation->id,
             'patient_id' => $request->patient_id,
+        ]);
+
+        DateHistorial::create([
+            'date_historial' => date('Y-m-d'),
+            'patient_id' => $request->patient_id
         ]);
         return $consultation->id;
     }
