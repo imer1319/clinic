@@ -17,7 +17,8 @@
 
     <div class="form-group col-md-4">
         <label for="nacimiento">Fecha de nacimiento</label>
-        <input name="nacimiento" value="{{ old('nacimiento', $doctor->nacimiento) }}" type="date" class="form-control">
+        <input name="nacimiento" value="{{ old('nacimiento', $doctor->nacimiento) }}" type="date"
+            class="form-control">
     </div>
 
     <div class="form-group col-md-4">
@@ -46,9 +47,9 @@
         <select id="specialty_id" name="specialty_id" class="form-control @error('doctor_id') is-invalid @enderror">
             <option value="">Seleccionar especialidad</option>
             @foreach ($specialties as $specialty)
-                <option value="{{ $specialty->id }}"
-                    {{ old('specialty_id', $doctor->specialty_id) === $specialty->id ? 'selected' : '' }}>
-                    {{ $specialty->description }}</option>
+                <option value="{{ $specialty->id }}" {{ (old('specialty_id')==$specialty->id)? 'selected':'' }}>
+                    {{ $specialty->description }}
+                </option>
             @endforeach
         </select>
     </div>

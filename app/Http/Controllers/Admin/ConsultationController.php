@@ -9,6 +9,7 @@ use App\Models\Consultation;
 use App\Models\Reason;
 use App\Models\VitalSigns;
 use App\Models\DateHistorial;
+use Illuminate\Support\Facades\DB;
 
 class ConsultationController extends Controller
 {
@@ -16,25 +17,34 @@ class ConsultationController extends Controller
     {
         return Consultation::all();
     }
-    
+
     public function store(StoreRequest $request)
     {
-        $consultation = Consultation::create([
-            'motivo' => $request->motivo,
-            'doctor_id' => $request->doctor_id,
-            'patient_id' => $request->patient_id,
-        ]);
+        DB::beginTransaction();
+        try {
+            $consultation = Consultation::create([
+                'motivo' => $request->motivo,
+                'doctor_id' => $request->doctor_id,
+                'patient_id' => $request->patient_id,
+            ]);
 
-        VitalSigns::create([
-            'consultation_id' => $consultation->id,
-            'patient_id' => $request->patient_id,
-        ]);
+            VitalSigns::create([
+                'consultation_id' => $consultation->id,
+                'patient_id' => $request->patient_id,
+            ]);
 
-        DateHistorial::create([
-            'date_historial' => date('Y-m-d'),
-            'patient_id' => $request->patient_id
-        ]);
-        return $consultation->id;
+            DateHistorial::create([
+                'date_historial' => date('Y-m-d'),
+                'patient_id' => $request->patient_id
+            ]);
+            DB::commit();
+
+            return $consultation->id;
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->with('flash', 'Error al crear el doctor');
+        }
     }
 
     public  function edit(Consultation $consultation)

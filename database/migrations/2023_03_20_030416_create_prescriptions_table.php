@@ -16,8 +16,7 @@ class CreatePrescriptionsTable extends Migration
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('consultation_id')->constrained()->cascadeOnDelete();
-            $table->string('medicamento');
-            $table->string('concentracion');
+            $table->foreignId('medicine_id')->constrained()->cascadeOnDelete();
             $table->string('tomar');
             $table->string('frecuencia');
             $table->string('durante');

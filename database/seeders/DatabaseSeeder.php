@@ -51,6 +51,13 @@ class DatabaseSeeder extends Seeder
 
         Storage::disk('public')->deleteDirectory('images');
 
+
+        Specialty::factory(6)->create();
+        Service::factory(4)->create();
+        SubService::factory(20)->create();
+        Patient::factory(20)->create();
+        AppointmentType::factory(5)->create();
+        
         $this->call([
             RolesSeeder::class,
             PermissionsSeeder::class,
@@ -62,10 +69,5 @@ class DatabaseSeeder extends Seeder
             MedicineSeeder::class,
             DiagnosisSeeder::class,
         ]);
-        Specialty::factory(6)->create();
-        Service::factory(4)->create();
-        SubService::factory(20)->create();
-        Patient::factory(20)->create();
-        AppointmentType::factory(5)->create();
     }
 }

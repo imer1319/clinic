@@ -51,7 +51,6 @@ export default {
         show(historialType) {
             this.form.id = historialType.id
             this.form.title = historialType.title
-            this.form.status = historialType.status
             this.txt_button = 'Actualizar'
             this.errors = []
         },
@@ -65,7 +64,7 @@ export default {
         get() {
             axios.get('/api/historyTypes')
                 .then(response => {
-                    this.historyTypes = response.data;
+                    this.historyTypes = response.data.data;
                 })
         },
         updateOrCreate() {

@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5>Receta de medicamentos</h5>
-                <a class="btn border text-success cursor-pointer" data-toggle="modal_medicamentos" @click="openModal()">
+                <a class="btn border text-success cursor-pointer" @click="openModal()">
                     <i class="fa fa-plus"></i>
                     &nbsp; Agregar</a>
             </div>
@@ -22,8 +22,8 @@
                         </thead>
                         <tbody>
                             <tr v-for="prescription in prescriptions">
-                                <td>{{ prescription.medicamento }}</td>
-                                <td>{{ prescription.concentracion }}</td>
+                                <td>{{ prescription.medicine.medicine }}</td>
+                                <td>{{ prescription.medicine.concentration }}</td>
                                 <td>{{ prescription.tomar }}</td>
                                 <td>{{ prescription.frecuencia }}</td>
                                 <td>{{ prescription.durante }}</td>
@@ -158,6 +158,7 @@ export default {
             search: '',
             instructciones: '',
             prescription: {
+                medicine_id: '',
                 medicamento: '',
                 concentracion: '',
                 tomar: '',
@@ -183,20 +184,20 @@ export default {
                     this.instructciones = this.instructions.instructions
                 })
         },
-        createOrUpdate(){
-            if(this.instructions.id){
+        createOrUpdate() {
+            if (this.instructions.id) {
                 this.updateMedicalInstructions()
                 return
-            }else{
+            } else {
                 this.saveMedicalInstructions()
                 return
             }
-        },  
+        },
         openModal() {
             $('#modal_medicamentos').modal('show');
         },
         addToForm(medicine) {
-            this.prescription.consultation_id = medicine.id
+            this.prescription.medicine_id = medicine.id
             this.prescription.medicamento = medicine.medicine
             this.prescription.concentracion = medicine.concentration
             this.prescription.consultation_id = this.consultation.id
@@ -206,17 +207,20 @@ export default {
                 .then(() => {
                     this.$toastr.s("SE GUARDO CORRECTMENTE", "");
                     this.getPrescriptions()
+                    $('#modal_medicamentos').modal('hide');
                     prescription = {
                         medicamento: '',
                         concentracion: '',
                         tomar: '',
                         frecuencia: '',
                         durante: '',
-                        consultation_id: this.consultation.id
+                        consultation_id: this.consultation.id,
+                        medicine_id: ''
                     }
-                    $('#modal_medicamentos').modal('hide');
                 }).catch(err => {
-                    this.errors.push(err.response.data.errors);
+                    if (err.response && err.response.data && err.response.data.errors) {
+                        this.errors.push(err.response.data.errors);
+                    }
                 })
         },
         saveMedicalInstructions() {
@@ -239,7 +243,7 @@ export default {
                     this.$toastr.e("HUBO ERRORES AL ELIMINAR");
                 })
         },
-        updateMedicalInstructions(){
+        updateMedicalInstructions() {
             axios.put('/api/medicalInstruction/' + this.instructions.id, {
                 instructions: this.instructciones,
                 consultation_id: this.consultation.id,

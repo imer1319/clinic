@@ -11,15 +11,14 @@ class PrescriptionController extends Controller
 {
     public function index(Consultation $consultation)
     {
-        return $consultation->prescriptions;
+        return $consultation->prescriptions->load('medicine');
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'consultation_id' => 'required|numeric|exists:App\Models\Consultation,id',
-            'medicamento' => 'required',
-            'concentracion' => 'required',
+            'medicine_id' => 'required|numeric|exists:App\Models\Medicine,id',
             'tomar' => 'required|numeric',
             'durante' => 'required|numeric',
             'frecuencia' => 'required|numeric',

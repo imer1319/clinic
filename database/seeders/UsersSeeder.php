@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,11 +22,32 @@ class UsersSeeder extends Seeder
         $admin = User::create([
             'name' => 'Admin',
             'username' => 'Administrador',
-            'email' => 'admin@admin.com', 
+            'email' => 'admin@admin.com',
             'password' => '123123',
             'image' => 'https://picsum.photos/200/300'
         ]);
         //Asignar roles a los usuarios
         $admin->assignRole(Role::findByName('Admin'));
+
+        $doctor = User::create([
+            'name' => 'House',
+            'username' => 'Doctor',
+            'email' => 'doctor@doctor.com',
+            'password' => '123123',
+            'image' => 'https://picsum.photos/200/300'
+        ]);
+        //Asignar roles a los usuarios
+        $doctor->assignRole(Role::findByName('Doctor'));
+
+        Doctor::create([
+            'surnames' => 'Doctor',
+            'ci' => 12345678,
+            'specialty_id' => 2,
+            'celular' => 12345678,
+            'nacimiento' => "1990-03-12",
+            'gender' => "MASCULINO",
+            'address' => 'Calle 12 entre 11 y 12',
+            'user_id' => $doctor->id
+        ]);
     }
 }

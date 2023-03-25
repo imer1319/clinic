@@ -17,6 +17,10 @@ class Consultation extends Model
         'sintoma',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
+
     public function patient()
     {
         return $this->belongsTo(Patient::class);
@@ -26,7 +30,7 @@ class Consultation extends Model
     {
         return $this->belongsTo(Doctor::class);
     }
-    
+
 
     public function vitalSigns()
     {
@@ -63,8 +67,18 @@ class Consultation extends Model
         return $this->hasOne(StudioInstruction::class);
     }
 
+    public function medicines()
+    {
+        return $this->belongsToMany(Medicine::class, 'prescriptions')->withPivot('tomar','frecuencia','durante');
+    }
+
     public function laboratories()
     {
         return $this->belongsToMany(Laboratory::class, 'studio_carried_outs')->withPivot('id');
+    }
+
+    public function getHoraAttribute()
+    {
+        return $this->created_at->format('H:i A');
     }
 }

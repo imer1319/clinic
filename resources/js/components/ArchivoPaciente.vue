@@ -14,7 +14,7 @@
 		</div>
 		<div class="d-flex justify-content-end my-3">
 			<button @click.prevent="saveArchive" class="btn border text-success">
-				<i class="fa fa-plus"></i>&nbsp; Agregar</a>
+				<i class="fa fa-plus"></i>&nbsp;Agregar
 			</button>
 		</div>
 		<div class="pre-scrollable">

@@ -5,6 +5,7 @@ import VueToastr from "vue-toastr";
 
 Vue.component('settings-component', require('./components/SettingsComponent.vue').default);
 Vue.component('modal-component', require('./components/ModalComponent.vue').default);
+Vue.component('detail-consultation', require('./components/DetailConsultations.vue').default);
 Vue.component('error-component', require('./components/ErrorComponent.vue').default);
 Vue.component('form-historial', require('./components/FormHistorial.vue').default);
 Vue.component('form-historial-titulos', require('./components/FormHistorialTitulos.vue').default);

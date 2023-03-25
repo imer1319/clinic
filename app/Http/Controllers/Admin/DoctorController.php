@@ -10,6 +10,7 @@ use App\Models\Appointment;
 use App\Models\Specialty;
 use App\Models\User;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\DB;
 
 class DoctorController extends Controller
 {
@@ -21,10 +22,10 @@ class DoctorController extends Controller
         $this->middleware('permission:doctors_edit')->only(['edit', 'update']);
         $this->middleware('permission:doctors_destroy')->only('destroy');
     }
-    
+
     public function datatables()
     {
-        return DataTables::of(Doctor::select('id','ci','user_id','specialty_id'))
+        return DataTables::of(Doctor::select('id', 'ci', 'user_id', 'specialty_id'))
             ->addColumn('name', function (Doctor $doctor) {
                 return $doctor->user->name;
             })
@@ -35,7 +36,7 @@ class DoctorController extends Controller
                 return $doctor->specialty->description;
             })
             ->addColumn('btn', 'admin.doctors.partials.btn')
-            ->rawColumns(['btn', 'name', 'usename','speciality'])
+            ->rawColumns(['btn', 'name', 'usename', 'speciality'])
             ->toJson();
     }
 
@@ -53,22 +54,32 @@ class DoctorController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $user = (new User)->fill([
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => $request->password,
-        ]);
+        DB::beginTransaction();
 
-        $user->image = $request->file('image')->store('public/images');
+        try {
+            $user = (new User)->fill([
+                'name' => $request->name,
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => $request->password,
+            ]);
 
-        $user->save();
+            $user->image = $request->file('image')->store('public/images');
 
-        $user->doctor()->create($request->validated());
+            $user->save();
 
-        $user->assignRole("Doctor");
+            $user->doctor()->create($request->validated());
 
-        return redirect()->route('admin.doctors.index')->with('flash', 'Doctor creado corretamente');
+            $user->assignRole("Doctor");
+
+            DB::commit();
+
+            return redirect()->route('admin.doctors.index')->with('flash', 'Doctor creado correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->with('flash', 'Error al crear el doctor');
+        }
     }
 
     public function show(Doctor $doctor)
@@ -80,7 +91,7 @@ class DoctorController extends Controller
             'doctor' => $doctor,
             'edad' => $edad_diff->format('%y'),
             'appointments' => Appointment::where('doctor_id', $doctor->id)->get()
-         ]);
+        ]);
     }
 
     public function edit(Doctor $doctor)

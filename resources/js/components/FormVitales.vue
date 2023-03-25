@@ -8,7 +8,7 @@
                 <h6>Altura</h6>
             </div>
             <div class="col">
-                <input type="text" :value="vitals.altura" class="form-control form-control-sm" style="width: 60px">
+                <input disabled :value="vitals.altura" class="form-control form-control-sm" style="width: 60px">
             </div>
             <div class="col">
                 <h6>Cm</h6>
@@ -22,7 +22,7 @@
                 <h6>Peso</h6>
             </div>
             <div class="col">
-                <input type="text" :value="vitals.peso" class="form-control form-control-sm" style="width: 60px">
+                <input disabled :value="vitals.peso" class="form-control form-control-sm" style="width: 60px">
             </div>
             <div class="col">
                 <h6>Kg</h6>
@@ -36,7 +36,7 @@
                 <h6>IMC</h6>
             </div>
             <div class="col">
-                <input type="text" :value="imc" class="form-control form-control-sm" style="width: 60px">
+                <input disabled :value="imc" class="form-control form-control-sm" style="width: 60px">
             </div>
             <div class="col">
                 <h6>mbi</h6>
@@ -50,7 +50,7 @@
                 <h6>Temp</h6>
             </div>
             <div class="col">
-                <input type="text" :value="vitals.temp" class="form-control form-control-sm" style="width: 60px">
+                <input disabled :value="vitals.temp" class="form-control form-control-sm" style="width: 60px">
             </div>
             <div class="col">
                 <h6>°C</h6>
@@ -64,7 +64,7 @@
                 <h6>F.R.</h6>
             </div>
             <div class="col">
-                <input type="text" :value="vitals.fr" class="form-control form-control-sm" style="width: 60px">
+                <input disabled :value="vitals.fr" class="form-control form-control-sm" style="width: 60px">
             </div>
             <div class="col">
                 <h6>r/m</h6>
@@ -78,7 +78,7 @@
                 <h6>P.A.</h6>
             </div>
             <div class="col">
-                <input type="text" :value="vitals.pa" class="form-control form-control-sm" style="width: 60px">
+                <input disabled :value="vitals.pa" class="form-control form-control-sm" style="width: 60px">
             </div>
             <div class="col">
                 <h6>mmHg</h6>
@@ -92,7 +92,7 @@
                 <h6>F.C.</h6>
             </div>
             <div class="col">
-                <input type="text" :value="vitals.fc" class="form-control form-control-sm" style="width: 60px">
+                <input disabled :value="vitals.fc" class="form-control form-control-sm" style="width: 60px">
             </div>
             <div class="col">
                 <h6>f.c</h6>
@@ -102,11 +102,8 @@
 </template>
 <script>
 export default {
-    props: ['readonly','patient_id'],
+    props: ['patient_id'],
     mounted() {
-        document.querySelectorAll("input[type='text']").forEach(input => {
-            input.disabled = this.readonly;
-        })
         axios.get('/api/vitalSigns/'+this.patient_id)
             .then(response => {
                 this.vitals = response.data;
