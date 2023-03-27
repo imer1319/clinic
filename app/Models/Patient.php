@@ -35,4 +35,9 @@ class Patient extends Model
     {
         return $this->hasOne(DateHistorial::class);
     }
+
+    public function diaries()
+    {
+        return $this->hasMany(Diary::class);
+    }
 }

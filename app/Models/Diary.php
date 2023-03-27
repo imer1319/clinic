@@ -9,5 +9,8 @@ class Diary extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['doctor_id', 'patient_id', 'status', 'fecha_agenda', 'hora_agenda', 'fecha_llegada', 'hora_llegada', 'motivo'];
+    protected $fillable = ['doctor_id', 'patient_id', 'status', 'date_cita', 'hora_cita', 'fecha_llegada', 'hora_llegada', 'motivo'];
+
+    protected $dates = ['date_cita', 'hora_cita'];
+
 }

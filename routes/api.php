@@ -20,7 +20,7 @@ use App\Http\Controllers\Api\ArchiveController;
 use App\Http\Controllers\Api\HistoryPatientController;
 use App\Http\Controllers\Api\DateHistorialController;
 use App\Http\Controllers\Api\DiaryController;
-
+use App\Http\Controllers\Api\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -95,3 +95,5 @@ Route::get('dateHistorial/{patient}', [DateHistorialController::class, 'index'])
 Route::put('dateHistorial/{dateHistorial}', [DateHistorialController::class, 'update']);
 
 Route::post('diaries', [DiaryController::class, 'store']);
+Route::get('notifications/{user}', [NotificationController::class, 'index']);
+Route::put('notifications/{notification}', [NotificationController::class, 'update']);

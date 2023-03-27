@@ -15,8 +15,10 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('body');
+            $table->dateTime('fecha_leida')->nullable();
+            $table->enum('leida',['SI','NO'])->default('NO');
             $table->timestamps();
         });
     }
