@@ -19,6 +19,8 @@ use App\Http\Controllers\Api\StudioInstructionController;
 use App\Http\Controllers\Api\ArchiveController;
 use App\Http\Controllers\Api\HistoryPatientController;
 use App\Http\Controllers\Api\DateHistorialController;
+use App\Http\Controllers\Api\DiaryController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -91,3 +93,5 @@ Route::put('historyPatients/{historyPatient}', [HistoryPatientController::class,
 
 Route::get('dateHistorial/{patient}', [DateHistorialController::class, 'index']);
 Route::put('dateHistorial/{dateHistorial}', [DateHistorialController::class, 'update']);
+
+Route::post('diaries', [DiaryController::class, 'store']);

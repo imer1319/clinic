@@ -54,7 +54,7 @@
                     <div class="profile clearfix">
                         <div class="profile_pic">
                             <img src="{{ Storage::url(auth()->user()->image) }}" alt="..."
-                                class="img-circle profile_img">
+                            class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
                             <span>Bienvenido,</span>
@@ -112,19 +112,6 @@
     <script>
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
-            $("#datepicker").datepicker({
-                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto',
-                    'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-                ],
-                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct',
-                    'Nov', 'Dic'
-                ],
-                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
-                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-                weekHeader: 'Sm',
-                dateFormat: 'dd/mm/yy',
-            });
         })
     </script>
     @yield('scripts')

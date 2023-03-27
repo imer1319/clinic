@@ -17,11 +17,11 @@ class CreateDiariesTable extends Migration
             $table->id();
             $table->foreignId('doctor_id')->constrained()->cascadeOnDelete();
             $table->foreignId('patient_id')->constrained()->cascadeOnDelete();
-            $table->date('fecha_agenda');
-            $table->time('hora_agenda');
-            $table->date('fecha_llegada');
-            $table->time('hora_llegada');
-            $table->enum('status',['ESPERA','LLEGADA']);
+            $table->date('date_cita');
+            $table->time('hora_cita');
+            $table->date('fecha_llegada')->nullable();
+            $table->time('hora_llegada')->nullable();
+            $table->enum('status',['ESPERA','LLEGADA'])->default('ESPERA');
             $table->string('motivo');
             $table->timestamps();
         });
