@@ -5,8 +5,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-4">
-            <div class="x_panel">
-                <div class="x_title">
+            <div class="card">
+                <div class="card-body">
                     <div class="d-flex align-items-center">
                         <img src="{{ Storage::url($doctor->user->image) }}" alt="{{ $doctor->user->image }}" height="80">
                         <div class="ml-3 d-flex flex-column">
@@ -14,37 +14,50 @@
                             <p>{{ $doctor->nacimiento }} - {{ $edad }} años </p>
                         </div>
                     </div>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <div class="d-flex justify-content-center">
-                        <p class="pr-3">Genero</p>
-                        <p>{{ $doctor->gender }}</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6 text-right">
+                            <span>Genero</span>
+                        </div>
+                        <div class="col-md-6">
+                            <p>{{ $doctor->gender }}</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <span>CI</span>
+                        </div>
+                        <div class="col-md-6">
+                            <p>{{ $doctor->ci }}</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <span>Correo</span>
+                        </div>
+                        <div class="col-md-6">
+                            <p>{{ $doctor->user->email }}</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <span>Celular</span>
+                        </div>
+                        <div class="col-md-6">
+                            <p>{{ $doctor->celular }}</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <span>Direccion</span>
+                        </div>
+                        <div class="col-md-6">
+                            <p>{{ $doctor->address }}</p>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <p class="pr-3">CI</p>
-                        <p>{{ $doctor->ci }}</p>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <p class="pr-3">Correo</p>
-                        <p>{{ $doctor->user->email }}</p>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <p class="pr-3">Celular</p>
-                        <p>{{ $doctor->celular }}</p>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <p class="pr-3">Direccion</p>
-                        <p>{{ $doctor->address }}</p>
+                    <div class="d-flex justify-content-end">
+                        <a href="{{ route('admin.horarios.edit', $doctor) }}" class="btn border shadow-sm">
+                            <img src="/imagenes/horario.png" alt="impresora" width="35">
+                            &nbsp;Horario
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
+
             <div class="card">
                 <div class="card-body">
                     <h5 class="text-center mb-3">Mis citas medicas</h5>

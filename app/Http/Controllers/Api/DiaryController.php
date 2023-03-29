@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Diary;
+use App\Models\Doctor;
 use App\Models\Notification;
 
 class DiaryController extends Controller
@@ -20,11 +21,17 @@ class DiaryController extends Controller
             'user_id' => 'required|numeric|exists:App\Models\User,id',
         ]);
 
+        $doctor = Doctor::findOrFail($request->user_id);
         Diary::create($request->all());
         Notification::create([
-            'user_id' => $request->user_id,
-            'body' => 'Tienes una cita el ' . $request->date_cita . ' a las ' . $request->hora_cita . ' Hrs',
+            'user_id' => $doctor->user->id,
+            'body' => "Tienes una cita el $request->date_cita a las $request->hora_cita Hrs con el paciente $request->patient",
         ]);
         return;
+    }
+
+    public function update(Request $request, Diary $diary)
+    {
+        return $request->all();
     }
 }

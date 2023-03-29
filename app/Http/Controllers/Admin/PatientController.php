@@ -9,9 +9,7 @@ use Yajra\Datatables\Datatables;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Patient\StoreRequest;
 use App\Http\Requests\Patient\UpdateRequest;
-use App\Models\AppointmentType;
 use App\Models\Doctor;
-use App\Models\Reason;
 use App\Models\VitalSigns;
 
 class PatientController extends Controller
@@ -64,6 +62,8 @@ class PatientController extends Controller
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
         return view('admin.patients.show', [
             'patient' => $patient,
+            'diaries' => $patient->diaries()->latest()->get(),
+            'consultations' => $patient->consultations()->latest()->get(),
             'edad' => $edad_diff->format('%y'),
             'doctors' => Doctor::with('user')->get(),
             'vitals' => VitalSigns::orderBy('created_at', 'desc')->where('patient_id', $patient->id)->first(),

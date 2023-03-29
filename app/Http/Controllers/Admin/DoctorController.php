@@ -7,6 +7,7 @@ use App\Models\Doctor;
 use App\Http\Requests\Doctor\StoreRequest;
 use App\Http\Requests\Doctor\UpdateRequest;
 use App\Models\Appointment;
+use App\Models\Horario;
 use App\Models\Specialty;
 use App\Models\User;
 use Yajra\Datatables\Datatables;
@@ -71,6 +72,19 @@ class DoctorController extends Controller
             $user->doctor()->create($request->validated());
 
             $user->assignRole("Doctor");
+
+            $dias = ['Lunes', 'Martes', 'Miercoles','Jueves', 'Viernes','Sabado','Domingo'];
+            foreach($dias as $dia)
+            {
+                Horario::create([
+                    'dia' => $dia,
+                    'morning_start' => '08:00',
+                    'morning_end' => '12:00',
+                    'afternoon_start' => '02:00',
+                    'afternoon_end' => '06:00',
+                    'doctor_id' => $user->doctor->id
+                ]);
+            }
 
             DB::commit();
 

@@ -8,7 +8,9 @@ use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\Service;
 use App\Models\Appointment;
+use App\Models\Consultation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -65,6 +67,12 @@ class HomeController extends Controller
         {
             $patientYear[] = Patient::where(DB::raw("DATE_FORMAT(created_at, '%Y')"), $value)->count();
         }
+        $consultations = '';
+        if(Auth::user()->hasRole('Doctor')){
+            $consultations =  Consultation::where('doctor_id', Auth::user()->doctor->user_id)->get();
+        }else{
+            $consultations =  Consultation::all();
+        }
 
         return view('home',[
             'users' => User::count(),
@@ -72,6 +80,7 @@ class HomeController extends Controller
             'doctors' => Doctor::count(),
             'services' => Service::count(),
             'appointments' => Appointment::where('status', 'DEUDA')->get(),
+            'consultations' => $consultations,
             'year' => $year,
             'patientYear' => $patientYear,
             'patientMonth' => $patientMonth,

@@ -21,7 +21,7 @@ class CreateDiariesTable extends Migration
             $table->time('hora_cita');
             $table->date('fecha_llegada')->nullable();
             $table->time('hora_llegada')->nullable();
-            $table->enum('status',['ESPERA','LLEGADA'])->default('ESPERA');
+            $table->enum('status',['En espera','Aceptada'])->default('En espera');
             $table->string('motivo');
             $table->timestamps();
         });

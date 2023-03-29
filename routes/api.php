@@ -95,5 +95,7 @@ Route::get('dateHistorial/{patient}', [DateHistorialController::class, 'index'])
 Route::put('dateHistorial/{dateHistorial}', [DateHistorialController::class, 'update']);
 
 Route::post('diaries', [DiaryController::class, 'store']);
+Route::put('diaries/{diary}', [DiaryController::class, 'update']);
+
 Route::get('notifications/{user}', [NotificationController::class, 'index']);
 Route::put('notifications/{notification}', [NotificationController::class, 'update']);

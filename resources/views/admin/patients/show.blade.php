@@ -97,7 +97,7 @@
                                     <input type="text" id="date_cita" class="form-control"
                                         placeholder="Selecciona la fecha">
                                     <input type="hidden" id="patient_id" value="{{ $patient->id }}">
-                                    <input type="hidden" id="user_id" value="{{ Auth::id() }}">
+                                    <input type="hidden" id="patient" value="{{ $patient->name }} {{ $patient->surnames }}">
                                 </div>
                                 <div class="form-group mb-0">
                                     <button id="addDiary" class="btn btn-primary btn-block">Programar consulta</button>
@@ -124,7 +124,7 @@
             </div>
             <div class="card mt-2 pre-scrollable">
                 <h6 class="pt-2 px-2">CONSULTAS AGENDADAS</h6>
-                @forelse ($patient->diaries as $diary)
+                @forelse ($diaries as $diary)
                     <a href="{{ route('admin.consultations.edit', $diary) }}" class="a_hover">
                         <div class="mx-1 mt-1 mb-2 p-2 b-left-agenda border-consulta a_hover">
                             <div class="row">
@@ -134,10 +134,11 @@
                                 </div>
                                 <div class="col-9 border-left d-flex flex-column justify-content-between">
                                     <span class="d-flex justify-content-between">
-                                        <span><i>Dr. {{ auth()->user()->name }}</i></span>
+                                        <span><i>Dr. {{ $diary->doctor->user->name }}</i></span>
                                         <span>{{ $diary->hora_cita->format('H:i A') }}</span>
                                     </span>
                                     <span>{{ $diary->motivo }}</span>
+                                    <span>Estado: {{ $diary->status }}</span>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +149,7 @@
             </div>
             <div class="card mt-2 pre-scrollable">
                 <h6 class="pt-2 px-2">CONSULTAS INICIADAS</h6>
-                @forelse ($patient->consultations as $consultation)
+                @forelse ($consultations as $consultation)
                     <a href="{{ route('admin.consultations.edit', $consultation) }}" class="a_hover">
                         <div class="mx-1 mt-1 mb-2 p-2 b-left-consulta border-consulta a_hover">
                             <div class="row">
@@ -259,43 +260,17 @@
                     weekdays: {
                         shorthand: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"],
                         longhand: [
-                            "Domingo",
-                            "Lunes",
-                            "Martes",
-                            "Miércoles",
-                            "Jueves",
-                            "Viernes",
+                            "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes",
                             "Sábado"
                         ]
                     },
                     months: {
                         shorthand: [
-                            "Ene",
-                            "Feb",
-                            "Mar",
-                            "Abr",
-                            "May",
-                            "Jun",
-                            "Jul",
-                            "Ago",
-                            "Sep",
-                            "Oct",
-                            "Nov",
-                            "Dic"
+                            "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
                         ],
                         longhand: [
-                            "Enero",
-                            "Febrero",
-                            "Marzo",
-                            "Abril",
-                            "Mayo",
-                            "Junio",
-                            "Julio",
-                            "Agosto",
-                            "Septiembre",
-                            "Octubre",
-                            "Noviembre",
-                            "Diciembre"
+                            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto",
+                            "Septiembre", "Octubre", "Noviembre", "Diciembre"
                         ]
                     }
                 }
@@ -330,8 +305,9 @@
                 motivo: $('#motivo').val(),
                 doctor_id: $('#doctor_id').val(),
                 patient_id: $('#patient_id').val(),
-                user_id: $('#user_id').val(),
+                user_id: $('#doctor_id').val(),
                 hora_cita: $('#timePickr').val(),
+                patient: $('#patient').val(),
             }
         }
         $('#addDiary').click(function() {

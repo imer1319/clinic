@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Doctor;
+use App\Models\Horario;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -49,5 +50,16 @@ class UsersSeeder extends Seeder
             'address' => 'Calle 12 entre 11 y 12',
             'user_id' => $doctor->id
         ]);
+        $dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+        foreach ($dias as $dia) {
+            Horario::create([
+                'dia' => $dia,
+                'morning_start' => '08:00',
+                'morning_end' => '12:00',
+                'afternoon_start' => '02:00',
+                'afternoon_end' => '06:00',
+                'doctor_id' => $doctor->doctor->id
+            ]);
+        }
     }
 }

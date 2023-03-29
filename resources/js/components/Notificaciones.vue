@@ -1,5 +1,5 @@
 <template>
-	<li role="presentation" class="nav-item dropdown open">
+	<li role="presentation" class="nav-item dropdown open" v-if="notifications.length">
 		<a href="javascript:;" @click.prevent="goNoti" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown"
 			aria-expanded="false">
 			<i class="fa fa-bell-o text-white" style="font-size: 20px; padding-top: 6px;"></i>
@@ -9,7 +9,7 @@
 			<li class="nav-item" v-for="notification in notifications">
 				<a class="dropdown-item" @click.prevent="updateNotification(notification)">
 					<span>
-						<span>John Smith</span>
+						<span>Para {{ user.name }}</span>
 						<span class="time">Hace {{ notification.created_at }}</span>
 					</span>
 					<span class="message">
@@ -21,7 +21,7 @@
 			<li class="nav-item">
 				<div class="text-center">
 					<a class="dropdown-item" href="/notifications">
-						<strong>ver todas las notificaciones</strong>
+						<strong>Ver todas las notificaciones</strong>
 						<i class="fa fa-angle-right"></i>
 					</a>
 				</div>
@@ -33,7 +33,7 @@
 export default {
 	props: ['user'],
 	mounted() {
-		axios.get('/api/notifications/' + this.user)
+		axios.get('/api/notifications/' + this.user.id)
 			.then(res => {
 				this.notifications = res.data
 			})

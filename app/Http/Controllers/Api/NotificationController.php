@@ -5,19 +5,21 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
     public function index(User $user)
     {
-        return $user->notifications;
+        return $user->notifications()->where('leido', false)->get();
     }
 
-    public function update(Request $request, Notification $notification)
+    public function update(Notification $notification)
     {
         $notification->update([
-            'leida' => 'SI'
+            'leido' => true,
+            'fecha_leida' => Carbon::now()
         ]);
         return ;
     }

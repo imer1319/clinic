@@ -18,7 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('body');
             $table->dateTime('fecha_leida')->nullable();
-            $table->enum('leida',['SI','NO'])->default('NO');
+            $table->boolean('leido')->default(false);
             $table->timestamps();
         });
     }

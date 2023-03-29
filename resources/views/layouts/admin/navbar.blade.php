@@ -21,7 +21,7 @@
                     </form>
                 </div>
             </li>
-			<notificaciones :user="{{ Auth::id() }}" />
+			<notificaciones :user="{{ Auth::user() }}" />
         </ul>
     </nav>
 </div>

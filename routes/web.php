@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\ConsultationController;
 use App\Http\Controllers\Admin\UsersPermissionsController;
 use App\Http\Controllers\Admin\DebtController;
+use App\Http\Controllers\Admin\HorarioController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -67,4 +68,7 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::get('consultations/{consultation}/edit', [ConsultationController::class, 'edit'])->name('consultations.edit');
 
     Route::get('notifications', [NotificationController::class,'index']);
+
+    Route::get('horarios/{doctor}', [HorarioController::class, 'edit'])->name('horarios.edit');
+    Route::put('horarios/{doctor}', [HorarioController::class, 'update'])->name('horarios.update');
 });
