@@ -29,6 +29,7 @@ Vue.component('archivo-paciente', require('./components/ArchivoPaciente.vue').de
 Vue.component('archivo-show-paciente', require('./components/ArchivoShowPaciente.vue').default);
 Vue.component('notificaciones', require('./components/Notificaciones.vue').default);
 Vue.component('notificaciones-list', require('./components/NotificationsList.vue').default);
+Vue.component('form-agenda', require('./components/FormAgenda.vue').default);
 
 Vue.use(VueToastr);
 

@@ -21,7 +21,7 @@ class CreateHorariosTable extends Migration
             $table->string('morning_end');
             $table->string('afternoon_start');
             $table->string('afternoon_end');
-            $table->boolean('status')->default(true);
+            $table->enum('status',['SI','NO'])->default('SI');
             $table->timestamps();
         });
     }

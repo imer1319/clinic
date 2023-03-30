@@ -58,7 +58,8 @@ class UsersSeeder extends Seeder
                 'morning_end' => '12:00',
                 'afternoon_start' => '02:00',
                 'afternoon_end' => '06:00',
-                'doctor_id' => $doctor->doctor->id
+                'doctor_id' => $doctor->doctor->id,
+                'status' => 'SI'
             ]);
         }
     }
