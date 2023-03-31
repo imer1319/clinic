@@ -16,7 +16,7 @@ class CreateHorariosTable extends Migration
         Schema::create('horarios', function (Blueprint $table) {
             $table->id();
             $table->foreignId('doctor_id')->constrained()->cascadeOnDelete();
-            $table->string('dia');
+            $table->integer('dia');
             $table->string('morning_start');
             $table->string('morning_end');
             $table->string('afternoon_start');

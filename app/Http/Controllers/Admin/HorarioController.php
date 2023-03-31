@@ -9,11 +9,15 @@ use Illuminate\Http\Request;
 
 class HorarioController extends Controller
 {
+    public $dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+    
     public function edit(Doctor $doctor)
     {
+        $dias = $this->dias;
         return view('admin.horarios.edit', [
             'horarios' => $doctor->horarios,
-            'doctor' => $doctor
+            'doctor' => $doctor,
+            'dias' => $dias
         ]);
     }
 
@@ -30,8 +34,7 @@ class HorarioController extends Controller
             }
         }
         $errors = [];
-        $dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-
+        $dias = $this->dias;
         for ($i = 0; $i < 7; $i++) {
 
             if ($request->morning_start[$i] > $request->morning_end[$i]) {
