@@ -18,7 +18,7 @@ class CreateDiariesTable extends Migration
             $table->foreignId('doctor_id')->constrained()->cascadeOnDelete();
             $table->foreignId('patient_id')->constrained()->cascadeOnDelete();
             $table->date('date_cita');
-            $table->time('hora_cita');
+            $table->string('hora_cita');
             $table->date('fecha_llegada')->nullable();
             $table->time('hora_llegada')->nullable();
             $table->enum('status',['En espera','Aceptada'])->default('En espera');
