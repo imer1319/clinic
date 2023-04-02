@@ -47,33 +47,36 @@
                             <p>{{ $doctor->address }}</p>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-end">
+                   {{--  <div class="d-flex justify-content-end">
                         <a href="{{ route('admin.horarios.edit', $doctor) }}" class="btn border shadow-sm">
                             <img src="/imagenes/horario.png" alt="impresora" width="35">
                             &nbsp;Horario
                         </a>
                     </div>
-                </div>
+ --}}                </div>
             </div>
         </div>
         <div class="col-md-8">
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="text-center mb-3">Mis citas medicas</h5>
+                    <h5 class="text-center mb-3">Mis proximas citas medicas</h5>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Paciente</th>
                                 <th>Fecha</th>
                                 <th>Hora</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($appointments as $appointment)
+                            @forelse ($diaries as $diary)
                                 <tr>
-                                    <td>{{ $appointment->doctor->name }}</td>
+                                    <td>{{ $diary->patient->name }}</td>
+                                    <td>{{ $diary->date_cita->format('M d') }}</td>
+                                    <td>{{ $diary->hora_cita->format('H:i A') }}</td>
+                                    <td>{{ $diary->patient->name }}</td>
                                 </tr>
                             @empty
                                 <tr>
@@ -84,6 +87,7 @@
                     </table>
                 </div>
             </div>
+            
         </div>
     </div>
 @endsection

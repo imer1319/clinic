@@ -60,9 +60,10 @@ class PatientController extends Controller
         $fecha_nacimiento = $patient->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
+        $diaries = $patient->diaries()->where('status','En espera')->where('date_cita','>=',date('Y-m-d'))->latest()->get();
         return view('admin.patients.show', [
             'patient' => $patient,
-            'diaries' => $patient->diaries()->latest()->get(),
+            'diaries' => $diaries,
             'consultations' => $patient->consultations()->latest()->get(),
             'edad' => $edad_diff->format('%y'),
             'doctors' => Doctor::with('user')->get(),

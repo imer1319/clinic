@@ -18,10 +18,9 @@ class DiaryController extends Controller
             'doctor_id' => 'required|numeric|exists:App\Models\Doctor,id',
             'motivo' => 'required',
             'hora_cita' => 'required',
-            'user_id' => 'required|numeric|exists:App\Models\User,id',
         ]);
 
-        $doctor = Doctor::findOrFail($request->user_id);
+        $doctor = Doctor::find($request->doctor_id);
         Diary::create($request->all());
         Notification::create([
             'user_id' => $doctor->user->id,

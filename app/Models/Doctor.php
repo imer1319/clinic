@@ -21,8 +21,8 @@ class Doctor extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function horarios()
+    public function diaries()
     {
-        return $this->hasMany(Horario::class);
+        return $this->hasMany(Diary::class);
     }
 }

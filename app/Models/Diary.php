@@ -11,10 +11,15 @@ class Diary extends Model
 
     protected $fillable = ['doctor_id', 'patient_id', 'status', 'date_cita', 'hora_cita', 'fecha_llegada', 'hora_llegada', 'motivo'];
 
-    protected $dates = ['date_cita'];
+    protected $dates = ['date_cita','hora_cita'];
 
     public function doctor()
     {
         return $this->belongsTo(Doctor::class);
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
     }
 }

@@ -17,8 +17,8 @@ use App\Http\Controllers\Admin\DebtController;
 use App\Http\Controllers\Admin\HorarioController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\DiaryController;
 use Illuminate\Support\Facades\Auth;
-
 Route::view('/','welcome');
 Route::view('/about','about');
 
@@ -69,7 +69,10 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::get('consultations/{consultation}/edit', [ConsultationController::class, 'edit'])->name('consultations.edit');
 
     Route::get('notifications', [NotificationController::class,'index']);
+    Route::post('notifications/{diary}', [NotificationController::class,'store'])->name('notifications.store');
 
     Route::get('horarios/{doctor}', [HorarioController::class, 'edit'])->name('horarios.edit');
     Route::put('horarios/{doctor}', [HorarioController::class, 'update'])->name('horarios.update');
+
+    Route::put('diaries{diary}', [DiaryController::class,'update'])->name('diaries.update');
 });

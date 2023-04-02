@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="container-fluid">
+    @include('admin.partials.flash-success')
     <div class="row">
         <div class="col-md-3">
             <div class="card px-3 border-primary">
@@ -78,33 +79,36 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h5>Cuentas por cobrar</h5>
+                    <h5>Citas proximas</h5>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Paciente</th>
                                 <th>Doctor</th>
                                 <th>Fecha</th>
+                                <th>Hora</th>
                                 <th>Estado</th>
-                                <th>Acciones</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($appointments as $appointment)
+                            @forelse($diaries as $diary)
                             <tr>
-                                <td>{{ $appointment->id }}</td>
-                                <td>{{ $appointment->patient->name }}</td>
-                                <td>{{ $appointment->doctor->name }}</td>
-                                <td>{{ $appointment->created_at }}</td>
-                                <td>{{ $appointment->status }}</td>
-                                <td>
-                                    <a href="{{ route('admin.appointments.show', $appointment) }}" class="btn btn-success btn-sm">Pagar</a>
+                                <td>{{ $diary->patient->name }}</td>
+                                <td>{{ $diary->doctor->user->name }}</td>
+                                <td>{{ $diary->date_cita->format('M d') }}</td>
+                                <td>{{ $diary->hora_cita->format('H:i A') }}</td>
+                                <td>{{ $diary->status }}</td>
+                                <td width="20px">
+                                    <form action="{{ route('admin.notifications.store', $diary) }}" method="POST">
+                                        @csrf
+                                        <button class="btn btn-primary btn-sm">Recordar</button>
+                                    </form>
                                 </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="6" class="text-center">No hay deudas por pagar</td>
+                                <td colspan="6" class="text-center">No hay citas proximas</td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -122,7 +126,7 @@
     let patientsForMonth = {
         labels: @json($meses),
         datasets: [{
-            label: 'Pacientes',
+            label: 'Consultas',
             data: @json($patientMonth),
             backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
@@ -195,7 +199,7 @@
                 responsive: true,
                 title: {
                     display: true,
-                    text: 'Pacientes registrados por mes'
+                    text: 'Consultas registradas por mes'
                 }
             }
         });

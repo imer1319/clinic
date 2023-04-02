@@ -9,7 +9,7 @@
         </li>
         @endcan
 
-        @can('appointments_index')
+       {{--  @can('appointments_index')
         <li>
             <a data-cy="cita">
                 <i class="fa fa-calendar"></i>
@@ -31,7 +31,7 @@
                 </li>
             </ul>
         </li>
-        @endcan
+        @endcan --}}
 
         @can('users_index')
         <li>
@@ -104,7 +104,7 @@
             </ul>
         </li>
         @endcan
-
+{{-- 
         @can('services_index')
         <li>
             <a>
@@ -136,7 +136,7 @@
             </a>
         </li>
         @endcan
-
+ --}}
         @can('patients_index')
         <li>
             <a>

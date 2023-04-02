@@ -9,6 +9,7 @@ use App\Models\Patient;
 use App\Models\Service;
 use App\Models\Appointment;
 use App\Models\Consultation;
+use App\Models\Diary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -40,18 +41,7 @@ class HomeController extends Controller
         $userYear = [];
 
         $meses = [
-            "Enero",
-            "Febrero",
-            "Marzo",
-            "Abril",
-            "Mayo",
-            "Junio",
-            "Julio",
-            "Agosto",
-            "Septiembre",
-            "Octubre",
-            "Noviembre",
-            "Diciembre"
+            "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
         ];
     // loading the last 5 years
         for ($i = 4; $i > -1; $i--) 
@@ -60,7 +50,7 @@ class HomeController extends Controller
         }
     // user created for month
         for ($i = 1 ; $i<= 12; $i++){
-            $patientMonth[] = Patient::whereYear('created_at',$date->year)->whereMonth('created_at', '=', $i)->count();
+            $patientMonth[] = Consultation::whereYear('created_at',$date->year)->whereMonth('created_at', '=', $i)->count();
         }
     // user created for year
         foreach ($year as $value) 
@@ -79,7 +69,7 @@ class HomeController extends Controller
             'patients' => Patient::count(),
             'doctors' => Doctor::count(),
             'services' => Service::count(),
-            'appointments' => Appointment::where('status', 'DEUDA')->get(),
+            'diaries' => Diary::where('status','En espera')->where('date_cita','>=',date('Y-m-d'))->orderBy('date_cita')->get(),
             'consultations' => $consultations,
             'year' => $year,
             'patientYear' => $patientYear,

@@ -27,18 +27,18 @@ class DoctorController extends Controller
     public function datatables()
     {
         return DataTables::of(Doctor::select('id', 'ci', 'user_id', 'specialty_id'))
-            ->addColumn('name', function (Doctor $doctor) {
-                return $doctor->user->name;
-            })
-            ->addColumn('username', function (Doctor $doctor) {
-                return $doctor->user->username;
-            })
-            ->addColumn('speciality', function (Doctor $doctor) {
-                return $doctor->specialty->description;
-            })
-            ->addColumn('btn', 'admin.doctors.partials.btn')
-            ->rawColumns(['btn', 'name', 'usename', 'speciality'])
-            ->toJson();
+        ->addColumn('name', function (Doctor $doctor) {
+            return $doctor->user->name;
+        })
+        ->addColumn('username', function (Doctor $doctor) {
+            return $doctor->user->username;
+        })
+        ->addColumn('speciality', function (Doctor $doctor) {
+            return $doctor->specialty->description;
+        })
+        ->addColumn('btn', 'admin.doctors.partials.btn')
+        ->rawColumns(['btn', 'name', 'usename', 'speciality'])
+        ->toJson();
     }
 
     public function index()
@@ -104,7 +104,7 @@ class DoctorController extends Controller
         return view('admin.doctors.show', [
             'doctor' => $doctor,
             'edad' => $edad_diff->format('%y'),
-            'appointments' => Appointment::where('doctor_id', $doctor->id)->get()
+            'diaries' => $doctor->diaries()->where('status','En espera')->where('date_cita','>=',date('Y-m-d'))->orderBy('date_cita')->get(),
         ]);
     }
 
