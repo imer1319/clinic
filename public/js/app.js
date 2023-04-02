@@ -2323,16 +2323,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.activeIndexConsulta = index;
       this.activeIndexReceta = null;
       var sintoma = consultation.sintoma === 'null' ? consultation.sintoma : '';
+      var diagnoses = '';
+      consultation.diagnoses.forEach(function (diagnosis) {
+        diagnoses += "".concat(diagnosis.name, ", \n");
+      });
+
+      if (consultation.vital_signs === null) {
+        this.description_cita = "MOTIVO DE LA CONSULTA\n".concat(consultation.motivo, " \nSINTOMAS SUBJETIVOS\n").concat(sintoma, "\n") + 'DIAGNOSTICOS \n' + diagnoses;
+        return;
+      }
+
       var altura = consultation.vital_signs.altura === 'null' ? consultation.vital_signs.altura : '';
       var peso = consultation.vital_signs.peso === 'null' ? consultation.vital_signs.peso : '';
       var temperatura = consultation.vital_signs.temp === 'null' ? consultation.vital_signs.temp : '';
       var fr = consultation.vital_signs.fr === 'null' ? consultation.vital_signs.fr : '';
       var fc = consultation.vital_signs.fc === 'null' ? consultation.vital_signs.fc : '';
       var presion = consultation.vital_signs.pa === 'null' ? consultation.vital_signs.pa : '';
-      var diagnoses = '';
-      consultation.diagnoses.forEach(function (diagnosis) {
-        diagnoses += "".concat(diagnosis.name, ", \n");
-      });
       this.description_cita = "MOTIVO DE LA CONSULTA\n".concat(consultation.motivo, " \nSINTOMAS SUBJETIVOS\n").concat(sintoma, "\n") + 'DIAGNOSTICOS \n' + diagnoses + '\nSIGNOS VITALES \n' + 'Altura : ' + altura + '\n' + 'Peso : ' + peso + '\n' + 'Temperatura : ' + temperatura + '\n' + 'P.A. : ' + presion + '\n' + 'F.R. : ' + fr + '\n' + 'F.C. : ' + fc + '\n';
     },
     showDetailReceta: function showDetailReceta(consultation, index) {
@@ -3823,34 +3829,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -10636,120 +10614,106 @@ var render = function () {
     _c("div", { staticClass: "row mt-3" }, [
       _vm._m(0),
       _vm._v(" "),
-      _vm._m(1),
-      _vm._v(" "),
-      _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
         _c("input", {
           staticClass: "form-control form-control-sm",
           staticStyle: { width: "60px" },
           attrs: { disabled: "" },
           domProps: { value: _vm.vitals.altura },
         }),
+        _vm._v(" "),
+        _c("h6", [_vm._v("Cm")]),
       ]),
-      _vm._v(" "),
-      _vm._m(2),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row mt-2" }, [
-      _vm._m(3),
+    _c("div", { staticClass: "row mt-3" }, [
+      _vm._m(1),
       _vm._v(" "),
-      _vm._m(4),
-      _vm._v(" "),
-      _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
         _c("input", {
           staticClass: "form-control form-control-sm",
           staticStyle: { width: "60px" },
           attrs: { disabled: "" },
           domProps: { value: _vm.vitals.peso },
         }),
+        _vm._v(" "),
+        _c("h6", [_vm._v("Kg")]),
       ]),
-      _vm._v(" "),
-      _vm._m(5),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row mt-2" }, [
-      _vm._m(6),
+    _c("div", { staticClass: "row mt-3" }, [
+      _vm._m(2),
       _vm._v(" "),
-      _vm._m(7),
-      _vm._v(" "),
-      _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
         _c("input", {
           staticClass: "form-control form-control-sm",
           staticStyle: { width: "60px" },
           attrs: { disabled: "" },
           domProps: { value: _vm.imc },
         }),
+        _vm._v(" "),
+        _c("h6", [_vm._v("mbi")]),
       ]),
-      _vm._v(" "),
-      _vm._m(8),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row mt-2" }, [
-      _vm._m(9),
+    _c("div", { staticClass: "row mt-3" }, [
+      _vm._m(3),
       _vm._v(" "),
-      _vm._m(10),
-      _vm._v(" "),
-      _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
         _c("input", {
           staticClass: "form-control form-control-sm",
           staticStyle: { width: "60px" },
           attrs: { disabled: "" },
           domProps: { value: _vm.vitals.temp },
         }),
+        _vm._v(" "),
+        _c("h6", [_vm._v("°C")]),
       ]),
-      _vm._v(" "),
-      _vm._m(11),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row mt-2" }, [
-      _vm._m(12),
+    _c("div", { staticClass: "row mt-3" }, [
+      _vm._m(4),
       _vm._v(" "),
-      _vm._m(13),
-      _vm._v(" "),
-      _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
         _c("input", {
           staticClass: "form-control form-control-sm",
           staticStyle: { width: "60px" },
           attrs: { disabled: "" },
           domProps: { value: _vm.vitals.fr },
         }),
+        _vm._v(" "),
+        _c("h6", [_vm._v("r/m")]),
       ]),
-      _vm._v(" "),
-      _vm._m(14),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row mt-2" }, [
-      _vm._m(15),
+    _c("div", { staticClass: "row mt-3" }, [
+      _vm._m(5),
       _vm._v(" "),
-      _vm._m(16),
-      _vm._v(" "),
-      _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
         _c("input", {
           staticClass: "form-control form-control-sm",
           staticStyle: { width: "60px" },
           attrs: { disabled: "" },
           domProps: { value: _vm.vitals.pa },
         }),
+        _vm._v(" "),
+        _c("h6", [_vm._v("mmHg")]),
       ]),
-      _vm._v(" "),
-      _vm._m(17),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row mt-2" }, [
-      _vm._m(18),
+    _c("div", { staticClass: "row mt-3" }, [
+      _vm._m(6),
       _vm._v(" "),
-      _vm._m(19),
-      _vm._v(" "),
-      _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
         _c("input", {
           staticClass: "form-control form-control-sm",
           staticStyle: { width: "60px" },
           attrs: { disabled: "" },
           domProps: { value: _vm.vitals.fc },
         }),
+        _vm._v(" "),
+        _c("h6", [_vm._v("f.c")]),
       ]),
-      _vm._v(" "),
-      _vm._m(20),
     ]),
   ])
 }
@@ -10758,139 +10722,79 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
+    return _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
       _c("img", {
         attrs: { src: "/imagenes/altura.png", alt: "altura", height: "30px" },
       }),
+      _vm._v(" "),
+      _c("h6", [_vm._v("Altura")]),
     ])
   },
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("Altura")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("Cm")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
+    return _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
       _c("img", {
         attrs: { src: "/imagenes/peso.png", alt: "altura", height: "30px" },
       }),
+      _vm._v(" "),
+      _c("h6", [_vm._v("Peso")]),
     ])
   },
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("Peso")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("Kg")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
+    return _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
       _c("img", {
         attrs: { src: "/imagenes/imc.png", alt: "altura", height: "30px" },
       }),
+      _vm._v(" "),
+      _c("h6", [_vm._v("IMC")]),
     ])
   },
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("IMC")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("mbi")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
+    return _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
       _c("img", {
         attrs: { src: "/imagenes/caliente.png", alt: "altura", height: "30px" },
       }),
+      _vm._v(" "),
+      _c("h6", [_vm._v("Temp")]),
     ])
   },
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("Temp")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("°C")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
+    return _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
       _c("img", {
         attrs: { src: "/imagenes/pulmones.png", alt: "altura", height: "30px" },
       }),
+      _vm._v(" "),
+      _c("h6", [_vm._v("F.R.")]),
     ])
   },
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("F.R.")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("r/m")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
+    return _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
       _c("img", {
         attrs: { src: "/imagenes/brazo.png", alt: "altura", height: "30px" },
       }),
+      _vm._v(" "),
+      _c("h6", [_vm._v("P.A.")]),
     ])
   },
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("P.A.")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("mmHg")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
+    return _c("div", { staticClass: "col-6 d-flex justify-content-between" }, [
       _c("img", {
         attrs: {
           src: "/imagenes/ritmo-cardiaco.png",
@@ -10898,19 +10802,9 @@ var staticRenderFns = [
           height: "30px",
         },
       }),
+      _vm._v(" "),
+      _c("h6", [_vm._v("F.C.")]),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("F.C.")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h6", [_vm._v("f.c")])])
   },
 ]
 render._withStripped = true

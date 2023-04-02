@@ -80,17 +80,26 @@ export default {
         showDetailConsulta(consultation, index) {
             this.activeIndexConsulta = index;
             this.activeIndexReceta = null;
+
             let sintoma = consultation.sintoma === 'null' ? consultation.sintoma : ''
+            let diagnoses = ''
+            consultation.diagnoses.forEach(diagnosis => {
+                diagnoses += `${diagnosis.name}, \n`
+            })
+
+            if (consultation.vital_signs === null) {
+                this.description_cita = `MOTIVO DE LA CONSULTA\n${consultation.motivo} \nSINTOMAS SUBJETIVOS\n${sintoma}\n` +
+                    'DIAGNOSTICOS \n' + diagnoses
+                return;
+            }
+
             let altura = consultation.vital_signs.altura === 'null' ? consultation.vital_signs.altura : ''
             let peso = consultation.vital_signs.peso === 'null' ? consultation.vital_signs.peso : ''
             let temperatura = consultation.vital_signs.temp === 'null' ? consultation.vital_signs.temp : ''
             let fr = consultation.vital_signs.fr === 'null' ? consultation.vital_signs.fr : ''
             let fc = consultation.vital_signs.fc === 'null' ? consultation.vital_signs.fc : ''
             let presion = consultation.vital_signs.pa === 'null' ? consultation.vital_signs.pa : ''
-            let diagnoses = ''
-            consultation.diagnoses.forEach(diagnosis => {
-                diagnoses += `${diagnosis.name}, \n`
-            })
+
             this.description_cita = `MOTIVO DE LA CONSULTA\n${consultation.motivo} \nSINTOMAS SUBJETIVOS\n${sintoma}\n` +
                 'DIAGNOSTICOS \n' + diagnoses +
                 '\nSIGNOS VITALES \n' +

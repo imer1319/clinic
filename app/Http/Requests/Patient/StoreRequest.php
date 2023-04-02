@@ -33,7 +33,6 @@ class StoreRequest extends FormRequest
             'gender'=> 'required|in:Masculino,Femenino',
             'nacimiento' => 'required|date|date_format:Y-m-d|before:'. date("Y-m-d"),
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'notas' => 'required|min:5',
         ];
     }
 

@@ -24,7 +24,6 @@ class CreatePatientsTable extends Migration
             $table->string('image')->nullable();
             $table->enum('gender',['Masculino','Femenino']);
             $table->date('nacimiento');
-            $table->text('notas');
             $table->timestamps();
         });
     }

@@ -61,10 +61,6 @@
             <b>Mujer</b>
         </label>
     </div>
-    <div class="form-group col-md-4">
-        <label>Notas internas</label>
-        <textarea name="notas" rows="3" class="form-control"style="background-color:#FFF7E6; border:2px solid #FCE2AA !important">{{ old('notas', $patient->notas) }}</textarea>
-    </div>
 </div>
 <div class="form-group btn-group">
     <a href="{{ route('admin.patients.index') }}" class="btn btn-dark">Regresar</a>

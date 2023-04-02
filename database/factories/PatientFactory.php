@@ -23,7 +23,6 @@ class PatientFactory extends Factory
             'celular' => $this->faker->randomNumber(8),
             'gender' => $this->faker->randomElement(['Masculino','Femenino']),
             'nacimiento' => $this->faker->date('Y-m-d'),
-            'notas' => $this->faker->sentence(7)
         ];
     }
 }
