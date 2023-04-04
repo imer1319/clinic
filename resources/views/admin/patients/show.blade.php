@@ -10,7 +10,7 @@
                 <div class="d-flex">
                     <img src="{{ Storage::url($patient->image) }}" alt="{{ $patient->image }}" width="150">
                     <div class="d-flex flex-column justify-content-between">
-                        <h6>EXP: {{ $patient->id }}</h6>
+                        <h6>EXP: {{ str_pad($patient->id, 5, '0', STR_PAD_LEFT) }}</h6>
                         <h5><b>{{ $patient->name }}</b></h5>
                         <h5><b>{{ $patient->surnames }}</b></h5>
 
@@ -41,7 +41,7 @@
                 <a class="btn border d-flex align-items-center" data-toggle="modal" data-target="#modalArchive">
                     <img src="/imagenes/clip.png" alt="clip" width="35">
                 </a>
-                <a href="" target="_blank" class="btn border" id="imprimirHistorial">
+                <a href="{{ route('admin.historialPatient.pdf', $patient) }}" target="_blank" class="btn border" id="imprimirHistorial">
                     <img src="/imagenes/impresora.png" alt="impresora" width="35">
                 &nbsp;Imprimir </a>
             </div>
@@ -313,10 +313,6 @@
                 hora_cita: $('#timePickr').val(),
             }
         }
-
-        $('#imprimirHistorial').click(function() {
-            $("#imprimirHistorial").attr("href","http://www.google.es");
-        });
 
         function addAgenda(url, type, objEvent) {
             $.ajax({

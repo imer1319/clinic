@@ -10,7 +10,7 @@ class Patient extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'surnames', 'ci', 'celular', 'address', 'gender', 'nacimiento', 'notas', 'image', 'city'];
-
+    protected $dates = ['nacimiento'];
     public function appointments()
     {
         return $this->hasMany(Appointment::class);

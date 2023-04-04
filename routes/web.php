@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AgendaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\DoctorController;
@@ -31,18 +32,16 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('doctors', DoctorController::class);
     Route::resource('services', ServiceController::class)
-        ->except(['show']);
+    ->except(['show']);
     Route::resource('patients', PatientController::class);
     Route::resource('subservices', SubServiceController::class)
-        ->except(['create']);
+    ->except(['create']);
 
     Route::get('subservices/{service}/create', [SubServiceController::class,'create'])->name('subservices.create');
 
     Route::Resource('appointments', AppointmentController::class)->except(['edit']);
     Route::post('debts/{appointment}', [DebtController::class,'store'])->name('debts.store');
     Route::delete('debts/{debt}', [DebtController::class,'destroy'])->name('debts.destroy');
-
-    Route::get('pdf/{appointment}', [AppointmentController::class, 'pdf'])->name('cita.pdf');
 
     Route::middleware('role:Admin')
     ->put('users/{user}/roles', [UsersRolesController::class, 'update'])
@@ -75,4 +74,8 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::put('horarios/{doctor}', [HorarioController::class, 'update'])->name('horarios.update');
 
     Route::put('diaries{diary}', [DiaryController::class,'update'])->name('diaries.update');
+//PDF
+    Route::get('pdf/{appointment}', [AppointmentController::class, 'pdf'])->name('cita.pdf');
+    Route::get('pdf/historial/{patient}', [ReportesController::class, 'historialPatient'])->name('historialPatient.pdf');
+
 });
