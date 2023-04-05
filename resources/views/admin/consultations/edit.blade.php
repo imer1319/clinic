@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <h6><b>EXP: {{ $consultation->patient->id }}</b></h6>
+                        <h6><b>EXP: {{ str_pad($consultation->patient->id, 5, '0', STR_PAD_LEFT) }}</b></h6>
                         <h6><b>CEL: {{ $consultation->patient->celular }}</b></h6>
                     </div>
                     <div class="col-md-3">

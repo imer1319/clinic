@@ -29,7 +29,7 @@ Route::get('explorations', [ExploracionController::class, 'index']);
 Route::post('explorations/store', [ExploracionController::class, 'store']);
 Route::put('explorations/{physicalExploration}', [ExploracionController::class, 'update']);
 
-Route::get('historyTypes', [HistoryTypeController::class, 'index']);
+Route::get('historyTypes/{patient}', [HistoryTypeController::class, 'index']);
 Route::post('historyTypes/store', [HistoryTypeController::class, 'store']);
 Route::put('historyTypes/{historyType}', [HistoryTypeController::class, 'update']);
 

@@ -54,9 +54,9 @@
                         <button @click.prevent="createOrUpdate" class="btn border">
                             <img src="/imagenes/guardar.png" alt="guardar" width="35">
                             &nbsp;Guardar </button>
-                        <button class="btn border">
+                        <a target="_blank" :href="`/pdf/receta/${consultation.id}`" class="btn border">
                             <img src="/imagenes/impresora.png" alt="impresora" width="35">
-                            &nbsp;Imprimir </button>
+                            &nbsp;Imprimir </a>
                     </div>
                 </div>
             </div>
@@ -105,8 +105,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                             <button type="button" class="btn btn-primary" @click="savePrescription()">Guardar</button>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -208,7 +208,7 @@ export default {
                     this.$toastr.s("SE GUARDO CORRECTMENTE", "");
                     this.getPrescriptions()
                     $('#modal_medicamentos').modal('hide');
-                    prescription = {
+                    this.prescription = {
                         medicamento: '',
                         concentracion: '',
                         tomar: '',

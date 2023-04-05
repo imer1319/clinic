@@ -40,9 +40,9 @@
                         <button @click.prevent="updateDate" class="btn border">
                             <img src="/imagenes/guardar.png" alt="guardar" width="35">
                         &nbsp;Guardar </button>
-                        <button class="btn border">
+                        <a target="_blank" :href="`/pdf/historial/${consultation.patient.id}`" class="btn border">
                             <img src="/imagenes/impresora.png" alt="impresora" width="35">
-                        &nbsp;Imprimir </button>
+                        &nbsp;Imprimir </a>
                     </div>
                 </div>
             </div>
@@ -73,10 +73,7 @@
 export default {
     props: ['consultation'],
     mounted() {
-        axios.get('/api/historyTypes')
-        .then(res => {
-            this.historyTypes = res.data.data
-        })
+        this.getHistoryTypes()
         this.getDateHistorial()
     },
     data() {
@@ -104,9 +101,9 @@ export default {
             })
         },
         getHistoryTypes() {
-            axios.get('/api/historyTypes')
+            axios.get('/api/historyTypes/'+this.consultation.patient.id)
             .then(res => {
-                this.historyTypes = res.data.data
+                this.historyTypes = res.data
             })
         },
         openModal(question) {

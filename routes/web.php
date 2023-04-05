@@ -76,6 +76,7 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::put('diaries{diary}', [DiaryController::class,'update'])->name('diaries.update');
 //PDF
     Route::get('pdf/{appointment}', [AppointmentController::class, 'pdf'])->name('cita.pdf');
-    Route::get('pdf/historial/{patient}', [ReportesController::class, 'historialPatient'])->name('historialPatient.pdf');
 
+    Route::get('pdf/historial/{patient}', [ReportesController::class, 'historialPatient'])->name('historialPatient.pdf');  
+    Route::get('pdf/receta/{consultation}', [ReportesController::class, 'recetaPatient'])->name('recetaPatient.pdf');
 });

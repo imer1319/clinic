@@ -76,10 +76,11 @@
 			padding-bottom: 40px;
 		}
 
-		.invoice-box table tr.heading td {
+		.invoice-box table tr.heading th {
 			background: #eee;
 			border-bottom: 1px solid #ddd;
 			font-weight: bold;
+			padding:10px 0px;
 		}
 
 		.invoice-box table tr.details td {
@@ -116,9 +117,6 @@
 			width: 100%;
 			background-color: #102562;
 			height: 10px;
-			/*
-			#102562
-			*/
 		}
 		.line2{
 			width: 100%;
@@ -127,6 +125,7 @@
 		}
 	</style>
 </head>
+<body>
 	<div class="line1"></div>
 	<div class="line2"></div>
 	<h2 style="color:#181A49">CENTRO DE DIAGNOSTICO POR IMAGEN Y SERVICIO DE SALUD <br>
@@ -134,6 +133,9 @@
 	</h2>
 	<div class="invoice-box">
 		<table>
+			<tr>
+				<th colspan="2"><h2>Historial medico</h2></th>
+			</tr>
 			<tr class="top">
 				<td colspan="2">
 					<table>
@@ -144,7 +146,7 @@
 
 							<td>
 								EXP #: {{ str_pad($patient->id, 5, '0', STR_PAD_LEFT) }}<br />
-								Creado: {{ date('M d Y') }}<br />
+								Fecha: {{ date('M d Y') }}<br />
 								Hora: {{ date('H:i A') }}
 							</td>
 						</tr>
@@ -159,56 +161,32 @@
 							<td>
 								Paciente<br />
 								Género<br />
-								Fecha de Nacimiento<br />
 								Edad<br />
+								Fecha de Nacimiento<br />
 							</td>
 
 							<td>
 								{{ $patient->name }}<br />
 								{{ $patient->gender }}<br />
 								{{ $edad }} años<br />
-								 <span class="h6 text-capitalize">{{ $patient->nacimiento->formatLocalized('%b') }} {{ $patient->nacimiento->format('d Y') }}</span>
+								<span class="h6 text-capitalize">{{ $patient->nacimiento->formatLocalized('%b') }} {{ $patient->nacimiento->format('d Y') }}</span>
 							</td>
 						</tr>
 					</table>
 				</td>
 			</tr>
-
+			@foreach($histories as $history)
 			<tr class="heading">
-				<td>Servicios prestados</td>
-				<td>Precio</td>
+				<th colspan="2">{{ $history->title }}</th>
 			</tr>
-			{{-- @foreach($appointment->subServices as $subService)
-			<tr class="item">
-				<td>{{ $subService->name }}</td>
-				<td>{{ $subService->price }} Bs</td>
+			@foreach($history->historyQuestions as $question)
+			<tr>
+				<td colspan="1">{{ $question->question }}</td>
+				<td colspan="1">{{ $question->historyPatient ? $question->historyPatient->answer : '' }}</td>
 			</tr>
-			@endforeach --}}
-			<br>
-			<tr class="heading">
-				<td>Pagos realizados</td>
-				<td>Fecha</td>
-			</tr>
-			{{-- @forelse($appointment->debts as $debt)
-			<tr class="item">
-				<td>{{ $debt->amount }} Bs</td>
-				<td>{{ $debt->created_at->format('M d Y') }}</td>
-			</tr>
-			@empty
-			<tr class="item">
-				<td colspan="2" style="text-align: center;">No tiene pagos realizados</td>
-			</tr>
-			@endforelse --}}
-			<tr class="total">
-				{{-- @if($appointment->total_debts != $appointment->total)
-				<td>Deuda: {{ $appointment->total-$appointment->total_debts }}</td>
-				@else
-				<td></td>
-				@endif
-				<td>Total: {{ $appointment->total }} Bs</td> --}}
-			</tr>
+			@endforeach
+			@endforeach
 		</table>
 	</div>
-<body>
 </body>
 </html>

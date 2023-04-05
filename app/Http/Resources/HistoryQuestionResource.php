@@ -18,7 +18,13 @@ class HistoryQuestionResource extends JsonResource
             'id' => $this->id,
             'history_type_id' => $this->history_type_id,
             'question' => $this->question,
+            // 'history_patient' => $this->patients,
             'history_patient' => $this->historyPatient,
+           //  'history_patient' => $this->whenPivotLoaded('patients', function () {
+           //      return $this->pivot->answer;
+           // }),
+
+
         ];
     }
 }
