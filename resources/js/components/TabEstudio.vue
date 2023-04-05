@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5>Receta de laboratoryStudies</h5>
+                <h5>Receta de estudios de laboratorio</h5>
                 <a class="btn border text-success cursor-pointer" data-toggle="modal_laboratoryStudies"
                     @click="openModal()">
                     <i class="fa fa-plus"></i>
@@ -13,7 +13,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Estudio realizado</th>
+                                <th>Estudios realizado</th>
                                 <th width="20"></th>
                             </tr>
                         </thead>

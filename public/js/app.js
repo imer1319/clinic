@@ -2111,7 +2111,6 @@ __webpack_require__.r(__webpack_exports__);
         _this2.form = {
           title: '',
           image: null,
-          patient_id: '',
           fecha: ''
         };
       })["catch"](function (err) {
@@ -6890,7 +6889,7 @@ var render = function render() {
     staticClass: "col-md-12"
   }, [_c("div", {
     staticClass: "d-flex justify-content-between align-items-center mb-3"
-  }, [_c("h5", [_vm._v("Receta de laboratoryStudies")]), _vm._v(" "), _c("a", {
+  }, [_c("h5", [_vm._v("Receta de estudios de laboratorio")]), _vm._v(" "), _c("a", {
     staticClass: "btn border text-success cursor-pointer",
     attrs: {
       "data-toggle": "modal_laboratoryStudies"
@@ -7029,7 +7028,7 @@ var render = function render() {
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("Estudio realizado")]), _vm._v(" "), _c("th", {
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("Estudios realizado")]), _vm._v(" "), _c("th", {
     attrs: {
       width: "20"
     }

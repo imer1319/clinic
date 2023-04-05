@@ -11,8 +11,13 @@ class Archive extends Model
 
     protected $fillable = ['title','patient_id','image'];
 
+    protected $casts = [
+        'created_at' => 'datetime:d M Y H:i A',
+    ];
+    
     public function getImageAttribute($image)
     {
         return asset(\Storage::url($image));
     }
+
 }

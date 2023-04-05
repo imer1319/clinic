@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Patient;
 use App\Models\HistoryType;
+use App\Models\Consultation;
 
 class ReportesController extends Controller
 {
@@ -38,12 +39,14 @@ class ReportesController extends Controller
 
     public function recetaPatient(Consultation $consultation)
     {
-        $fecha_nacimiento = $patient->nacimiento;
+        $fecha_nacimiento = $consultation->patient->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
-        $pdf = \PDF::loadView('historialPatientPdf', [
-            'patient' => $patient,
-            
+        $pdf = \PDF::loadView('recetaPatientPdf', [
+            'patient' => $consultation->patient,
+            'prescriptions' => $consultation->prescriptions,
+            'vital_signs' => $consultation->vitalSigns,
+            'instrucciones' => $consultation->medicalInstruction,
             'edad' => $edad_diff->format('%y'),
         ]);
         $pdf->getDomPDF()->setHttpContext(
@@ -56,6 +59,31 @@ class ReportesController extends Controller
             ])
         );
         $fecha = date('Y-m-d');
-        return $pdf->stream("Reporte historial-".$fecha."-paciente'. $patient->name .'.pdf");
+        return $pdf->stream("Reporte historial-".$fecha."-paciente'. $consultation->patient->name .'.pdf");
+    }
+
+    public function pruebasPatient(Consultation $consultation)
+    {
+        $fecha_nacimiento = $consultation->patient->nacimiento;
+        $dia_actual = date("Y-m-d");
+        $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
+        $pdf = \PDF::loadView('recetaPatientPdf', [
+            'patient' => $consultation->patient,
+            'prescriptions' => $consultation->prescriptions,
+            'vital_signs' => $consultation->vitalSigns,
+            'instrucciones' => $consultation->medicalInstruction,
+            'edad' => $edad_diff->format('%y'),
+        ]);
+        $pdf->getDomPDF()->setHttpContext(
+            stream_context_create([
+                'ssl' => [
+                    'allow_self_signed'=> TRUE,
+                    'verify_peer' => FALSE,
+                    'verify_peer_name' => FALSE,
+                ]
+            ])
+        );
+        $fecha = date('Y-m-d');
+        return $pdf->stream("Reporte historial-".$fecha."-paciente'. $consultation->patient->name .'.pdf");
     }
 }

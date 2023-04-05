@@ -91,7 +91,6 @@ export default{
 				this.form = {
 					title:'',
 					image:null,
-					patient_id:'',
 					fecha:''
 				}
 			}).catch(err => {
