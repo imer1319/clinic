@@ -140,7 +140,7 @@
 	<div class="invoice-box">
 		<table>
 			<tr>
-				<th colspan="2"><h2>Receta medica</h2></th>
+				<th colspan="2"><h2>Estudios de laboratorio</h2></th>
 			</tr>
 			<tr class="top">
 				<td colspan="2">
@@ -183,24 +183,18 @@
 			</tr>
 		</table>
 		<div class="heading">
-			<span colspan="2">Medicamentos</span>
+			<span colspan="2">Estudios realizados</span>
 		</div>
-		@if (count($prescriptions))
+		@if (count($laboratories))
 		<table class="table">
 			<tr>
-				<th>Medicamento</th>
-				<th>Concentracion</th>
-				<th>Dosis</th>
-				<th>Frecuencia (hrs)</th>
-				<th>Duracion (Dias)</th>
+				<th>Estudio</th>
+				<th>Fecha</th>
 			</tr>
-			@foreach($prescriptions as $prescription)
+			@foreach($laboratories as $laboratory)
 			<tr>
-				<td>{{ $prescription->medicine->medicine }}</td>
-				<td>{{ $prescription->medicine->concentration }}</td>
-				<td>{{ $prescription->tomar }}</td>
-				<td>{{ $prescription->frecuencia }}</td>
-				<td>{{ $prescription->durante }}</td>
+				<td style="text-align: center">{{ $laboratory->description }}</td>
+				<td style="text-align: center">{{ $laboratory->created_at->format('d M Y H:i A') }}</td>
 			</tr>
 			@endforeach
 		</table>

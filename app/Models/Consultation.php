@@ -31,7 +31,6 @@ class Consultation extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-
     public function vitalSigns()
     {
         return $this->hasOne(VitalSigns::class);
@@ -69,7 +68,7 @@ class Consultation extends Model
 
     public function medicines()
     {
-        return $this->belongsToMany(Medicine::class, 'prescriptions')->withPivot('tomar','frecuencia','durante');
+        return $this->belongsToMany(Medicine::class, 'prescriptions')->withPivot('tomar', 'frecuencia', 'durante');
     }
 
     public function laboratories()

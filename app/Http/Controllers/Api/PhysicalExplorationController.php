@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Consultation;
 use App\Models\PhysicalExploration;
 use App\Models\PhysicalExplorationQuestion;
 use Illuminate\Http\Request;
 
 class PhysicalExplorationController extends Controller
 {
-    public function index(PhysicalExploration $physicalExplorations)
+    public function index(Consultation $consultation)
     {
-        return $physicalExplorations->with('physicalExplorationQuestions')->get();
+        return PhysicalExploration::with(['physicalExplorationQuestions' => function ($query) use ($consultation) {
+            $query->where('physical_exploration_questions.consultation_id', $consultation->id);
+        }])->get();
     }
 
     public function store(Request $request)

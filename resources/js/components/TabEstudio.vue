@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5>Receta de estudios de laboratorio</h5>
+                <h5>Estudios de laboratorio</h5>
                 <a class="btn border text-success cursor-pointer" data-toggle="modal_laboratoryStudies"
                     @click="openModal()">
                     <i class="fa fa-plus"></i>
@@ -14,12 +14,14 @@
                         <thead>
                             <tr>
                                 <th>Estudios realizado</th>
+                                <th>Fecha </th>
                                 <th width="20"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="studio in studiesCarriedOut.laboratories">
                                 <td>{{ studio.description }}</td>
+                                <td>{{ studio.created_at }}</td>
                                 <td @click.prevent="eliminarStudioCarrieOut(studio)">
                                     <h5><i class="fa fa-trash text-danger cursor-pointer"></i></h5>
                                 </td>
@@ -47,9 +49,9 @@
                         <button @click.prevent="createOrUpdate" class="btn border">
                             <img src="/imagenes/guardar.png" alt="guardar" width="35">
                             &nbsp;Guardar </button>
-                        <button class="btn border">
+                        <a target="_blank" :href="`/pdf/pruebas/${consultation.id}`" class="btn border">
                             <img src="/imagenes/impresora.png" alt="impresora" width="35">
-                            &nbsp;Imprimir </button>
+                            &nbsp;Imprimir </a>
                     </div>
                 </div>
             </div>

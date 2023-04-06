@@ -7,6 +7,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Patient;
 use App\Models\HistoryType;
 use App\Models\Consultation;
+use App\Models\PhysicalExploration;
 
 class ReportesController extends Controller
 {
@@ -17,9 +18,9 @@ class ReportesController extends Controller
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
         $pdf = \PDF::loadView('historialPatientPdf', [
             'patient' => $patient,
-            'histories' => HistoryType::with(['historyQuestions' => function ($query) use ($patient){
-                $query->with(['historyPatient' => function($q) use ($patient){
-                    $q->where('history_patients.patient_id',$patient->id);
+            'histories' => HistoryType::with(['historyQuestions' => function ($query) use ($patient) {
+                $query->with(['historyPatient' => function ($q) use ($patient) {
+                    $q->where('history_patients.patient_id', $patient->id);
                 }]);
             }])->get(),
             'edad' => $edad_diff->format('%y'),
@@ -27,14 +28,14 @@ class ReportesController extends Controller
         $pdf->getDomPDF()->setHttpContext(
             stream_context_create([
                 'ssl' => [
-                    'allow_self_signed'=> TRUE,
+                    'allow_self_signed' => TRUE,
                     'verify_peer' => FALSE,
                     'verify_peer_name' => FALSE,
                 ]
             ])
         );
         $fecha = date('Y-m-d');
-        return $pdf->stream("Reporte historial-".$fecha."-paciente'. $patient->name .'.pdf");
+        return $pdf->stream("Reporte historial-" . $fecha . "-paciente'. $patient->name .'.pdf");
     }
 
     public function recetaPatient(Consultation $consultation)
@@ -52,14 +53,14 @@ class ReportesController extends Controller
         $pdf->getDomPDF()->setHttpContext(
             stream_context_create([
                 'ssl' => [
-                    'allow_self_signed'=> TRUE,
+                    'allow_self_signed' => TRUE,
                     'verify_peer' => FALSE,
                     'verify_peer_name' => FALSE,
                 ]
             ])
         );
         $fecha = date('Y-m-d');
-        return $pdf->stream("Reporte historial-".$fecha."-paciente'. $consultation->patient->name .'.pdf");
+        return $pdf->stream("Reporte historial-" . $fecha . "-paciente'. $consultation->patient->name .'.pdf");
     }
 
     public function pruebasPatient(Consultation $consultation)
@@ -67,23 +68,50 @@ class ReportesController extends Controller
         $fecha_nacimiento = $consultation->patient->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
-        $pdf = \PDF::loadView('recetaPatientPdf', [
+        $pdf = \PDF::loadView('estudiosPatientPdf', [
             'patient' => $consultation->patient,
-            'prescriptions' => $consultation->prescriptions,
+            'laboratories' => $consultation->laboratories,
             'vital_signs' => $consultation->vitalSigns,
-            'instrucciones' => $consultation->medicalInstruction,
+            'instrucciones' => $consultation->studiosInstruction,
             'edad' => $edad_diff->format('%y'),
         ]);
         $pdf->getDomPDF()->setHttpContext(
             stream_context_create([
                 'ssl' => [
-                    'allow_self_signed'=> TRUE,
+                    'allow_self_signed' => TRUE,
                     'verify_peer' => FALSE,
                     'verify_peer_name' => FALSE,
                 ]
             ])
         );
         $fecha = date('Y-m-d');
-        return $pdf->stream("Reporte historial-".$fecha."-paciente'. $consultation->patient->name .'.pdf");
+        return $pdf->stream("Reporte historial-" . $fecha . "-paciente'. $consultation->patient->name .'.pdf");
+    }
+
+    public function consultaPatient(Consultation $consultation)
+    {
+        $fecha_nacimiento = $consultation->patient->nacimiento;
+        $dia_actual = date("Y-m-d");
+        $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
+        $pdf = \PDF::loadView('consultationPatientPdf', [
+            'exploracions' => PhysicalExploration::with(['physicalExplorationQuestions' => function ($query) use ($consultation) {
+                $query->where('physical_exploration_questions.consultation_id', $consultation->id);
+            }])->get(),
+            'patient' => $consultation->patient,
+            'diagnoses' => $consultation->diagnoses,
+            'vital_signs' => $consultation->vitalSigns,
+            'edad' => $edad_diff->format('%y'),
+        ]);
+        $pdf->getDomPDF()->setHttpContext(
+            stream_context_create([
+                'ssl' => [
+                    'allow_self_signed' => TRUE,
+                    'verify_peer' => FALSE,
+                    'verify_peer_name' => FALSE,
+                ]
+            ])
+        );
+        $fecha = date('Y-m-d');
+        return $pdf->stream("Reporte historial-" . $fecha . "-paciente'. $consultation->patient->name .'.pdf");
     }
 }

@@ -80,4 +80,5 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::get('pdf/historial/{patient}', [ReportesController::class, 'historialPatient'])->name('historialPatient.pdf');  
     Route::get('pdf/receta/{consultation}', [ReportesController::class, 'recetaPatient'])->name('recetaPatient.pdf');
     Route::get('pdf/pruebas/{consultation}', [ReportesController::class, 'pruebasPatient'])->name('pruebasPatient.pdf');
+    Route::get('pdf/consulta/{consultation}', [ReportesController::class, 'consultaPatient'])->name('consultaPatient.pdf');
 });

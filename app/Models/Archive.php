@@ -15,9 +15,9 @@ class Archive extends Model
         'created_at' => 'datetime:d M Y H:i A',
     ];
     
-    public function getImageAttribute($image)
-    {
-        return asset(\Storage::url($image));
-    }
+    // public function getImageAttribute($image)
+    // {
+    //     return asset(\Illuminate\Support\Facades\Storage::url($image));
+    // }
 
 }

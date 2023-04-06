@@ -60,7 +60,7 @@ Route::get('consultationDiagnosis/{consultation}', [ConsultationDiagnosisControl
 Route::post('consultationDiagnosis', [ConsultationDiagnosisController::class,'store']);
 Route::delete('consultationDiagnosis/{consultationDiagnosis}', [ConsultationDiagnosisController::class, 'destroy']);
 
-Route::get('physicalExploration/{physicalExploration}', [PhysicalExplorationController::class,'index']);
+Route::get('physicalExploration/{consultation}', [PhysicalExplorationController::class,'index']);
 Route::post('physicalExploration', [PhysicalExplorationController::class,'store']);
 Route::put('physicalExploration/{physicalExplorationQuestion}', [PhysicalExplorationController::class, 'update']);
 Route::delete('physicalExploration/{physicalExplorationQuestion}', [PhysicalExplorationController::class, 'destroy']);

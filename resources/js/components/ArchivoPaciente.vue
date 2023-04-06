@@ -7,7 +7,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="custom-file">
-					<input type="file" @change="selectFile" class="custom-file-input" accept="image/*">
+					<input type="file" id="fileInput" @change="selectFile" class="custom-file-input" accept="image/*">
 					<label class="custom-file-label" for="inputGroupFile04">Choose file</label>
 				</div>
 			</div>
@@ -29,9 +29,10 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="archive in archives" :key="archive.id">
-						<td>{{ archive.id }}</td>
-						<td @click.prevent="showArchive(archive)" data-toggle="modal" data-target="#modalShowArchive">{{ archive.title }}</td>
+					<tr v-for="archive, index in archives" :key="archive.id">
+						<td>{{ index + 1 }}</td>
+						<td @click.prevent="showArchive(archive)" data-toggle="modal" data-target="#modalShowArchive">{{
+							archive.title }}</td>
 						<td>{{ archive.created_at }}</td>
 						<td @click.prevent="eliminarArchivo(archive.id)">
 							<h5><i class="fa fa-trash text-danger cursor-pointer"></i></h5>
@@ -44,69 +45,73 @@
 	</div>
 </template>	
 <script>
-export default{
-	props:['patient'],
-	mounted(){
+export default {
+	props: ['patient'],
+	mounted() {
 		this.getArchivos()
 		this.form.patient_id = this.patient.id
 	},
-	data(){
+	data() {
 		return {
-			archives:[],
-			form:{
-				title:'',
-				image:null,
-				patient_id:'',
-				fecha:''
+			archives: [],
+			form: {
+				title: '',
+				image: null,
+				patient_id: '',
+				fecha: ''
 			},
-			errors:[]
+			errors: []
 		}
 	},
-	methods:{
-		getArchivos(){
-			axios.get('/api/archives/'+this.patient.id)
-			.then(res => {
-				this.archives = res.data
-			})
+	methods: {
+		getArchivos() {
+			axios.get('/api/archives/' + this.patient.id)
+				.then(res => {
+					this.archives = res.data
+				})
 		},
-		selectFile(event){
-			this.form.image = event.target.files[0]		
+		selectFile(event) {
+			console.log("entro");
+			this.form.image = event.target.files[0]
 		},
-		showArchive(archive){
+		showArchive(archive) {
 			this.form.title = archive.title
 			this.form.fecha = archive.created_at
 			this.form.image = archive.image
 			$('#modalShowArchive').modal('show');
 		},
-		saveArchive(){
+		saveArchive() {
 			let forms = new FormData();
-			for (let key in this.form){
+			for (let key in this.form) {
 				forms.append(key, this.form[key])
 			}
 
 			axios.post('/api/archives', forms)
-			.then(()=> {
-				this.getArchivos()
-				this.errors = []
-				this.form = {
-					title:'',
-					image:null,
-					fecha:''
-				}
-			}).catch(err => {
-				this.errors.push(err.response.data.errors);
-			})
+				.then(() => {
+					this.getArchivos()
+					this.$toastr.s("SE AGREGÓ CORRECTMENTE", "");
+					this.errors = []
+					this.form = {
+						title: '',
+						patient_id: this.patient.id,
+						image: null,
+						fecha: ''
+					}
+					document.querySelector('#fileInput').value = ''
+				}).catch(err => {
+					this.errors.push(err.response.data.errors);
+				})
 		},
-		eliminarArchivo(id){
+		eliminarArchivo(id) {
 			axios.delete('/api/archives/' + id)
-			.then(() => {
-				this.getArchivos()
-				this.errors = []
-				this.$toastr.s("SE ELIMINÓ CORRECTMENTE", "");
-			}).catch(err => {
-				this.errors.push(err.response.data.errors);
-				this.$toastr.e("HUBO ERRORES AL ELIMINAR");
-			})
+				.then(() => {
+					this.getArchivos()
+					this.errors = []
+					this.$toastr.s("SE ELIMINÓ CORRECTMENTE", "");
+				}).catch(err => {
+					this.errors.push(err.response.data.errors);
+					this.$toastr.e("HUBO ERRORES AL ELIMINAR");
+				})
 		}
 	}
 }

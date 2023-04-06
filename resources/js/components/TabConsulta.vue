@@ -23,7 +23,7 @@
                                             <td data-toggle="modal"
                                                 @click.prevent="openModalExplorationRespuestas(exploration)">
                                                 {{
-                                                    (exploration.physical_exploration_questions !== null) ?
+                                                    exploration.physical_exploration_questions ?
                                                     exploration.physical_exploration_questions.answer : ''
                                                 }}
                                             </td>
@@ -234,9 +234,9 @@
                         <button @click.prevent="guardarTodo" class="btn border">
                             <img src="/imagenes/guardar.png" alt="guardar" width="35">
                             &nbsp;Guardar </button>
-                        <button class="btn border">
+                        <a target="_blank" :href="`/pdf/consulta/${consultation.id}`" class="btn border">
                             <img src="/imagenes/impresora.png" alt="impresora" width="35">
-                            &nbsp;Imprimir </button>
+                            &nbsp;Imprimir </a>
                     </div>
                 </div>
             </div>
@@ -251,18 +251,6 @@ export default {
     mounted() {
         this.getConsultationDiagnosis()
         this.getPhysicalExploration()
-        axios.get('/api/explorations')
-            .then(response => {
-                this.explorations = response.data;
-                this.form_exploracion_fisica = this.explorations.map(exploration => {
-                    return {
-                        exploration_id: exploration.id,
-                        consultation_id: this.consultation.id,
-                        question: exploration.question,
-                        answer: ''
-                    }
-                });
-            });
         axios.get('/api/diagnoses')
             .then(response => {
                 this.diagnoses = response.data;
@@ -281,13 +269,9 @@ export default {
             errors: [],
             form_signos_vitales: {},
             form_diagnosticos: {},
-
-            explorations: [],
             question: '',
             exploration: '',
             answer: '',
-            form_exploracion_fisica: [],
-
             diagnoses: [],
             search: '',
             form_consultation: {},
@@ -354,7 +338,7 @@ export default {
                 this.addExplorationRespuesta()
                 console.log('guarnd')
                 return
-            } else if(this.answer === ''){
+            } else if (this.answer === '') {
                 this.deleteExplorationRespuesta()
                 console.log('eliminando')
                 return
@@ -374,9 +358,9 @@ export default {
                     this.errors = err.response.data.errors;
                 })
         },
-        updateExplorationRespuesta(){
+        updateExplorationRespuesta() {
             this.form_exploration_answers.answer = this.answer
-            axios.put('/api/physicalExploration/'+this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers)
+            axios.put('/api/physicalExploration/' + this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers)
                 .then(() => {
                     this.getPhysicalExploration()
                     this.answer = ''
@@ -385,8 +369,8 @@ export default {
                     this.errors = err.response.data.errors;
                 })
         },
-        deleteExplorationRespuesta(){
-            axios.delete('/api/physicalExploration/'+this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers)
+        deleteExplorationRespuesta() {
+            axios.delete('/api/physicalExploration/' + this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers)
                 .then(() => {
                     this.getPhysicalExploration()
                     this.answer = ''

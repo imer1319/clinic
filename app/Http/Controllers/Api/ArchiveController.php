@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Archive;
 use App\Models\Patient;
+use Illuminate\Support\Facades\Storage;
 
 class ArchiveController extends Controller
 {
@@ -27,13 +28,16 @@ class ArchiveController extends Controller
         $archive->image = $request->file('image')->store('public/images');
 
         $archive->save();
+
         return $archive;
     }
 
     public function destroy(Archive $archive)
     {
-      unlink(storage_path('app/'.$archive->image));
+        $url = str_replace('storage', 'public', $archive->image);
+        
+        Storage::delete($url);
 
-      return $archive->delete();
-  }
+        return $archive->delete();
+    }
 }
