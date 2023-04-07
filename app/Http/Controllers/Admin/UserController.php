@@ -60,7 +60,6 @@ class UserController extends Controller
 
         $user->save();
 
-
         if ($request->filled('roles')) {
             $user->assignRole($request->roles);
         }

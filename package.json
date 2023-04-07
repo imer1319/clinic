@@ -25,6 +25,8 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "laravel-permission-to-vuejs": "^2.0.5",
+        "moment": "^2.29.4",
         "vue-toastr": "^2.1.2"
     }
 }

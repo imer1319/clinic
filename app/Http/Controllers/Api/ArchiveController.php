@@ -12,7 +12,7 @@ class ArchiveController extends Controller
 {
     public function index(Patient $patient)
     {
-        return $patient->archives;
+        return $patient->archives()->latest()->get();
     }
 
     public function store(Request $request)
@@ -35,7 +35,6 @@ class ArchiveController extends Controller
     public function destroy(Archive $archive)
     {
         $url = str_replace('storage', 'public', $archive->image);
-        
         Storage::delete($url);
 
         return $archive->delete();

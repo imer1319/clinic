@@ -8,7 +8,7 @@
                 </li>
             </ul>
         </div>
-        <form @submit.prevent="updateOrCreate">
+        <form @submit.prevent="updateOrCreate" v-if="can('explorations_store')">
             <div class="row">
                 <div class="col-8">
                     <div class="form-group">

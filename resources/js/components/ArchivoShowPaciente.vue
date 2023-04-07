@@ -9,7 +9,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<img v-if="data.title" :src="`${data.image}`" alt="img" width="100%" />
+					<img v-if="data.image" :src="`/${data.image.replace('public','storage')}`" alt="img" width="100%" />
 				</div>
 			</div>
 		</div>
@@ -17,6 +17,6 @@
 </template>
 <script>
 export default{
-	props:['data']
+	props:['data'],
 }
 </script>

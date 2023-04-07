@@ -29,7 +29,7 @@ Route::get('explorations', [ExploracionController::class, 'index']);
 Route::post('explorations/store', [ExploracionController::class, 'store']);
 Route::put('explorations/{physicalExploration}', [ExploracionController::class, 'update']);
 
-Route::get('historyTypes/{patient}', [HistoryTypeController::class, 'index']);
+Route::get('historyTypes', [HistoryTypeController::class, 'index']);
 Route::post('historyTypes/store', [HistoryTypeController::class, 'store']);
 Route::put('historyTypes/{historyType}', [HistoryTypeController::class, 'update']);
 
@@ -102,3 +102,5 @@ Route::get('notifications/{user}', [NotificationController::class, 'index']);
 Route::put('notifications/{notification}', [NotificationController::class, 'update']);
 
 Route::get('horas', [HorarioController::class, 'horas']);
+
+Route::get('historyTypes/{patient}', [HistoryPatientController::class, 'index']);

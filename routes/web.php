@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\HorarioController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\DiaryController;
+use App\Http\Controllers\CitaController;
 use Illuminate\Support\Facades\Auth;
 Route::view('/','welcome');
 Route::view('/about','about');
@@ -63,7 +64,7 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::get('api/users', [UserController::class, 'datatables']);
     Route::get('api/roles', [RoleController::class, 'datatables']);
 
-    Route::view('settings', 'admin.settings')->name('settings');
+    Route::view('settings', 'admin.settings')->name('settings')->middleware('permission:settings_index');
 
     Route::get('consultations/{consultation}/edit', [ConsultationController::class, 'edit'])->name('consultations.edit');
 
@@ -81,4 +82,6 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::get('pdf/receta/{consultation}', [ReportesController::class, 'recetaPatient'])->name('recetaPatient.pdf');
     Route::get('pdf/pruebas/{consultation}', [ReportesController::class, 'pruebasPatient'])->name('pruebasPatient.pdf');
     Route::get('pdf/consulta/{consultation}', [ReportesController::class, 'consultaPatient'])->name('consultaPatient.pdf');
+
+    Route::get('mis-citas', [CitaController::class, 'index'])->name('mis-citas')->middleware('role:Doctor');
 });

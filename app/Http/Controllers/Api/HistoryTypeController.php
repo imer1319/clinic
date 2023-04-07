@@ -11,13 +11,9 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class HistoryTypeController extends Controller
 {
-    public function index(Patient $patient)
+    public function index()
     {
-        return HistoryType::with(['historyQuestions' => function ($query) use ($patient){
-            $query->with(['historyPatient' => function($q) use ($patient){
-                $q->where('history_patients.patient_id',$patient->id);
-            }]);
-        }])->get();
+        return HistoryType::with('historyQuestions')->get();
     }
 
     public function store(Request $request)

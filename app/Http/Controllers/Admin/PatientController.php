@@ -11,6 +11,7 @@ use App\Http\Requests\Patient\StoreRequest;
 use App\Http\Requests\Patient\UpdateRequest;
 use App\Models\Doctor;
 use App\Models\VitalSigns;
+use Illuminate\Support\Facades\Storage;
 
 class PatientController extends Controller
 {
@@ -44,13 +45,7 @@ class PatientController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $patient = (new Patient)->fill($request->validated());
-
-        if ($request->hasFile('image')) {
-
-            $patient->image = $request->file('image')->store('public/images');
-        }
-        $patient->save();
+        Patient::create($request->validated());
 
         return redirect()->route('admin.patients.index')->with('flash', 'Paciente creado corretamente');
     }
@@ -60,7 +55,7 @@ class PatientController extends Controller
         $fecha_nacimiento = $patient->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
-        $diaries = $patient->diaries()->where('status','En espera')->where('date_cita','>=',date('Y-m-d'))->latest()->get();
+        $diaries = $patient->diaries()->where('status','En espera')->where('date_cita','>=',date('Y-m-d'))->orderBy('date_cita')->get();
         return view('admin.patients.show', [
             'patient' => $patient,
             'diaries' => $diaries,
@@ -78,19 +73,13 @@ class PatientController extends Controller
 
     public function update(UpdateRequest $request, Patient $patient)
     {
-        if ($request->hasFile('image')) {
-
-            $patient->image = $request->file('image')->store('public/images');
-        }
-        $patient->update($request->except(['image']));
+        $patient->update($request->all());
 
         return redirect()->route('admin.patients.show', $patient->id)->with('flash', 'Paciente actualizado corretamente');
     }
 
     public function destroy(Patient $patient)
     {
-        $patient->image()->delete();
-
         $patient->delete();
 
         return redirect()->route('admin.patients.index')->with('flash', 'Doctor eliminado corretamente');

@@ -13,15 +13,17 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Estudios realizado</th>
                                 <th>Fecha </th>
                                 <th width="20"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="studio in studiesCarriedOut.laboratories">
+                            <tr v-for="(studio, index) in studiesCarriedOut.laboratories" :key="index">
+                                <td width="10px">{{ index + 1 }}</td>
                                 <td>{{ studio.description }}</td>
-                                <td>{{ studio.created_at }}</td>
+                                <td>{{ studio.pivot.created_at | fechaFormateada }}</td>
                                 <td @click.prevent="eliminarStudioCarrieOut(studio)">
                                     <h5><i class="fa fa-trash text-danger cursor-pointer"></i></h5>
                                 </td>
@@ -94,7 +96,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
+import moment from 'moment';
 
 export default {
     props: ['consultation'],
@@ -159,6 +161,7 @@ export default {
                     $('#modal_laboratoryStudies').modal('hide');
                 }).catch(err => {
                     this.errors.push(err.response.data.errors);
+                    this.$toastr.e("HAY ERRORES");
                 })
         },
         saveStudioInstructions() {
@@ -199,6 +202,11 @@ export default {
             return this.laboratoryStudies.filter(studio => {
                 return studio.description.toLowerCase().includes(this.search.toLowerCase())
             })
+        }
+    },
+    filters:{
+        fechaFormateada(fecha){
+            return moment(new Date(fecha)).format('DD-MM-YYYY HH:mm A')
         }
     }
 }

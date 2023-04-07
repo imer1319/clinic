@@ -33,7 +33,7 @@
 						<td>{{ index + 1 }}</td>
 						<td @click.prevent="showArchive(archive)" data-toggle="modal" data-target="#modalShowArchive">{{
 							archive.title }}</td>
-						<td>{{ archive.created_at }}</td>
+						<td>{{ archive.created_at | fechaFormateada }}</td>
 						<td @click.prevent="eliminarArchivo(archive.id)">
 							<h5><i class="fa fa-trash text-danger cursor-pointer"></i></h5>
 						</td>
@@ -41,15 +41,15 @@
 				</tbody>
 			</table>
 		</div>
-		<archivo-show-paciente :data="form" />
+		<archivo-show-paciente :data="showArchiveForm" />
 	</div>
 </template>	
 <script>
+import moment from 'moment';
 export default {
 	props: ['patient'],
 	mounted() {
 		this.getArchivos()
-		this.form.patient_id = this.patient.id
 	},
 	data() {
 		return {
@@ -60,7 +60,9 @@ export default {
 				patient_id: '',
 				fecha: ''
 			},
-			errors: []
+			image: null,
+			errors: [],
+			showArchiveForm: {}
 		}
 	},
 	methods: {
@@ -71,21 +73,23 @@ export default {
 				})
 		},
 		selectFile(event) {
-			console.log("entro");
-			this.form.image = event.target.files[0]
+			this.image = event.target.files[0]
 		},
 		showArchive(archive) {
-			this.form.title = archive.title
-			this.form.fecha = archive.created_at
-			this.form.image = archive.image
+			this.showArchiveForm = {
+				title: archive.title,
+				fecha: archive.created_at,
+				image: archive.image,
+			}
 			$('#modalShowArchive').modal('show');
 		},
 		saveArchive() {
+			this.form.image = this.image
+			this.form.patient_id = this.patient.id
 			let forms = new FormData();
 			for (let key in this.form) {
 				forms.append(key, this.form[key])
 			}
-
 			axios.post('/api/archives', forms)
 				.then(() => {
 					this.getArchivos()
@@ -94,7 +98,6 @@ export default {
 					this.form = {
 						title: '',
 						patient_id: this.patient.id,
-						image: null,
 						fecha: ''
 					}
 					document.querySelector('#fileInput').value = ''
@@ -112,6 +115,11 @@ export default {
 					this.errors.push(err.response.data.errors);
 					this.$toastr.e("HUBO ERRORES AL ELIMINAR");
 				})
+		}
+	},
+	filters: {
+		fechaFormateada(fecha) {
+			return moment(new Date(fecha)).format('DD-MM-YYYY HH:mm A')
 		}
 	}
 }

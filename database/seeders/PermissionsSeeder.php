@@ -19,15 +19,15 @@ class PermissionsSeeder extends Seeder
         // Permisos
         $viewDashboardPermission = Permission::create([
             'name' => 'dashboard_show',
-            'display_name' => 'Ver dashboard'
+            'display_name' => 'Ver el panel'
         ]);
-        
-        $viewInvocePermission = Permission::create([
-            'name' => 'invoce_show',
-            'display_name' => 'Ver factura'
-        ]);
-        
-        
+
+        // $viewInvocePermission = Permission::create([
+        //     'name' => 'invoce_show',
+        //     'display_name' => 'Ver factura'
+        // ]);
+
+
         $viewUsersPermission = Permission::create([
             'name' => 'users_index',
             'display_name' => 'Listar usuarios'
@@ -103,22 +103,22 @@ class PermissionsSeeder extends Seeder
             'display_name' => 'Eliminar doctores'
         ]);
 
-        $viewServicesPermission = Permission::create([
-            'name' => 'services_index',
-            'display_name' => 'Listar servicios'
-        ]);
-        $createServicesPermission = Permission::create([
-            'name' => 'services_create',
-            'display_name' => 'Crear servicios'
-        ]);
-        $updateServicesPermission = Permission::create([
-            'name' => 'services_edit',
-            'display_name' => 'Actualizar servicios'
-        ]);
-        $deleteServicesPermission = Permission::create([
-            'name' => 'services_destroy',
-            'display_name' => 'Eliminar servicios'
-        ]);
+        // $viewServicesPermission = Permission::create([
+        //     'name' => 'services_index',
+        //     'display_name' => 'Listar servicios'
+        // ]);
+        // $createServicesPermission = Permission::create([
+        //     'name' => 'services_create',
+        //     'display_name' => 'Crear servicios'
+        // ]);
+        // $updateServicesPermission = Permission::create([
+        //     'name' => 'services_edit',
+        //     'display_name' => 'Actualizar servicios'
+        // ]);
+        // $deleteServicesPermission = Permission::create([
+        //     'name' => 'services_destroy',
+        //     'display_name' => 'Eliminar servicios'
+        // ]);
 
         $viewPatientsPermission = Permission::create([
             'name' => 'patients_index',
@@ -141,48 +141,66 @@ class PermissionsSeeder extends Seeder
             'display_name' => 'Eliminar paciente'
         ]);
 
-        $viewAppointmentsPermission = Permission::create([
-            'name' => 'appointments_index',
-            'display_name' => 'Listar cita'
-        ]);
-        $showAppointmentsPermission = Permission::create([
-            'name' => 'appointments_show',
-            'display_name' => 'Ver cita'
-        ]);
-        $createAppointmentsPermission = Permission::create([
-            'name' => 'appointments_create',
-            'display_name' => 'Crear cita'
-        ]);
-        $updateAppointmentsPermission = Permission::create([
-            'name' => 'appointments_edit',
-            'display_name' => 'Actualizar cita'
-        ]);
-        $deleteAppointmentsPermission = Permission::create([
-            'name' => 'appointments_destroy',
-            'display_name' => 'Eliminar cita'
-        ]);
+        // $viewAppointmentsPermission = Permission::create([
+        //     'name' => 'appointments_index',
+        //     'display_name' => 'Listar cita'
+        // ]);
+        // $showAppointmentsPermission = Permission::create([
+        //     'name' => 'appointments_show',
+        //     'display_name' => 'Ver cita'
+        // ]);
+        // $createAppointmentsPermission = Permission::create([
+        //     'name' => 'appointments_create',
+        //     'display_name' => 'Crear cita'
+        // ]);
+        // $updateAppointmentsPermission = Permission::create([
+        //     'name' => 'appointments_edit',
+        //     'display_name' => 'Actualizar cita'
+        // ]);
+        // $deleteAppointmentsPermission = Permission::create([
+        //     'name' => 'appointments_destroy',
+        //     'display_name' => 'Eliminar cita'
+        // ]);
 
 
-        $viewSubServicesPermission = Permission::create([
-            'name' => 'subservices_index',
-            'display_name' => 'Listar sub servicio'
-        ]);
-        $showSubServicesPermission = Permission::create([
-            'name' => 'subservices_show',
-            'display_name' => 'Ver sub servicio'
-        ]);
-        $createSubServicesPermission = Permission::create([
-            'name' => 'subservices_create',
-            'display_name' => 'Crear sub servicio'
-        ]);
-        $updateSubServicesPermission = Permission::create([
-            'name' => 'subservices_edit',
-            'display_name' => 'Actualizar sub servicio'
-        ]);
-        $deleteSubServicesPermission = Permission::create([
-            'name' => 'subservices_destroy',
-            'display_name' => 'Eliminar sub servicio'
-        ]);
+        // $viewSubServicesPermission = Permission::create([
+        //     'name' => 'subservices_index',
+        //     'display_name' => 'Listar sub servicio'
+        // ]);
+        // $showSubServicesPermission = Permission::create([
+        //     'name' => 'subservices_show',
+        //     'display_name' => 'Ver sub servicio'
+        // ]);
+        // $createSubServicesPermission = Permission::create([
+        //     'name' => 'subservices_create',
+        //     'display_name' => 'Crear sub servicio'
+        // ]);
+        // $updateSubServicesPermission = Permission::create([
+        //     'name' => 'subservices_edit',
+        //     'display_name' => 'Actualizar sub servicio'
+        // ]);
+        // $deleteSubServicesPermission = Permission::create([
+        //     'name' => 'subservices_destroy',
+        //     'display_name' => 'Eliminar sub servicio'
+        // ]);
+
+        Permission::create(['name' => 'notifications_store', 'display_name' => 'Notificar doctor']);
+        Permission::create(['name' => 'settings_index', 'display_name' => 'Configuraciones del sistema']);
+
+        Permission::create(['name' => 'explorations_index', 'display_name' => 'Listar exploraciones']);
+        Permission::create(['name' => 'explorations_store', 'display_name' => 'Guardar exploraciones']);
+
+        Permission::create(['name' => 'historial_index', 'display_name' => 'Listar historial']);
+        Permission::create(['name' => 'historial_store', 'display_name' => 'Guardar historial']);
+
+        Permission::create(['name' => 'medicinas_index', 'display_name' => 'Listar medicinas']);
+        Permission::create(['name' => 'medicinas_store', 'display_name' => 'Guardar medicinas']);
+
+        Permission::create(['name' => 'pruebas_index', 'display_name' => 'Listar pruebas']);
+        Permission::create(['name' => 'pruebas_store', 'display_name' => 'Guardar pruebas']);
+
+        Permission::create(['name' => 'diagnoses_index', 'display_name' => 'Listar diagnosticos']);
+        Permission::create(['name' => 'diagnoses_store', 'display_name' => 'Guardar diagnosticos']);
 
         // Asignar todos los permisos al admin
         $role = Role::findByName('Admin');

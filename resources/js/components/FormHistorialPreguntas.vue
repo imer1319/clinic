@@ -1,7 +1,7 @@
 <template>
     <div>
         <error-component :errors="errors" />
-        <form @submit.prevent="updateOrCreate">
+        <form @submit.prevent="updateOrCreate" v-if="can('historial_store')">
             <div class="row">
                 <div class="form-group col-12">
                     <select class="form-control" v-model="form.history_type_id">

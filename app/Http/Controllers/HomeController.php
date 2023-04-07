@@ -41,35 +41,39 @@ class HomeController extends Controller
         $userYear = [];
 
         $meses = [
-            "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
+            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
         ];
-    // loading the last 5 years
-        for ($i = 4; $i > -1; $i--) 
-        {
+        // loading the last 5 years
+        for ($i = 4; $i > -1; $i--) {
             $year[] = $date->year - $i;
         }
-    // user created for month
-        for ($i = 1 ; $i<= 12; $i++){
-            $patientMonth[] = Consultation::whereYear('created_at',$date->year)->whereMonth('created_at', '=', $i)->count();
+        // user created for month
+        for ($i = 1; $i <= 12; $i++) {
+            $consultations = '';
+            if (Auth::user()->hasRole('Doctor')) {
+                $patientMonth[] = Consultation::whereYear('created_at', $date->year)->whereMonth('created_at', '=', $i)->where('doctor_id', Auth::user()->doctor->id)->count();
+            } else {
+                $patientMonth[] = Consultation::whereYear('created_at', $date->year)->whereMonth('created_at', '=', $i)->count();
+            }
         }
-    // user created for year
-        foreach ($year as $value) 
-        {
+        // user created for year
+        foreach ($year as $value) {
             $patientYear[] = Patient::where(DB::raw("DATE_FORMAT(created_at, '%Y')"), $value)->count();
         }
         $consultations = '';
-        if(Auth::user()->hasRole('Doctor')){
-            $consultations =  Consultation::where('doctor_id', Auth::user()->doctor->user_id)->get();
-        }else{
+        if (Auth::user()->hasRole('Doctor')) {
+            $diaries =  Diary::where('doctor_id', Auth::user()->doctor->id)->get();
+            $consultations =  Consultation::where('doctor_id', Auth::user()->doctor->id)->get();
+        } else {
+            $diaries =  Diary::all();
             $consultations =  Consultation::all();
         }
-
-        return view('home',[
+        return view('home', [
             'users' => User::count(),
             'patients' => Patient::count(),
             'doctors' => Doctor::count(),
             'services' => Service::count(),
-            'diaries' => Diary::where('status','En espera')->where('date_cita','>=',date('Y-m-d'))->orderBy('date_cita')->get(),
+            'diaries' => $diaries,
             'consultations' => $consultations,
             'year' => $year,
             'patientYear' => $patientYear,

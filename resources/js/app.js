@@ -1,4 +1,5 @@
 require('./bootstrap');
+import LaravelPermissionToVueJS from 'laravel-permission-to-vuejs'
 
 window.Vue = require('vue').default;
 import VueToastr from "vue-toastr";
@@ -32,6 +33,7 @@ Vue.component('notificaciones-list', require('./components/NotificationsList.vue
 Vue.component('form-agenda', require('./components/FormAgenda.vue').default);
 
 Vue.use(VueToastr);
+Vue.use(LaravelPermissionToVueJS)
 
 const app = new Vue({
     mounted() {
@@ -40,3 +42,4 @@ const app = new Vue({
     },
     el: '#app',
 });
+

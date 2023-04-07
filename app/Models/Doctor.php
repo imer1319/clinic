@@ -25,4 +25,9 @@ class Doctor extends Model
     {
         return $this->hasMany(Diary::class);
     }
+
+    public function consultations()
+    {
+        return $this->hasMany(Consultation::class);
+    }
 }

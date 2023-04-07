@@ -33,21 +33,7 @@
     <div class="form-group col-md-4">
         <label>Ciudad</label>
         <input type="text" name="city" class="form-control" value="{{ old('city', $patient->city) }}">
-    </div>
-
-    <div class="form-group col-md-4">
-        <label for="image">Imagen</label>
-        <div class="custom-file">
-            <input type="file" name="image" class="custom-file-input" id="image-patient">
-            <label class="custom-file-label" for="image-patient">Choose file</label>
-        </div>
-        @if ($patient->image)
-            <span class="text-muted">Dejar en blanco si no quieres editar la imagen</span>
-            <br>
-            <img src="{{ Storage::url($patient->image) }}" alt="{{ $patient->image }}" width="120px">
-        @endif
-    </div>
-    
+    </div>    
 
     <div class="form-group col-md-4">
         <label for="gender">Genero :</label>

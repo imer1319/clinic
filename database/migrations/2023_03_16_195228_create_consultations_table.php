@@ -20,6 +20,7 @@ class CreateConsultationsTable extends Migration
             $table->string('motivo_consulta')->nullable();
             $table->string('motivo')->nullable();
             $table->string('sintoma')->nullable();
+            $table->string('diagnosis')->nullable();
             $table->timestamps();
         });
     }

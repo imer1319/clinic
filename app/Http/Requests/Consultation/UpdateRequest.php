@@ -28,6 +28,7 @@ class UpdateRequest extends FormRequest
             'sintoma' => 'nullable|min:4',
             'doctor_id' => 'required|numeric|exists:App\Models\Doctor,id',
             'patient_id' => 'required|numeric|exists:App\Models\Patient,id',
+            'diagnosis' => 'nullable|min:4'
         ];
     }
 

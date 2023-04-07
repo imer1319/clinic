@@ -11,8 +11,4 @@ class StudioCarriedOut extends Model
 
     protected $fillable = ['consultation_id', 'laboratory_id'];
 
-    public function getCreatedAtAttribute($date)
-    {
-        return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
-    }
 }

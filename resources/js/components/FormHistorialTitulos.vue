@@ -64,7 +64,7 @@ export default {
         get() {
             axios.get('/api/historyTypes')
                 .then(response => {
-                    this.historyTypes = response.data.data;
+                    this.historyTypes = response.data;
                 })
         },
         updateOrCreate() {

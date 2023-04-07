@@ -26,7 +26,7 @@
                                     <tr v-for="(consultation, i) in consultations" class="cursor-pointer" :key="i"
                                         :class="{ 'activo': i === activeIndexConsulta }"
                                         @click.prevent="showDetailConsulta(consultation, i)">
-                                        <td>{{ consultation.created_at }}</td>
+                                        <td>{{ consultation.created_at | fechaFormateada }}</td>
                                         <td>{{ consultation.motivo }}</td>
                                     </tr>
                                 </tbody>
@@ -46,7 +46,7 @@
                                     <tr v-for="(consultation, index) in consultations" class="cursor-pointer" :key="index"
                                         :class="{ 'activo': index === activeIndexReceta }"
                                         @click.prevent="showDetailReceta(consultation, index)">
-                                        <td>{{ consultation.created_at }}</td>
+                                        <td>{{ consultation.created_at | fechaFormateada }}</td>
                                         <td>{{ consultation.motivo }}</td>
                                     </tr>
                                 </tbody>
@@ -66,6 +66,7 @@
     </div>
 </template>
 <script>
+import moment from 'moment'
 export default {
     props: ['consultations'],
     data() {
@@ -82,30 +83,19 @@ export default {
             this.activeIndexReceta = null;
 
             let sintoma = consultation.sintoma === 'null' ? consultation.sintoma : ''
-            let diagnoses = ''
-            consultation.diagnoses.forEach(diagnosis => {
-                diagnoses += `${diagnosis.name}, \n`
-            })
-
-            if (consultation.vital_signs === null) {
-                this.description_cita = `MOTIVO DE LA CONSULTA\n${consultation.motivo} \nSINTOMAS SUBJETIVOS\n${sintoma}\n` +
-                    'DIAGNOSTICOS \n' + diagnoses
-                return;
-            }
-
-            let altura = consultation.vital_signs.altura === 'null' ? consultation.vital_signs.altura : ''
-            let peso = consultation.vital_signs.peso === 'null' ? consultation.vital_signs.peso : ''
-            let temperatura = consultation.vital_signs.temp === 'null' ? consultation.vital_signs.temp : ''
-            let fr = consultation.vital_signs.fr === 'null' ? consultation.vital_signs.fr : ''
-            let fc = consultation.vital_signs.fc === 'null' ? consultation.vital_signs.fc : ''
-            let presion = consultation.vital_signs.pa === 'null' ? consultation.vital_signs.pa : ''
-
+            let diagnosis = consultation.diagnosis !== null ? consultation.diagnosis : ''
+            let altura = consultation.vital_signs.altura !== null ? consultation.vital_signs.altura : ''
+            let peso = consultation.vital_signs.peso !== null ? consultation.vital_signs.peso : ''
+            let temperatura = consultation.vital_signs.temp !== null ? consultation.vital_signs.temp : ''
+            let fr = consultation.vital_signs.fr !== null ? consultation.vital_signs.fr : ''
+            let fc = consultation.vital_signs.fc !== null ? consultation.vital_signs.fc : ''
+            let presion = consultation.vital_signs.pa !== null ? consultation.vital_signs.pa : ''
             this.description_cita = `MOTIVO DE LA CONSULTA\n${consultation.motivo} \nSINTOMAS SUBJETIVOS\n${sintoma}\n` +
-                'DIAGNOSTICOS \n' + diagnoses +
+                'DIAGNOSTICOS \n' + diagnosis +
                 '\nSIGNOS VITALES \n' +
                 'Altura : ' + altura + '\n' +
                 'Peso : ' + peso + '\n' +
-                'Temperatura : ' + temperatura + '\n' +
+                'Temp : ' + temperatura + '\n' +
                 'P.A. : ' + presion + '\n' +
                 'F.R. : ' + fr + '\n' +
                 'F.C. : ' + fc + '\n'
@@ -126,7 +116,12 @@ export default {
             this.description_cita = "MEDICAMENTOS" + "\n"
                 + prescripciones + "\nINDICACIONES MEDICAS \n" + medical_instruction
         }
-    }
+    },
+	filters: {
+		fechaFormateada(fecha) {
+			return moment(new Date(fecha)).format('DD-MM-YYYY HH:mm A')
+		}
+	}
 }
 </script>
 <style>

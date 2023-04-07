@@ -12,6 +12,7 @@ use App\Models\Specialty;
 use App\Models\User;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class DoctorController extends Controller
 {
@@ -73,18 +74,18 @@ class DoctorController extends Controller
 
             $user->assignRole("Doctor");
 
-            $dias = ['Lunes', 'Martes', 'Miercoles','Jueves', 'Viernes','Sabado','Domingo'];
-            foreach($dias as $dia)
-            {
-                Horario::create([
-                    'dia' => $dia,
-                    'morning_start' => '08:00',
-                    'morning_end' => '12:00',
-                    'afternoon_start' => '02:00',
-                    'afternoon_end' => '06:00',
-                    'doctor_id' => $user->doctor->id
-                ]);
-            }
+            // $dias = ['Lunes', 'Martes', 'Miercoles','Jueves', 'Viernes','Sabado','Domingo'];
+            // foreach($dias as $dia)
+            // {
+            //     Horario::create([
+            //         'dia' => $dia,
+            //         'morning_start' => '08:00',
+            //         'morning_end' => '12:00',
+            //         'afternoon_start' => '02:00',
+            //         'afternoon_end' => '06:00',
+            //         'doctor_id' => $user->doctor->id
+            //     ]);
+            // }
 
             DB::commit();
 
@@ -130,7 +131,9 @@ class DoctorController extends Controller
 
     public function destroy(Doctor $doctor)
     {
-        $doctor->image()->delete();
+        $url = str_replace('storage', 'public', $doctor->image);
+        
+        Storage::delete($url);
 
         $doctor->delete();
 

@@ -76,68 +76,9 @@
                 <div class="col-md-12 mt-2">
                     <div class="card">
                         <div class="card-body">
-                            <div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6><b>Diagnostico</b></h6>
-                                    <a class="btn border text-success cursor-pointer" data-toggle="modal_diagnostics"
-                                        @click="openModalExplorationRespuestasDiagnosis()">
-                                        <i class="fa fa-plus"></i>
-                                        &nbsp; Agregar</a>
-                                </div>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Diagnostico</th>
-                                            <th width="20px">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(diagnostico, i) in consultationDiagnosis.diagnoses" :key="i">
-                                            <td>{{ i + 1 }}</td>
-                                            <td>{{ diagnostico.name }}</td>
-                                            <td @click.prevent="eliminarDiagnostico(diagnostico.id, i)">
-                                                <h5><i class="fa fa-trash text-danger cursor-pointer"></i></h5>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="modal fade" id="modal_diagnostics" tabindex="-1" aria-labelledby="modalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalLabel">Diagnosticos</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="form-group mx-5">
-                                                    <input v-model="search" class="form-control form-control-sm"
-                                                        placeholder="Buscar">
-                                                </div>
-                                                <div class="pre-scrollable">
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col">Diagnostico</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr v-for="diagnosis in filteredDiagnoses">
-                                                                <td class="cursor-pointer"
-                                                                    @click.prevent="addDiagnosis(diagnosis)">
-                                                                    {{ diagnosis.name }}
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <h6><b>Diagnostico</b></h6>
+                                <textarea v-model="consultation.diagnosis" rows="3" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
@@ -155,7 +96,7 @@
                                 <h6>Altura</h6>
                             </div>
                             <div class="col-6 d-flex justify-content-between align-items-center">
-                                <input v-model="form_signos_vitales.altura" class="form-control form-control-sm"
+                                <input v-model="consultation.vital_signs.altura" class="form-control form-control-sm"
                                     style="width: 60px">
                                 <h6>Cm</h6>
                             </div>
@@ -166,7 +107,7 @@
                                 <h6>Peso</h6>
                             </div>
                             <div class="col-6 d-flex justify-content-between align-items-center">
-                                <input v-model="form_signos_vitales.peso" class="form-control form-control-sm"
+                                <input v-model="consultation.vital_signs.peso" class="form-control form-control-sm"
                                     style="width: 60px">
                                 <h6>Kg</h6>
                             </div>
@@ -187,7 +128,7 @@
                                 <h6>Temp</h6>
                             </div>
                             <div class="col-6 d-flex justify-content-between align-items-center">
-                                <input v-model="form_signos_vitales.temp" class="form-control form-control-sm"
+                                <input v-model="consultation.vital_signs.temp" class="form-control form-control-sm"
                                     style="width: 60px">
                                 <h6>°C</h6>
                             </div>
@@ -198,7 +139,7 @@
                                 <h6>F.R.</h6>
                             </div>
                             <div class="col-6 d-flex justify-content-between align-items-center">
-                                <input v-model="form_signos_vitales.fr" class="form-control form-control-sm"
+                                <input v-model="consultation.vital_signs.fr" class="form-control form-control-sm"
                                     style="width: 60px">
                                 <h6>r/m</h6>
                             </div>
@@ -209,7 +150,7 @@
                                 <h6>P.A.</h6>
                             </div>
                             <div class="col-6 d-flex justify-content-between align-items-center">
-                                <input v-model="form_signos_vitales.pa" class="form-control form-control-sm"
+                                <input v-model="consultation.vital_signs.pa" class="form-control form-control-sm"
                                     style="width: 60px">
                                 <h6>mmHg</h6>
                             </div>
@@ -220,7 +161,7 @@
                                 <h6>F.C.</h6>
                             </div>
                             <div class="col-6 d-flex justify-content-between align-items-center">
-                                <input v-model="form_signos_vitales.fc" class="form-control form-control-sm"
+                                <input v-model="consultation.vital_signs.fc" class="form-control form-control-sm"
                                     style="width: 60px">
                                 <h6>f.c</h6>
                             </div>
@@ -249,20 +190,7 @@ import axios from 'axios';
 export default {
     props: ['consultation'],
     mounted() {
-        this.getConsultationDiagnosis()
         this.getPhysicalExploration()
-        axios.get('/api/diagnoses')
-            .then(response => {
-                this.diagnoses = response.data;
-            })
-        this.form_signos_vitales = {
-            altura: this.consultation.vital_signs.altura,
-            peso: this.consultation.vital_signs.peso,
-            temp: this.consultation.vital_signs.temp,
-            fr: this.consultation.vital_signs.fr,
-            pa: this.consultation.vital_signs.pa,
-            fc: this.consultation.vital_signs.fc
-        }
     },
     data() {
         return {
@@ -272,14 +200,13 @@ export default {
             question: '',
             exploration: '',
             answer: '',
-            diagnoses: [],
             search: '',
             form_consultation: {},
-            consultationDiagnosis: [],
             physicalExploration: [],
             form_exploration_answers: {},
             modificarRespuesta: '',
-            oldAnswer: ''
+            oldAnswer: '',
+            diagnosis: '',
         }
     },
     methods: {
@@ -304,32 +231,10 @@ export default {
             }
             $('#modal').modal('show');
         },
-        openModalExplorationRespuestasDiagnosis() {
-            $('#modal_diagnostics').modal('show');
-        },
-        getConsultationDiagnosis() {
-            axios.get('/api/consultationDiagnosis/' + this.consultation.id)
-                .then(res => {
-                    this.consultationDiagnosis = res.data;
-                })
-        },
         getPhysicalExploration() {
             axios.get('/api/physicalExploration/' + this.consultation.id)
                 .then(res => {
                     this.physicalExploration = res.data;
-                })
-        },
-        addDiagnosis(diagnosis) {
-            this.form_diagnosticos = {
-                diagnosis_id: diagnosis.id,
-                consultation_id: this.consultation.id,
-            }
-            axios.post('/api/consultationDiagnosis', this.form_diagnosticos)
-                .then(() => {
-                    this.getConsultationDiagnosis()
-                    $('#modal_diagnostics').modal('hide');
-                }).catch(err => {
-                    this.errors = err.response.data.errors;
                 })
         },
         createOrUpdateOrDeleteExplorationRespuesta() {
@@ -379,28 +284,30 @@ export default {
                     this.errors = err.response.data.errors;
                 })
         },
-        eliminarDiagnostico(id, index) {
-            axios.delete('/api/consultationDiagnosis/' + id)
-                .then(res => {
-                    this.getConsultationDiagnosis()
-                }).catch(err => {
-                    this.errors.push(err.response.data.errors);
-                    this.$toastr.e("HUBO ERRORES AL ELIMINAR");
-                })
-        },
         guardarTodo() {
             this.errors = []
-            this.form_signos_vitales.consultation_id = this.consultation.id
-            this.form_signos_vitales.patient_id = this.consultation.patient.id
-            this.form_consultation = {
+            let formConsulta ={
                 motivo_consulta: this.consultation.motivo_consulta,
                 sintoma: this.consultation.sintoma,
+                diagnosis: this.consultation.diagnosis,
                 doctor_id: this.consultation.doctor_id,
-                patient_id: this.consultation.patient_id
+                patient_id: this.consultation.patient_id,
             }
+
+            let formConsultaVitales={
+                consultation_id: this.consultation.id,
+                patient_id: this.consultation.patient_id,
+                altura: this.consultation.vital_signs.altura,
+                peso: this.consultation.vital_signs.peso,
+                pa: this.consultation.vital_signs.pa,
+                fc: this.consultation.vital_signs.fc,
+                fr: this.consultation.vital_signs.fr,
+                temp: this.consultation.vital_signs.temp,
+            }
+            
             axios.all([
-                axios.put('/api/vitalSigns/' + this.consultation.vital_signs.id, this.form_signos_vitales),
-                axios.put('/api/consultations/' + this.consultation.id, this.form_consultation),
+                axios.put('/api/vitalSigns/' + this.consultation.vital_signs.id, formConsultaVitales),
+                axios.put('/api/consultations/' + this.consultation.id, formConsulta),
             ]).then(
                 axios.spread((...responses) => {
                     this.$toastr.s("SE GUARDO CORRECTMENTE", "");
@@ -417,16 +324,11 @@ export default {
         }
     },
     computed: {
-        filteredDiagnoses() {
-            return this.diagnoses.filter(diagnosis => {
-                return diagnosis.name.toLowerCase().includes(this.search.toLowerCase())
-            })
-        },
         imc() {
-            if (this.form_signos_vitales.altura === null && this.form_signos_vitales.peso === null) {
+            if (this.consultation.vital_signs.altura == null || this.consultation.vital_signs.peso == null) {
                 return ''
             }
-            return this.calcularIMC(this.form_signos_vitales.peso, this.form_signos_vitales.altura);
+            return this.calcularIMC(this.consultation.vital_signs.peso, this.consultation.vital_signs.altura);
         }
     }
 }   

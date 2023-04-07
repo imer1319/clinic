@@ -1,7 +1,8 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-3 cursor-pointer shadow" v-for="(item, index) in items" :key="index">
+            <div class="col-md-3 cursor-pointer" v-for="(item, index) in items" :key="index"
+                v-if="can(item.can)">
                 <div class="card mt-3" data-toggle="modal" @click="openModal(item)">
                     <div class="card-body text-center">
                         <img :src="item.img" :alt="item.title" height="120">
@@ -24,28 +25,32 @@ export default {
                 {
                     component: 'form-exploracion',
                     title: 'Exploracion fisica',
-                    img: '/imagenes/estetoscopio.png'
+                    img: '/imagenes/estetoscopio.png',
+                    can: 'explorations_index',
                 },
                 {
                     component: 'form-historial',
                     title: 'Historia clinica',
-                    img: '/imagenes/informe-medico.png'
-
+                    img: '/imagenes/informe-medico.png',
+                    can: 'historial_index',
                 },
                 {
                     component: 'form-medicina',
                     title: 'Medicamentos',
-                    img: '/imagenes/medicina.png'
+                    img: '/imagenes/medicina.png',
+                    can: 'medicinas_index',
                 },
                 {
                     component: 'form-pruebas',
                     title: 'Pruebas laboratorio',
-                    img: '/imagenes/examen-de-orina.png'
+                    img: '/imagenes/examen-de-orina.png',
+                    can: 'pruebas_index'
                 },
                 {
                     component: 'form-diagnosis',
                     title: 'Diagnosticos',
-                    img: '/imagenes/diagnostico.png'
+                    img: '/imagenes/diagnostico.png',
+                    can: 'diagnoses_index'
                 }
             ]
         }

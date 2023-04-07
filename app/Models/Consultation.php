@@ -15,10 +15,7 @@ class Consultation extends Model
         'motivo',
         'motivo_consulta',
         'sintoma',
-    ];
-
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d',
+        'diagnosis'
     ];
 
     public function patient()
@@ -73,7 +70,7 @@ class Consultation extends Model
 
     public function laboratories()
     {
-        return $this->belongsToMany(Laboratory::class, 'studio_carried_outs')->withPivot('id');
+        return $this->belongsToMany(Laboratory::class, 'studio_carried_outs')->withPivot('id', 'created_at');
     }
 
     public function getHoraAttribute()

@@ -3,74 +3,70 @@
 @section('title', 'Detalle del paciente')
 
 @section('content')
-<div class="row">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex">
-                    <img src="{{ Storage::url($patient->image) }}" alt="{{ $patient->image }}" width="150">
-                    <div class="d-flex flex-column justify-content-between">
-                        <h6>EXP: {{ str_pad($patient->id, 5, '0', STR_PAD_LEFT) }}</h6>
-                        <h5><b>{{ $patient->name }}</b></h5>
-                        <h5><b>{{ $patient->surnames }}</b></h5>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="d-flex flex-column justify-content-between">
+                            <h6>EXP: {{ str_pad($patient->id, 5, '0', STR_PAD_LEFT) }}</h6>
+                            <h5><b>{{ $patient->name }}</b></h5>
+                            <h5><b>{{ $patient->surnames }}</b></h5>
 
-                        <h6>{{ $edad }} años </h6>
-                        <h6>{{ $patient->gender }}</h6>
+                            <h6>{{ $edad }} años </h6>
+                            <h6>{{ $patient->gender }}</h6>
+                        </div>
                     </div>
                 </div>
-                <div class="d-flex mt-2">
-                    <a href="{{ route('admin.patients.edit', $patient->id) }}" class="btn btn-sm btn-warning">Editar
-                    paciente</a>
-                </div>
             </div>
-        </div>
-        <div class="card mt-2">
-            <div class="card-body">
-                <h5>Ultimos signos vitales</h5>
-                <form-vitales :patient_id="{{ $patient->id }}" />
+            <div class="card mt-2">
+                <div class="card-body">
+                    <h5>Ultimos signos vitales</h5>
+                    <form-vitales :patient_id="{{ $patient->id }}" />
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <detail-consultation
-            :consultations="{{ $patient->consultations->load('diagnoses', 'vitalSigns', 'medicalInstruction', 'medicines') }}">
-        </detail-consultation>
+                :consultations="{{ $consultations->load('vitalSigns', 'medicalInstruction', 'medicines') }}">
+            </detail-consultation>
 
-        <div class="card mt-2">
-            <div class="card-body d-flex justify-content-around">
-                <a class="btn border d-flex align-items-center" data-toggle="modal" data-target="#modalArchive">
-                    <img src="/imagenes/clip.png" alt="clip" width="35">
-                </a>
-                <a href="{{ route('admin.historialPatient.pdf', $patient) }}" target="_blank" class="btn border" id="imprimirHistorial">
-                    <img src="/imagenes/impresora.png" alt="impresora" width="35">
-                &nbsp;Imprimir </a>
+            <div class="card mt-2">
+                <div class="card-body d-flex justify-content-around">
+                    <a class="btn border d-flex align-items-center" data-toggle="modal" data-target="#modalArchive">
+                        <img src="/imagenes/clip.png" alt="clip" width="35">
+                    </a>
+                    <a href="{{ route('admin.historialPatient.pdf', $patient) }}" target="_blank" class="btn border"
+                        id="imprimirHistorial">
+                        <img src="/imagenes/impresora.png" alt="impresora" width="35">
+                        &nbsp;Historial </a>
+                </div>
             </div>
-        </div>
 
-        <div class="modal fade" id="modalArchive" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Arvhivos del paciente</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <archivo-paciente :patient="{{ $patient }}" />
+            <div class="modal fade" id="modalArchive" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Arvhivos del paciente</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <archivo-paciente :patient="{{ $patient }}" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex">
-                    <a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal">Iniciar
-                    nueva consulta</a>
-                    <a id="showAgenda" class="btn btn-primary text-white cursor-pointer"><i
-                        class="fa fa-clock-o"></i></a>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal">Iniciar
+                            nueva consulta</a>
+                        <a id="showAgenda" class="btn btn-primary text-white cursor-pointer"><i
+                                class="fa fa-clock-o"></i></a>
                     </div>
                     <div class="showAgenda">
                         <div class="card">
@@ -81,23 +77,23 @@
                                     <select id="doctor_id" class="form-control">
                                         <option value="0" selected>Seleccione un doctor</option>
                                         @foreach ($doctors as $doctor)
-                                        <option value="{{ $doctor->id }}">{{ $doctor->user->name }}</option>
+                                            <option value="{{ $doctor->id }}">{{ $doctor->user->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" id="motivo" placeholder="Motivo de la consulta"
-                                    class="form-control">
+                                        class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <input id="timePickr" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" id="date_cita" class="form-control"
-                                    placeholder="Selecciona la fecha">
+                                        placeholder="Selecciona la fecha">
                                     <input type="hidden" id="patient_id" value="{{ $patient->id }}">
                                     <input type="hidden" id="patient"
-                                    value="{{ $patient->name }} {{ $patient->surnames }}">
+                                        value="{{ $patient->name }} {{ $patient->surnames }}">
                                 </div>
                                 <div class="form-group mb-0">
                                     <button id="addDiary" class="btn btn-primary btn-block">Programar consulta</button>
@@ -116,75 +112,77 @@
                                 </div>
                                 <div class="modal-body">
                                     <form-consulta :doctors="{{ $doctors }}" :patient_id="{{ $patient->id }}" />
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card mt-2 pre-scrollable">
-                    <h6 class="pt-2 px-2">CONSULTAS AGENDADAS</h6>
-                    @forelse ($diaries as $diary)
+            </div>
+            <div class="card mt-2 pre-scrollable">
+                <h6 class="pt-2 px-2">CONSULTAS AGENDADAS</h6>
+                @forelse ($diaries as $diary)
                     <form action="{{ route('admin.diaries.update', $diary) }}" method="POST" onclick="">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="motivo" value="{{ $diary->motivo }}">
                         <input type="hidden" name="doctor_id" value="{{ $diary->doctor->id }}">
                         <input type="hidden" name="patient_id" value="{{ $patient->id }}">
-                        <button type="submit" style="background: inherit; color: #5A738E; border: none; width: 100%; margin: 0;"
-                        onclick="return confirm('¿Seguro que desea iniciar esta consulta?')">
-                        <div class="mx-1 mt-1 mb-2 p-2 b-left-agenda border-consulta a_hover">
-                            <div class="row">
-                                <div class="col-3 text-center d-flex flex-column justify-content-between">
-                                    <span class="h5">{{ $diary->date_cita->format('d') }}</span>
-                                    <span class="h6 text-capitalize">{{ $diary->date_cita->formatLocalized('%b') }}</span>
-                                </div>
-                                <div class="col-9 border-left d-flex flex-column text-left">
-                                    <span class="d-flex justify-content-between">
-                                        <span><i>Dr. {{ $diary->doctor->user->name }}</i></span>
-                                        <span>{{ $diary->hora_cita->format('H:i A') }}</span>
-                                    </span>
-                                    <span><b>{{ $diary->motivo }}</b></span>
-                                    <span class="text-primary">{{ $diary->status }}</span>
+                        <button type="submit"
+                            style="background: inherit; color: #5A738E; border: none; width: 100%; margin: 0;"
+                            onclick="return confirm('¿Seguro que desea iniciar esta consulta?')">
+                            <div class="mx-1 mt-1 mb-2 p-2 b-left-agenda border-consulta a_hover">
+                                <div class="row">
+                                    <div class="col-3 text-center d-flex flex-column justify-content-between">
+                                        <span class="h5">{{ $diary->date_cita->format('d') }}</span>
+                                        <span
+                                            class="h6 text-capitalize">{{ $diary->date_cita->formatLocalized('%b') }}</span>
+                                    </div>
+                                    <div class="col-9 border-left d-flex flex-column text-left">
+                                        <span class="d-flex justify-content-between">
+                                            <span><i>Dr. {{ $diary->doctor->user->name }}</i></span>
+                                            <span>{{ $diary->hora_cita->format('H:i A') }}</span>
+                                        </span>
+                                        <span><b>{{ $diary->motivo }}</b></span>
+                                        <span class="text-primary">{{ $diary->status }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </button>
-                </form>
+                        </button>
+                    </form>
                 @empty
-                <span class="mx-auto">Aún no hay citas </span>
+                    <span class="mx-auto">Aún no hay citas </span>
                 @endforelse
             </div>
             <div class="card mt-2 pre-scrollable">
                 <h6 class="pt-2 px-2">CONSULTAS INICIADAS</h6>
                 @forelse ($consultations as $consultation)
-                <a href="{{ route('admin.consultations.edit', $consultation) }}" class="a_hover">
-                    <div class="mx-1 mt-1 mb-2 p-2 b-left-consulta border-consulta a_hover">
-                        <div class="row">
-                            <div class="col-3 text-center">
-                                <span class="h5">{{ $consultation->created_at->format('d') }}</span><br>
-                                <span class="h6">{{ $consultation->created_at->format('M') }}</span><br>
-                                <span>{{ $consultation->created_at->format('Y') }}</span>
-                            </div>
-                            <div class="col-9 border-left d-flex flex-column justify-content-between">
-                                <span class="d-flex justify-content-between">
-                                    <span><i>Dr. {{ $consultation->doctor->user->name }}</i></span>
-                                    <span>{{ $consultation->hora }}</span>
-                                </span>
-                                <span><b>{{ $consultation->motivo }}</b></span>
+                    <a href="{{ route('admin.consultations.edit', $consultation) }}" class="a_hover">
+                        <div class="mx-1 mt-1 mb-2 p-2 b-left-consulta border-consulta a_hover">
+                            <div class="row">
+                                <div class="col-3 text-center">
+                                    <span class="h5">{{ $consultation->created_at->format('d') }}</span><br>
+                                    <span class="h6">{{ $consultation->created_at->format('M') }}</span><br>
+                                    <span>{{ $consultation->created_at->format('Y') }}</span>
+                                </div>
+                                <div class="col-9 border-left d-flex flex-column justify-content-between">
+                                    <span class="d-flex justify-content-between">
+                                        <span><i>Dr. {{ $consultation->doctor->user->name }}</i></span>
+                                        <span>{{ $consultation->hora }}</span>
+                                    </span>
+                                    <span><b>{{ $consultation->motivo }}</b></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
                 @empty
-                <span class="mx-auto">Aún no hay citas </span>
+                    <span class="mx-auto">Aún no hay citas </span>
                 @endforelse
             </div>
         </div>
     </div>
-    @endsection
+@endsection
 
-    @section('styles')
+@section('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         .pre-scrollable {
@@ -244,8 +242,8 @@
             outline: none;
         }
     </style>
-    @endsection
-    @section('scripts')
+@endsection
+@section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
 
@@ -277,16 +275,16 @@
                         longhand: [
                             "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes",
                             "Sábado"
-                            ]
+                        ]
                     },
                     months: {
                         shorthand: [
                             "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
-                            ],
+                        ],
                         longhand: [
                             "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto",
                             "Septiembre", "Octubre", "Noviembre", "Diciembre"
-                            ]
+                        ]
                     }
                 }
             },
@@ -342,4 +340,4 @@
 
         }
     </script>
-    @endsection
+@endsection

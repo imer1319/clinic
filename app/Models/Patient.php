@@ -9,8 +9,15 @@ class Patient extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'surnames', 'ci', 'celular', 'address', 'gender', 'nacimiento', 'notas', 'image', 'city'];
-    protected $dates = ['nacimiento'];
+    protected $fillable = [
+        'name', 'surnames', 'ci', 'celular', 'address', 'gender', 'nacimiento', 'notas', 'city'
+    ];
+
+    protected $casts = [
+        'nacimiento' => 'datetime:Y-m-d',
+    ];
+
+
     public function appointments()
     {
         return $this->hasMany(Appointment::class);

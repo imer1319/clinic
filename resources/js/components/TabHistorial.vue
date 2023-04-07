@@ -39,10 +39,10 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <button @click.prevent="updateDate" class="btn border">
                             <img src="/imagenes/guardar.png" alt="guardar" width="35">
-                        &nbsp;Guardar </button>
+                            &nbsp;Guardar </button>
                         <a target="_blank" :href="`/pdf/historial/${consultation.patient.id}`" class="btn border">
                             <img src="/imagenes/impresora.png" alt="impresora" width="35">
-                        &nbsp;Imprimir </a>
+                            &nbsp;Imprimir </a>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                         <div class="d-flex justify-content-end mt-3">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button type="button" class="btn btn-success"
-                            @click.prevent="createOrUpdatePatientAnswer">Guardar</button>
+                                @click.prevent="createOrUpdatePatientAnswer">Guardar</button>
                         </div>
                     </div>
                 </div>
@@ -87,24 +87,24 @@ export default {
                 history_question_id: '',
                 answer: ''
             },
-            dateHistorial:[],
+            dateHistorial: [],
             editar: false,
-            date_historial:''
+            date_historial: ''
         }
     },
     methods: {
-        getDateHistorial(){
-            axios.get('/api/dateHistorial/'+this.consultation.patient.id)
-            .then(res => {
-                this.dateHistorial = res.data
-                this.date_historial = this.dateHistorial.date_historial
-            })
+        getDateHistorial() {
+            axios.get('/api/dateHistorial/' + this.consultation.patient.id)
+                .then(res => {
+                    this.dateHistorial = res.data
+                    this.date_historial = this.dateHistorial.date_historial
+                })
         },
         getHistoryTypes() {
-            axios.get('/api/historyTypes/'+this.consultation.patient.id)
-            .then(res => {
-                this.historyTypes = res.data
-            })
+            axios.get('/api/historyTypes/' + this.consultation.patient.id)
+                .then(res => {
+                    this.historyTypes = res.data
+                })
         },
         openModal(question) {
             this.historyTypes[question.history_type_id - 1].history_questions.forEach(element => {
@@ -122,8 +122,8 @@ export default {
                 }
             })
             question.history_patient
-            ? this.editar = true
-            : this.editar = false
+                ? this.editar = true
+                : this.editar = false
 
             $('#modalPatientAnswer').modal('show');
         },
@@ -134,47 +134,48 @@ export default {
                 this.savePatientAnswer()
             }
         },
-        updateDate(){
-            axios.put('/api/dateHistorial/'+this.dateHistorial.id,{
-                patient_id:this.consultation.patient.id,
+        updateDate() {
+            axios.put('/api/dateHistorial/' + this.dateHistorial.id, {
+                patient_id: this.consultation.patient.id,
                 date_historial: this.date_historial
             })
-            .then(() => {
-                this.getDateHistorial()
-                this.$toastr.s("SE GUARDARON LOS CAMBIOS CORRECTMENTE", "");
-                this.errors = [];
+                .then(() => {
+                    this.getDateHistorial()
+                    this.$toastr.s("SE GUARDARON LOS CAMBIOS CORRECTMENTE", "");
+                    this.errors = [];
 
-            }).catch(err => {
-                this.errors.push(err.response.data.errors);
-                this.$toastr.e("ERROR AL GUARDAR LOS CAMBIOS", "");
-            })
+                }).catch(err => {
+                    this.errors.push(err.response.data.errors);
+                    this.$toastr.e("ERROR AL GUARDAR LOS CAMBIOS", "");
+                })
         },
         updatePatientAnswer() {
-            axios.put('/api/historyPatients/' + this.formPatientAnswer.id,this.formPatientAnswer).then(() => {
-                this.getHistoryTypes()
-                $('#modalPatientAnswer').modal('hide')
-                this.$toastr.s("SE GUARDARON LOS CAMBIOS CORRECTMENTE", "");
-            }).catch(err => {
-                this.errors.push(err.response.data.errors);
-                this.$toastr.e("ERROR AL GUARDAR LOS CAMBIOS", "");
-            })
+            axios.put('/api/historyPatients/' + this.formPatientAnswer.id, this.formPatientAnswer)
+                .then(() => {
+                    this.getHistoryTypes()
+                    $('#modalPatientAnswer').modal('hide')
+                    this.$toastr.s("SE GUARDARON LOS CAMBIOS CORRECTMENTE", "");
+                }).catch(err => {
+                    this.errors.push(err.response.data.errors);
+                    this.$toastr.e("ERROR AL GUARDAR LOS CAMBIOS", "");
+                })
         },
         savePatientAnswer() {
             axios.post('/api/historyPatients', this.formPatientAnswer)
-            .then(() => {
-                $('#modalPatientAnswer').modal('hide');
-                this.getHistoryTypes()
-                this.formPatientAnswer = {
-                    question: '',
-                    patient_id: '',
-                    history_question_id: '',
-                    answer: ''
-                },
-                this.$toastr.s("SE GUARDO CORRECTMENTE", "");
-            }).catch(err => {
-                this.errors.push(err.response.data.errors);
-                this.$toastr.e("HAY ERRORES");
-            })
+                .then(() => {
+                    $('#modalPatientAnswer').modal('hide');
+                    this.getHistoryTypes()
+                    this.formPatientAnswer = {
+                        question: '',
+                        patient_id: '',
+                        history_question_id: '',
+                        answer: ''
+                    },
+                        this.$toastr.s("SE GUARDO CORRECTMENTE", "");
+                }).catch(err => {
+                    this.errors.push(err.response.data.errors);
+                    this.$toastr.e("HAY ERRORES");
+                })
         }
     }
 }

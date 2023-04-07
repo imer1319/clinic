@@ -54,7 +54,7 @@
                     <div class="profile clearfix">
                         <div class="profile_pic">
                             <img src="{{ Storage::url(auth()->user()->image) }}" alt="..."
-                            class="img-circle profile_img">
+                                class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
                             <span>Bienvenido,</span>
@@ -95,6 +95,14 @@
             <!-- /footer content -->
         </div>
     </div>
+
+    <script type="text/javascript">
+        window.Laravel = {
+            csrfToken: "{{ csrf_token() }}",
+            jsPermissions: {!! auth()->user()
+                ?->jsPermissions() !!}
+        }
+    </script>
     <script src="/js/app.js"></script>
     <!-- jQuery -->
     <script src="{{ asset('admin/vendors/jquery/dist/jquery.min.js') }}"></script>

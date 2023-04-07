@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'display_name' => 'required|max:10',
+            'display_name' => 'required',
         ];
 
         if ($this->method() !== 'PUT') {

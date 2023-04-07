@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'America/Indiana/Vincennes',
+    'timezone' => 'America/La_Paz',
 
     /*
     |--------------------------------------------------------------------------
