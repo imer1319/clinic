@@ -3280,9 +3280,9 @@ __webpack_require__.r(__webpack_exports__);
         can: 'pruebas_index'
       }, {
         component: 'form-diagnosis',
-        title: 'Diagnosticos',
-        img: '/imagenes/diagnostico.png',
-        can: 'diagnoses_index'
+        title: 'Servicios',
+        img: '/imagenes/servicios.png',
+        can: 'services_index'
       }]
     };
   },

@@ -9,11 +9,6 @@ class Service extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name' ,'status'];
 
-
-    public function subService()
-    {
-        return $this->hasMany(SubService::class);
-    }
 }

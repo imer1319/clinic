@@ -48,9 +48,9 @@ export default {
                 },
                 {
                     component: 'form-diagnosis',
-                    title: 'Diagnosticos',
-                    img: '/imagenes/diagnostico.png',
-                    can: 'diagnoses_index'
+                    title: 'Servicios',
+                    img: '/imagenes/servicios.png',
+                    can: 'services_index'
                 }
             ]
         }

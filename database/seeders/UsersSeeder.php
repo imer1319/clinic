@@ -50,16 +50,5 @@ class UsersSeeder extends Seeder
             'address' => 'Calle 12 entre 11 y 12',
             'user_id' => $doctor->id
         ]);
-        for($i = 0; $i< 7; $i++) {
-            Horario::create([
-                'dia' => $i,
-                'morning_start' => '08:00',
-                'morning_end' => '12:00',
-                'afternoon_start' => '14:00',
-                'afternoon_end' => '18:00',
-                'doctor_id' => $doctor->doctor->id,
-                'status' => 'SI'
-            ]);
-        }
     }
 }
