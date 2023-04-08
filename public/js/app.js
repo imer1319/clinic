@@ -3315,6 +3315,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['consultation'],
   mounted: function mounted() {
     this.getPhysicalExploration();
+    this.getServices();
   },
   data: function data() {
     return {
@@ -3327,6 +3328,7 @@ __webpack_require__.r(__webpack_exports__);
       search: '',
       form_consultation: {},
       physicalExploration: [],
+      services: [],
       form_exploration_answers: {},
       modificarRespuesta: '',
       oldAnswer: '',
@@ -3354,10 +3356,16 @@ __webpack_require__.r(__webpack_exports__);
       }
       $('#modal').modal('show');
     },
-    getPhysicalExploration: function getPhysicalExploration() {
+    getServices: function getServices() {
       var _this2 = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/services/' + this.consultation.id).then(function (res) {
+        _this2.services = res.data;
+      });
+    },
+    getPhysicalExploration: function getPhysicalExploration() {
+      var _this3 = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/physicalExploration/' + this.consultation.id).then(function (res) {
-        _this2.physicalExploration = res.data;
+        _this3.physicalExploration = res.data;
       });
     },
     createOrUpdateOrDeleteExplorationRespuesta: function createOrUpdateOrDeleteExplorationRespuesta() {
@@ -3378,19 +3386,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     addExplorationRespuesta: function addExplorationRespuesta() {
-      var _this3 = this;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/physicalExploration', this.form_exploration_answers).then(function () {
-        _this3.getPhysicalExploration();
-        _this3.answer = '';
-        $('#modal').modal('hide');
-      })["catch"](function (err) {
-        _this3.errors = err.response.data.errors;
-      });
-    },
-    updateExplorationRespuesta: function updateExplorationRespuesta() {
       var _this4 = this;
-      this.form_exploration_answers.answer = this.answer;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().put('/api/physicalExploration/' + this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers).then(function () {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/physicalExploration', this.form_exploration_answers).then(function () {
         _this4.getPhysicalExploration();
         _this4.answer = '';
         $('#modal').modal('hide');
@@ -3398,9 +3395,10 @@ __webpack_require__.r(__webpack_exports__);
         _this4.errors = err.response.data.errors;
       });
     },
-    deleteExplorationRespuesta: function deleteExplorationRespuesta() {
+    updateExplorationRespuesta: function updateExplorationRespuesta() {
       var _this5 = this;
-      axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('/api/physicalExploration/' + this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers).then(function () {
+      this.form_exploration_answers.answer = this.answer;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().put('/api/physicalExploration/' + this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers).then(function () {
         _this5.getPhysicalExploration();
         _this5.answer = '';
         $('#modal').modal('hide');
@@ -3408,8 +3406,18 @@ __webpack_require__.r(__webpack_exports__);
         _this5.errors = err.response.data.errors;
       });
     },
-    guardarTodo: function guardarTodo() {
+    deleteExplorationRespuesta: function deleteExplorationRespuesta() {
       var _this6 = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('/api/physicalExploration/' + this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers).then(function () {
+        _this6.getPhysicalExploration();
+        _this6.answer = '';
+        $('#modal').modal('hide');
+      })["catch"](function (err) {
+        _this6.errors = err.response.data.errors;
+      });
+    },
+    guardarTodo: function guardarTodo() {
+      var _this7 = this;
       this.errors = [];
       var formConsulta = {
         motivo_consulta: this.consultation.motivo_consulta,
@@ -3429,10 +3437,10 @@ __webpack_require__.r(__webpack_exports__);
         temp: this.consultation.vital_signs.temp
       };
       axios__WEBPACK_IMPORTED_MODULE_0___default().all([axios__WEBPACK_IMPORTED_MODULE_0___default().put('/api/vitalSigns/' + this.consultation.vital_signs.id, formConsultaVitales), axios__WEBPACK_IMPORTED_MODULE_0___default().put('/api/consultations/' + this.consultation.id, formConsulta)]).then(axios__WEBPACK_IMPORTED_MODULE_0___default().spread(function () {
-        _this6.$toastr.s("SE GUARDO CORRECTMENTE", "");
+        _this7.$toastr.s("SE GUARDO CORRECTMENTE", "");
       }))["catch"](function (err) {
-        _this6.errors.push(err.response.data.errors);
-        _this6.$toastr.e("HAY ERRORES");
+        _this7.errors.push(err.response.data.errors);
+        _this7.$toastr.e("HAY ERRORES");
       });
     },
     calcularIMC: function calcularIMC(peso, altura) {
@@ -3447,6 +3455,12 @@ __webpack_require__.r(__webpack_exports__);
         return '';
       }
       return this.calcularIMC(this.consultation.vital_signs.peso, this.consultation.vital_signs.altura);
+    },
+    filteredServices: function filteredServices() {
+      var _this8 = this;
+      return this.services.filter(function (service) {
+        return service.name.toLowerCase().includes(_this8.search.toLowerCase());
+      });
     }
   }
 });
@@ -6384,9 +6398,15 @@ var render = function render() {
     staticClass: "card"
   }, [_c("div", {
     staticClass: "card-body"
-  }, [_c("div", {
+  }, [_vm._m(5), _vm._v(" "), _c("table", {
+    staticClass: "table"
+  }, [_vm._m(6), _vm._v(" "), _c("tbody", _vm._l(_vm.services, function (service, index) {
+    return _c("tr", {
+      key: index
+    }, [_c("td", [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(service.name))]), _vm._v(" "), _c("td")]);
+  }), 0)]), _vm._v(" "), _c("hr"), _vm._v(" "), _c("div", {
     staticClass: "form-group"
-  }, [_vm._m(5), _vm._v(" "), _c("textarea", {
+  }, [_vm._m(7), _vm._v(" "), _c("textarea", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -6395,7 +6415,7 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      rows: "3"
+      rows: "2"
     },
     domProps: {
       value: _vm.consultation.diagnosis
@@ -6414,7 +6434,7 @@ var render = function render() {
     staticClass: "card-body"
   }, [_c("h5", [_vm._v("Signos vitales")]), _vm._v(" "), _c("div", [_c("div", {
     staticClass: "row mt-3"
-  }, [_vm._m(6), _vm._v(" "), _c("div", {
+  }, [_vm._m(8), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6438,7 +6458,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("h6", [_vm._v("Cm")])])]), _vm._v(" "), _c("div", {
     staticClass: "row mt-2"
-  }, [_vm._m(7), _vm._v(" "), _c("div", {
+  }, [_vm._m(9), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6462,7 +6482,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("h6", [_vm._v("Kg")])])]), _vm._v(" "), _c("div", {
     staticClass: "row mt-2"
-  }, [_vm._m(8), _vm._v(" "), _c("div", {
+  }, [_vm._m(10), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6489,7 +6509,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("h6", [_vm._v("mbi")])])]), _vm._v(" "), _c("div", {
     staticClass: "row mt-2"
-  }, [_vm._m(9), _vm._v(" "), _c("div", {
+  }, [_vm._m(11), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6513,7 +6533,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("h6", [_vm._v("°C")])])]), _vm._v(" "), _c("div", {
     staticClass: "row mt-2"
-  }, [_vm._m(10), _vm._v(" "), _c("div", {
+  }, [_vm._m(12), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6537,7 +6557,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("h6", [_vm._v("r/m")])])]), _vm._v(" "), _c("div", {
     staticClass: "row mt-2"
-  }, [_vm._m(11), _vm._v(" "), _c("div", {
+  }, [_vm._m(13), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6561,7 +6581,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("h6", [_vm._v("mmHg")])])]), _vm._v(" "), _c("div", {
     staticClass: "row mt-2"
-  }, [_vm._m(12), _vm._v(" "), _c("div", {
+  }, [_vm._m(14), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6615,7 +6635,62 @@ var render = function render() {
       alt: "impresora",
       width: "35"
     }
-  }), _vm._v("\n                         Imprimir ")])])])])])]);
+  }), _vm._v("\n                         Imprimir ")])])])])]), _vm._v(" "), _c("div", {
+    staticClass: "modal fade",
+    attrs: {
+      id: "modal_servicios",
+      tabindex: "-1",
+      "aria-labelledby": "modalLabel",
+      "aria-hidden": "true"
+    }
+  }, [_c("div", {
+    staticClass: "modal-dialog"
+  }, [_c("div", {
+    staticClass: "modal-content"
+  }, [_c("div", {
+    staticClass: "modal-body"
+  }, [_c("div", {
+    staticClass: "d-flex justify-content-between align-items-center mb-3"
+  }, [_c("h6", [_vm._v("Buscar servicio")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.search,
+      expression: "search"
+    }],
+    staticClass: "form-control form-control-sm",
+    staticStyle: {
+      width: "170px"
+    },
+    attrs: {
+      placeholder: "Buscar"
+    },
+    domProps: {
+      value: _vm.search
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.search = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "pre-scrollable"
+  }, [_c("table", {
+    staticClass: "table"
+  }, [_vm._m(15), _vm._v(" "), _c("tbody", _vm._l(_vm.filteredServices, function (service, index) {
+    return _c("tr", {
+      key: index
+    }, [_c("td", [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", {
+      staticClass: "cursor-pointer",
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.saveService(service);
+        }
+      }
+    }, [_vm._v("\n                                        " + _vm._s(service.name) + "\n                                    ")])]);
+  }), 0)])])])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -6648,6 +6723,24 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("h6", [_c("b", [_vm._v("Sintomas subjetivos")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "d-flex justify-content-between align-items-center mb-3"
+  }, [_c("h5", [_vm._v("Servicios")]), _vm._v(" "), _c("a", {
+    staticClass: "btn border text-success cursor-pointer",
+    attrs: {
+      "data-toggle": "modal",
+      "data-target": "#modal_servicios"
+    }
+  }, [_c("i", {
+    staticClass: "fa fa-plus"
+  }), _vm._v("\n                                  Agregar")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("#")]), _vm._v(" "), _c("th", [_vm._v("Servicio")]), _vm._v(" "), _c("th")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -6736,6 +6829,18 @@ var staticRenderFns = [function () {
       height: "30px"
     }
   }), _vm._v(" "), _c("h6", [_vm._v("F.C.")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("thead", [_c("tr", [_c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("#")]), _vm._v(" "), _c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("Servicio")])])]);
 }];
 render._withStripped = true;
 

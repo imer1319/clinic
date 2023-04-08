@@ -21,7 +21,7 @@ class PhysicalExplorationController extends Controller
     {
         $request->validate([
             'consultation_id' => 'required|numeric|exists:App\Models\Consultation,id',
-            'physical_exploration_id' => 'required|numeric|exists:App\Models\Diagnosis,id',
+            'physical_exploration_id' => 'required|numeric|exists:App\Models\PhysicalExploration,id',
             'answer' => 'required|min:4'
         ]);
 
@@ -32,7 +32,7 @@ class PhysicalExplorationController extends Controller
     {
         $request->validate([
             'consultation_id' => 'required|numeric|exists:App\Models\Consultation,id',
-            'physical_exploration_id' => 'required|numeric|exists:App\Models\Diagnosis,id',
+            'physical_exploration_id' => 'required|numeric|exists:App\Models\PhysicalExploration,id',
             'answer' => 'required|min:4'
         ]);
 

@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Diagnosis;
+use App\Models\Consultation;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
-class DiagnosisController extends Controller
+class ServiceController extends Controller
 {
-    public function index()
+    public function index(Consultation $consultation)
     {
-        return Diagnosis::where('status','ACTIVO')->get();
+        return $consultation->services;
     }
 
     public function store(Request $request)
@@ -20,10 +21,10 @@ class DiagnosisController extends Controller
             'status' => 'required|in:ACTIVO,BAJA',
         ]);
 
-        return Diagnosis::create($request->all());
+        return Service::create($request->all());
     }
 
-    public function update(Request $request, Diagnosis $diagnosis)
+    public function update(Request $request, Service $diagnosis)
     {
         $request->validate([
             'name' => 'required|min:5',

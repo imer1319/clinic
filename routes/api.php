@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ConsultationController;
-use App\Http\Controllers\Api\DiagnosisController;
+use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\ExploracionController;
 use App\Http\Controllers\Api\HistoryQuestionController;
 use App\Http\Controllers\Api\HistoryTypeController;
@@ -45,9 +45,9 @@ Route::get('medicines', [MedicineController::class, 'index']);
 Route::post('medicines/store', [MedicineController::class, 'store']);
 Route::put('medicines/{medicine}', [MedicineController::class, 'update']);
 
-Route::get('diagnoses', [DiagnosisController::class, 'index']);
-Route::post('diagnoses/store', [DiagnosisController::class, 'store']);
-Route::put('diagnoses/{diagnosis}', [DiagnosisController::class, 'update']);
+Route::get('services/{consultation}', [ServiceController::class, 'index']);
+Route::post('services/store', [ServiceController::class, 'store']);
+Route::put('services/{service}', [ServiceController::class, 'update']);
 
 Route::get('consultations', [ConsultationController::class, 'index']);
 Route::post('consultations/store', [ConsultationController::class, 'store']);

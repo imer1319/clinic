@@ -76,9 +76,34 @@
                 <div class="col-md-12 mt-2">
                     <div class="card">
                         <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5>Servicios</h5>
+                                <a class="btn border text-success cursor-pointer" data-toggle="modal"
+                                    data-target="#modal_servicios">
+                                    <i class="fa fa-plus"></i>
+                                    &nbsp; Agregar</a>
+                            </div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Servicio</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(service, index) in services" :key="index">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ service.name }}</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <hr>
                             <div class="form-group">
                                 <h6><b>Diagnostico</b></h6>
-                                <textarea v-model="consultation.diagnosis" rows="3" class="form-control"></textarea>
+                                <textarea v-model="consultation.diagnosis" rows="2" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
@@ -182,6 +207,37 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modal_servicios" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6>Buscar servicio</h6>
+                            <input v-model="search" class="form-control form-control-sm" placeholder="Buscar"
+                                style="width: 170px;">
+                        </div>
+                        <div class="pre-scrollable">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Servicio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(service, index) in filteredServices" :key="index">
+                                        <td>{{ index + 1 }}</td>
+                                        <td class="cursor-pointer" @click.prevent="saveService(service)">
+                                            {{ service.name }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -191,6 +247,7 @@ export default {
     props: ['consultation'],
     mounted() {
         this.getPhysicalExploration()
+        this.getServices()
     },
     data() {
         return {
@@ -203,6 +260,7 @@ export default {
             search: '',
             form_consultation: {},
             physicalExploration: [],
+            services: [],
             form_exploration_answers: {},
             modificarRespuesta: '',
             oldAnswer: '',
@@ -230,6 +288,12 @@ export default {
                 });
             }
             $('#modal').modal('show');
+        },
+        getServices() {
+            axios.get('/api/services/' + this.consultation.id)
+                .then(res => {
+                    this.services = res.data
+                })
         },
         getPhysicalExploration() {
             axios.get('/api/physicalExploration/' + this.consultation.id)
@@ -286,7 +350,7 @@ export default {
         },
         guardarTodo() {
             this.errors = []
-            let formConsulta ={
+            let formConsulta = {
                 motivo_consulta: this.consultation.motivo_consulta,
                 sintoma: this.consultation.sintoma,
                 diagnosis: this.consultation.diagnosis,
@@ -294,7 +358,7 @@ export default {
                 patient_id: this.consultation.patient_id,
             }
 
-            let formConsultaVitales={
+            let formConsultaVitales = {
                 consultation_id: this.consultation.id,
                 patient_id: this.consultation.patient_id,
                 altura: this.consultation.vital_signs.altura,
@@ -304,7 +368,7 @@ export default {
                 fr: this.consultation.vital_signs.fr,
                 temp: this.consultation.vital_signs.temp,
             }
-            
+
             axios.all([
                 axios.put('/api/vitalSigns/' + this.consultation.vital_signs.id, formConsultaVitales),
                 axios.put('/api/consultations/' + this.consultation.id, formConsulta),
@@ -329,6 +393,11 @@ export default {
                 return ''
             }
             return this.calcularIMC(this.consultation.vital_signs.peso, this.consultation.vital_signs.altura);
+        },
+        filteredServices() {
+            return this.services.filter(service => {
+                return service.name.toLowerCase().includes(this.search.toLowerCase())
+            })
         }
     }
 }   

@@ -77,4 +77,9 @@ class Consultation extends Model
     {
         return $this->created_at->format('H:i A');
     }
+
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'consultation_service');
+    }
 }
