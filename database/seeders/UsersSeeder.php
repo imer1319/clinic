@@ -25,30 +25,26 @@ class UsersSeeder extends Seeder
             'username' => 'Administrador',
             'email' => 'admin@admin.com',
             'password' => '123123',
-            'image' => 'https://picsum.photos/200/300'
         ]);
         //Asignar roles a los usuarios
-        $admin->assignRole(Role::findByName('Admin'));
+        $admin->assignRole(Role::findByName('Administrador'));
 
         $doctor = User::create([
             'name' => 'House',
             'username' => 'Doctor',
             'email' => 'doctor@doctor.com',
             'password' => '123123',
-            'image' => 'https://picsum.photos/200/300'
         ]);
         //Asignar roles a los usuarios
         $doctor->assignRole(Role::findByName('Doctor'));
 
-        Doctor::create([
-            'surnames' => 'Doctor',
-            'ci' => 12345678,
-            'specialty_id' => 2,
-            'celular' => 12345678,
-            'nacimiento' => "1990-03-12",
-            'gender' => "MASCULINO",
-            'address' => 'Calle 12 entre 11 y 12',
-            'user_id' => $doctor->id
+        $paciente = User::create([
+            'name' => 'Paciente',
+            'username' => 'Paciente',
+            'email' => 'paciente@paciente.com',
+            'password' => '123123',
         ]);
+        //Asignar roles a los usuarios
+        $paciente->assignRole(Role::findByName('Paciente'));
     }
 }

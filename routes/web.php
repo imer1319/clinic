@@ -52,7 +52,6 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     ->name('users.permissions.update');
     
 
-    Route::put('profiles/{user}', [ProfileController::class, 'update'])->name('profiles.update');
     // Datatables
     Route::get('api/citas', [AppointmentController::class, 'appointments']);
 
@@ -84,4 +83,7 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::get('pdf/consulta/{consultation}', [ReportesController::class, 'consultaPatient'])->name('consultaPatient.pdf');
 
     Route::get('mis-citas', [CitaController::class, 'index'])->name('mis-citas')->middleware('role:Doctor');
+
+    Route::get('profiles', [ProfileController::class,'show'])->name('profiles.show');
+    Route::put('profiles/{user}', [ProfileController::class, 'update'])->name('profiles.update');
 });

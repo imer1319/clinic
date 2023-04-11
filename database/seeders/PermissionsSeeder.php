@@ -203,7 +203,7 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'services_store', 'display_name' => 'Guardar servicios']);
 
         // Asignar todos los permisos al admin
-        $role = Role::findByName('Admin');
+        $role = Role::findByName('Administrador');
         $role->syncPermissions(Permission::all());
     }
 }

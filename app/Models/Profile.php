@@ -15,8 +15,9 @@ class Profile extends Model
         'nacimiento',
         'celular',
         'address',
-        'specialty_id',
         'gender',
+        'image',
+        'specialty_id',
         'user_id'
     ];
 

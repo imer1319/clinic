@@ -24,7 +24,6 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
-        'image'
     ];
 
     protected $hidden = [
@@ -43,7 +42,7 @@ class User extends Authenticatable
 
     public function getRoleDisplayNames()
     {
-        return $this->roles->pluck('display_name')->implode(', ');
+        return $this->roles->pluck('name')->implode(', ');
     }
 
     public function doctor()
