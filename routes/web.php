@@ -32,8 +32,8 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('doctors', DoctorController::class);
-    Route::resource('services', ServiceController::class)
-    ->except(['show']);
+    // Route::resource('services', ServiceController::class)
+    // ->except(['show']);
     Route::resource('patients', PatientController::class);
     Route::resource('subservices', SubServiceController::class)
     ->except(['create']);
@@ -58,7 +58,7 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
 
     Route::get('api/appointments', [AppointmentController::class, 'datatables']);
     Route::get('api/patients', [PatientController::class, 'datatables']);
-    Route::get('api/services', [ServiceController::class, 'datatables']);
+    // Route::get('api/services', [ServiceController::class, 'datatables']);
     Route::get('api/subservices', [SubServiceController::class, 'datatables']);
     Route::get('api/doctors', [DoctorController::class, 'datatables']);
     Route::get('api/users', [UserController::class, 'datatables']);

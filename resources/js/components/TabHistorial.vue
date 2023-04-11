@@ -57,7 +57,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" v-model="formPatientAnswer.answer" class="form-control" placeholder="Respuesta">
+                        <input type="text" v-model="formPatientAnswer.answer" class="form-control" placeholder="Respuesta" @keyup.enter="createOrUpdatePatientAnswer">
                         <div class="d-flex justify-content-end mt-3">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button type="button" class="btn btn-success"

@@ -80,6 +80,6 @@ class Consultation extends Model
 
     public function services()
     {
-        return $this->belongsToMany(Service::class, 'consultation_service');
+        return $this->belongsToMany(Service::class, 'consultation_service')->withPivot('id');
     }
 }

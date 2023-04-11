@@ -41,13 +41,13 @@ class DatabaseSeeder extends Seeder
         HistoryQuestion::truncate();
         Laboratory::truncate();
         Medicine::truncate();
+        Service::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Storage::disk('public')->deleteDirectory('images');
 
 
         Specialty::factory(6)->create();
-        Service::factory(4)->create();
         Patient::factory(20)->create();
         
         $this->call([
@@ -59,6 +59,7 @@ class DatabaseSeeder extends Seeder
             HistoryQuestionSeeder::class,
             LaboratorySeeder::class,
             MedicineSeeder::class,
+            ServiceSeeder::class,
         ]);
     }
 }

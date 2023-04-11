@@ -11,7 +11,9 @@ class ServiceController extends Controller
 {
     public function index(Consultation $consultation)
     {
-        return $consultation->services;
+        return Service::with(['consultations' => function($query) use($consultation){
+            $query->where('consultations.id', $consultation->id);
+        }])->get();
     }
 
     public function store(Request $request)
@@ -24,13 +26,13 @@ class ServiceController extends Controller
         return Service::create($request->all());
     }
 
-    public function update(Request $request, Service $diagnosis)
+    public function update(Request $request, Service $service)
     {
         $request->validate([
             'name' => 'required|min:5',
             'status' => 'required|in:ACTIVO,BAJA',
         ]);
 
-        return $diagnosis->update($request->all());
+        return $service->update($request->all());
     }
 }

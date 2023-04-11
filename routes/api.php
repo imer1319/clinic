@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\DateHistorialController;
 use App\Http\Controllers\Api\DiaryController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\HorarioController;
+use App\Http\Controllers\Api\ServiceConsultationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -45,7 +46,7 @@ Route::get('medicines', [MedicineController::class, 'index']);
 Route::post('medicines/store', [MedicineController::class, 'store']);
 Route::put('medicines/{medicine}', [MedicineController::class, 'update']);
 
-Route::get('services/{consultation}', [ServiceController::class, 'index']);
+Route::get('services', [ServiceController::class, 'index']);
 Route::post('services/store', [ServiceController::class, 'store']);
 Route::put('services/{service}', [ServiceController::class, 'update']);
 
@@ -104,3 +105,8 @@ Route::put('notifications/{notification}', [NotificationController::class, 'upda
 Route::get('horas', [HorarioController::class, 'horas']);
 
 Route::get('historyTypes/{patient}', [HistoryPatientController::class, 'index']);
+
+Route::get('getServices', [ServiceConsultationController::class, 'getServices']);
+Route::get('services/{consultation}', [ServiceConsultationController::class, 'index']);
+Route::post('serviceConsultation/{consultation}', [ServiceConsultationController::class, 'store']);
+Route::delete('services/{consultation}/{id}', [ServiceConsultationController::class, 'destroy']);

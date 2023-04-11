@@ -61,7 +61,7 @@ export default {
                 name: '',
                 status: 'ACTIVO'
             },
-            diagnoses: [],
+            services: [],
             errors: [],
             search: ''
         }
@@ -83,9 +83,9 @@ export default {
 
         },
         get() {
-            axios.get('/api/diagnoses')
+            axios.get('/api/services')
                 .then(response => {
-                    this.diagnoses = response.data;
+                    this.services = response.data;
 
                 })
         },
@@ -98,7 +98,7 @@ export default {
             }
         },
         store() {
-            axios.post('/api/diagnoses/store', this.form)
+            axios.post('/api/services/store', this.form)
                 .then(() => {
                     this.get();
                     this.form = {
@@ -113,7 +113,7 @@ export default {
                 })
         },
         update() {
-            axios.put('/api/diagnoses/' + this.form.id, this.form)
+            axios.put('/api/services/' + this.form.id, this.form)
                 .then(() => {
                     this.get();
                     this.form = {
@@ -130,7 +130,7 @@ export default {
     },
     computed: {
         filteredDiagnoses() {
-            return this.diagnoses.filter(diagnosis => {
+            return this.services.filter(diagnosis => {
                 return diagnosis.name.toLowerCase().includes(this.search.toLowerCase())
             })
         }

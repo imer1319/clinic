@@ -98,7 +98,8 @@ class ReportesController extends Controller
                 $query->where('physical_exploration_questions.consultation_id', $consultation->id);
             }])->get(),
             'patient' => $consultation->patient,
-            'diagnoses' => $consultation->diagnoses,
+            'consultation' => $consultation,
+            'services' => $consultation->services,
             'vital_signs' => $consultation->vitalSigns,
             'edad' => $edad_diff->format('%y'),
         ]);

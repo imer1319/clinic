@@ -2402,7 +2402,7 @@ __webpack_require__.r(__webpack_exports__);
         name: '',
         status: 'ACTIVO'
       },
-      diagnoses: [],
+      services: [],
       errors: [],
       search: ''
     };
@@ -2424,8 +2424,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     get: function get() {
       var _this = this;
-      axios.get('/api/diagnoses').then(function (response) {
-        _this.diagnoses = response.data;
+      axios.get('/api/services').then(function (response) {
+        _this.services = response.data;
       });
     },
     updateOrCreate: function updateOrCreate() {
@@ -2437,7 +2437,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     store: function store() {
       var _this2 = this;
-      axios.post('/api/diagnoses/store', this.form).then(function () {
+      axios.post('/api/services/store', this.form).then(function () {
         _this2.get();
         _this2.form = {
           id: '',
@@ -2452,7 +2452,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     update: function update() {
       var _this3 = this;
-      axios.put('/api/diagnoses/' + this.form.id, this.form).then(function () {
+      axios.put('/api/services/' + this.form.id, this.form).then(function () {
         _this3.get();
         _this3.form = {
           id: '',
@@ -2469,7 +2469,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     filteredDiagnoses: function filteredDiagnoses() {
       var _this4 = this;
-      return this.diagnoses.filter(function (diagnosis) {
+      return this.services.filter(function (diagnosis) {
         return diagnosis.name.toLowerCase().includes(_this4.search.toLowerCase());
       });
     }
@@ -3315,6 +3315,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['consultation'],
   mounted: function mounted() {
     this.getPhysicalExploration();
+    this.getServicesConsultation();
     this.getServices();
   },
   data: function data() {
@@ -3329,6 +3330,7 @@ __webpack_require__.r(__webpack_exports__);
       form_consultation: {},
       physicalExploration: [],
       services: [],
+      servicesConsultation: [],
       form_exploration_answers: {},
       modificarRespuesta: '',
       oldAnswer: '',
@@ -3356,16 +3358,48 @@ __webpack_require__.r(__webpack_exports__);
       }
       $('#modal').modal('show');
     },
-    getServices: function getServices() {
+    getServicesConsultation: function getServicesConsultation() {
       var _this2 = this;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/services/' + this.consultation.id).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/getServices').then(function (res) {
         _this2.services = res.data;
       });
     },
-    getPhysicalExploration: function getPhysicalExploration() {
+    getServices: function getServices() {
       var _this3 = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/services/' + this.consultation.id).then(function (res) {
+        _this3.servicesConsultation = res.data;
+      });
+    },
+    saveService: function saveService(service) {
+      var _this4 = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/serviceConsultation/' + this.consultation.id, {
+        service_id: service.id,
+        consultation_id: this.consultation.id
+      }).then(function () {
+        _this4.$toastr.s("SE GUARDO CORRECTMENTE", "");
+        _this4.getServices();
+        $('#modal_servicios').modal('hide');
+      })["catch"](function (err) {
+        _this4.errors.push(err.response.data.errors);
+        _this4.$toastr.e("HAY ERRORES");
+      });
+    },
+    eliminarServicio: function eliminarServicio(servicio) {
+      var _this5 = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('/api/services/' + this.consultation.id + '/' + servicio.pivot.service_id).then(function () {
+        _this5.getServices();
+        _this5.$toastr.s("SE ELIMINÓ CORRECTMENTE", "");
+      })["catch"](function (err) {
+        _this5.errors.push(err.response.data.errors);
+        _this5.$toastr.e("HUBO ERRORES AL ELIMINAR");
+      });
+    },
+    getPhysicalExploration: function getPhysicalExploration() {
+      var _this6 = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/physicalExploration/' + this.consultation.id).then(function (res) {
-        _this3.physicalExploration = res.data;
+        _this6.physicalExploration = res.data;
+      })["catch"](function (err) {
+        _this6.errors = err.response.data.errors;
       });
     },
     createOrUpdateOrDeleteExplorationRespuesta: function createOrUpdateOrDeleteExplorationRespuesta() {
@@ -3386,38 +3420,38 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     addExplorationRespuesta: function addExplorationRespuesta() {
-      var _this4 = this;
+      var _this7 = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/physicalExploration', this.form_exploration_answers).then(function () {
-        _this4.getPhysicalExploration();
-        _this4.answer = '';
+        _this7.getPhysicalExploration();
+        _this7.answer = '';
         $('#modal').modal('hide');
       })["catch"](function (err) {
-        _this4.errors = err.response.data.errors;
+        _this7.errors = err.response.data.errors;
       });
     },
     updateExplorationRespuesta: function updateExplorationRespuesta() {
-      var _this5 = this;
+      var _this8 = this;
       this.form_exploration_answers.answer = this.answer;
       axios__WEBPACK_IMPORTED_MODULE_0___default().put('/api/physicalExploration/' + this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers).then(function () {
-        _this5.getPhysicalExploration();
-        _this5.answer = '';
+        _this8.getPhysicalExploration();
+        _this8.answer = '';
         $('#modal').modal('hide');
       })["catch"](function (err) {
-        _this5.errors = err.response.data.errors;
+        _this8.errors = err.response.data.errors;
       });
     },
     deleteExplorationRespuesta: function deleteExplorationRespuesta() {
-      var _this6 = this;
+      var _this9 = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('/api/physicalExploration/' + this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers).then(function () {
-        _this6.getPhysicalExploration();
-        _this6.answer = '';
+        _this9.getPhysicalExploration();
+        _this9.answer = '';
         $('#modal').modal('hide');
       })["catch"](function (err) {
-        _this6.errors = err.response.data.errors;
+        _this9.errors = err.response.data.errors;
       });
     },
     guardarTodo: function guardarTodo() {
-      var _this7 = this;
+      var _this10 = this;
       this.errors = [];
       var formConsulta = {
         motivo_consulta: this.consultation.motivo_consulta,
@@ -3437,10 +3471,10 @@ __webpack_require__.r(__webpack_exports__);
         temp: this.consultation.vital_signs.temp
       };
       axios__WEBPACK_IMPORTED_MODULE_0___default().all([axios__WEBPACK_IMPORTED_MODULE_0___default().put('/api/vitalSigns/' + this.consultation.vital_signs.id, formConsultaVitales), axios__WEBPACK_IMPORTED_MODULE_0___default().put('/api/consultations/' + this.consultation.id, formConsulta)]).then(axios__WEBPACK_IMPORTED_MODULE_0___default().spread(function () {
-        _this7.$toastr.s("SE GUARDO CORRECTMENTE", "");
+        _this10.$toastr.s("SE GUARDO CORRECTMENTE", "");
       }))["catch"](function (err) {
-        _this7.errors.push(err.response.data.errors);
-        _this7.$toastr.e("HAY ERRORES");
+        _this10.errors.push(err.response.data.errors);
+        _this10.$toastr.e("HAY ERRORES");
       });
     },
     calcularIMC: function calcularIMC(peso, altura) {
@@ -3457,9 +3491,9 @@ __webpack_require__.r(__webpack_exports__);
       return this.calcularIMC(this.consultation.vital_signs.peso, this.consultation.vital_signs.altura);
     },
     filteredServices: function filteredServices() {
-      var _this8 = this;
+      var _this11 = this;
       return this.services.filter(function (service) {
-        return service.name.toLowerCase().includes(_this8.search.toLowerCase());
+        return service.name.toLowerCase().includes(_this11.search.toLowerCase());
       });
     }
   }
@@ -6321,6 +6355,10 @@ var render = function render() {
       value: _vm.answer
     },
     on: {
+      keyup: function keyup($event) {
+        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
+        return _vm.createOrUpdateOrDeleteExplorationRespuesta.apply(null, arguments);
+      },
       input: function input($event) {
         if ($event.target.composing) return;
         _vm.answer = $event.target.value;
@@ -6400,13 +6438,20 @@ var render = function render() {
     staticClass: "card-body"
   }, [_vm._m(5), _vm._v(" "), _c("table", {
     staticClass: "table"
-  }, [_vm._m(6), _vm._v(" "), _c("tbody", _vm._l(_vm.services, function (service, index) {
+  }, [_vm._m(6), _vm._v(" "), _c("tbody", _vm._l(_vm.servicesConsultation, function (service, index) {
     return _c("tr", {
       key: index
-    }, [_c("td", [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(service.name))]), _vm._v(" "), _c("td")]);
+    }, [_c("td", [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(service.name))]), _vm._v(" "), _c("td", {
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.eliminarServicio(service);
+        }
+      }
+    }, [_vm._m(7, true)])]);
   }), 0)]), _vm._v(" "), _c("hr"), _vm._v(" "), _c("div", {
     staticClass: "form-group"
-  }, [_vm._m(7), _vm._v(" "), _c("textarea", {
+  }, [_vm._m(8), _vm._v(" "), _c("textarea", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -6434,7 +6479,7 @@ var render = function render() {
     staticClass: "card-body"
   }, [_c("h5", [_vm._v("Signos vitales")]), _vm._v(" "), _c("div", [_c("div", {
     staticClass: "row mt-3"
-  }, [_vm._m(8), _vm._v(" "), _c("div", {
+  }, [_vm._m(9), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6458,7 +6503,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("h6", [_vm._v("Cm")])])]), _vm._v(" "), _c("div", {
     staticClass: "row mt-2"
-  }, [_vm._m(9), _vm._v(" "), _c("div", {
+  }, [_vm._m(10), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6482,7 +6527,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("h6", [_vm._v("Kg")])])]), _vm._v(" "), _c("div", {
     staticClass: "row mt-2"
-  }, [_vm._m(10), _vm._v(" "), _c("div", {
+  }, [_vm._m(11), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6509,7 +6554,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("h6", [_vm._v("mbi")])])]), _vm._v(" "), _c("div", {
     staticClass: "row mt-2"
-  }, [_vm._m(11), _vm._v(" "), _c("div", {
+  }, [_vm._m(12), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6533,7 +6578,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("h6", [_vm._v("°C")])])]), _vm._v(" "), _c("div", {
     staticClass: "row mt-2"
-  }, [_vm._m(12), _vm._v(" "), _c("div", {
+  }, [_vm._m(13), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6557,7 +6602,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("h6", [_vm._v("r/m")])])]), _vm._v(" "), _c("div", {
     staticClass: "row mt-2"
-  }, [_vm._m(13), _vm._v(" "), _c("div", {
+  }, [_vm._m(14), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6581,7 +6626,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("h6", [_vm._v("mmHg")])])]), _vm._v(" "), _c("div", {
     staticClass: "row mt-2"
-  }, [_vm._m(14), _vm._v(" "), _c("div", {
+  }, [_vm._m(15), _vm._v(" "), _c("div", {
     staticClass: "col-6 d-flex justify-content-between align-items-center"
   }, [_c("input", {
     directives: [{
@@ -6623,7 +6668,7 @@ var render = function render() {
       alt: "guardar",
       width: "35"
     }
-  }), _vm._v("\n                         Guardar ")]), _vm._v(" "), _c("a", {
+  }), _vm._v("\n                 Guardar ")]), _vm._v(" "), _c("a", {
     staticClass: "btn border",
     attrs: {
       target: "_blank",
@@ -6635,7 +6680,7 @@ var render = function render() {
       alt: "impresora",
       width: "35"
     }
-  }), _vm._v("\n                         Imprimir ")])])])])]), _vm._v(" "), _c("div", {
+  }), _vm._v("\n                 Imprimir ")])])])])]), _vm._v(" "), _c("div", {
     staticClass: "modal fade",
     attrs: {
       id: "modal_servicios",
@@ -6647,7 +6692,7 @@ var render = function render() {
     staticClass: "modal-dialog"
   }, [_c("div", {
     staticClass: "modal-content"
-  }, [_c("div", {
+  }, [_vm._m(16), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
   }, [_c("div", {
     staticClass: "d-flex justify-content-between align-items-center mb-3"
@@ -6678,7 +6723,7 @@ var render = function render() {
     staticClass: "pre-scrollable"
   }, [_c("table", {
     staticClass: "table"
-  }, [_vm._m(15), _vm._v(" "), _c("tbody", _vm._l(_vm.filteredServices, function (service, index) {
+  }, [_vm._m(17), _vm._v(" "), _c("tbody", _vm._l(_vm.filteredServices, function (service, index) {
     return _c("tr", {
       key: index
     }, [_c("td", [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", {
@@ -6689,7 +6734,7 @@ var render = function render() {
           return _vm.saveService(service);
         }
       }
-    }, [_vm._v("\n                                        " + _vm._s(service.name) + "\n                                    ")])]);
+    }, [_vm._v("\n                                " + _vm._s(service.name) + "\n                            ")])]);
   }), 0)])])])])])])]);
 };
 var staticRenderFns = [function () {
@@ -6728,7 +6773,7 @@ var staticRenderFns = [function () {
     _c = _vm._self._c;
   return _c("div", {
     staticClass: "d-flex justify-content-between align-items-center mb-3"
-  }, [_c("h5", [_vm._v("Servicios")]), _vm._v(" "), _c("a", {
+  }, [_c("h5", [_vm._v("Servicios realizados")]), _vm._v(" "), _c("a", {
     staticClass: "btn border text-success cursor-pointer",
     attrs: {
       "data-toggle": "modal",
@@ -6736,11 +6781,21 @@ var staticRenderFns = [function () {
     }
   }, [_c("i", {
     staticClass: "fa fa-plus"
-  }), _vm._v("\n                                  Agregar")])]);
+  }), _vm._v("\n                      Agregar")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("#")]), _vm._v(" "), _c("th", [_vm._v("Servicio")]), _vm._v(" "), _c("th")])]);
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("#")]), _vm._v(" "), _c("th", [_vm._v("Servicio")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "10px"
+    }
+  })])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("h5", [_c("i", {
+    staticClass: "fa fa-trash-o text-danger cursor-pointer"
+  })]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -6829,6 +6884,28 @@ var staticRenderFns = [function () {
       height: "30px"
     }
   }), _vm._v(" "), _c("h6", [_vm._v("F.C.")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "modal-header"
+  }, [_c("h5", {
+    staticClass: "modal-title",
+    attrs: {
+      id: "staticBackdropLabel"
+    }
+  }, [_vm._v("Servicios")]), _vm._v(" "), _c("button", {
+    staticClass: "close",
+    attrs: {
+      type: "button",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }
+  }, [_c("span", {
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("×")])])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -7211,6 +7288,10 @@ var render = function render() {
       value: _vm.formPatientAnswer.answer
     },
     on: {
+      keyup: function keyup($event) {
+        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
+        return _vm.createOrUpdatePatientAnswer.apply(null, arguments);
+      },
       input: function input($event) {
         if ($event.target.composing) return;
         _vm.$set(_vm.formPatientAnswer, "answer", $event.target.value);
@@ -7693,7 +7774,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.activo {\r\n    background-color: #0b5fb4 !important;\r\n    color: aliceblue;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.activo {\n    background-color: #0b5fb4 !important;\n    color: aliceblue;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -7717,7 +7798,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.cursor-pointer {\r\n    cursor: pointer;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.cursor-pointer {\n    cursor: pointer;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -193,18 +193,18 @@
             </tr>
         </table>
         <div class="heading">
-            <span colspan="2">Diagnosticos</span>
+            <span colspan="2">Servicios</span>
         </div>
-        @if (count($diagnoses))
+        @if (count($services))
             <table class="table">
                 <tr>
-                    <th>Diagnósticos</th>
+                    <th>Servicios realizados</th>
                     <th>Fecha</th>
                 </tr>
-                @foreach ($diagnoses as $diagnosis)
+                @foreach ($services as $service)
                     <tr>
-                        <td style="text-align: center">{{ $diagnosis->name }}</td>
-                        <td style="text-align: center">{{ $diagnosis->created_at->format('d M Y H:i A') }}</td>
+                        <td style="text-align: center">{{ $service->name }}</td>
+                        <td style="text-align: center">{{ $service->created_at->format('d M Y H:i A') }}</td>
                     </tr>
                 @endforeach
             </table>
@@ -237,7 +237,7 @@
                     <table class="table">
                         <tr>
                             <td style="text-align:left;">
-                                {{ $patient->consultation ? $patient->consultation->motivo_consulta : '' }}</td>
+                                {{ $consultation->motivo_consulta }}</td>
                         </tr>
                     </table>
                     <div class="heading">
@@ -246,7 +246,16 @@
                     <table class="table">
                         <tr>
                             <td style="text-align:left;">
-                                {{ $patient->consultation ? $patient->consultation->sintoma : '' }}</td>
+                                {{ $consultation->sintoma }}</td>
+                        </tr>
+                    </table>
+                     <div class="heading">
+                        <span>Diagnostico</span>
+                    </div>
+                    <table class="table">
+                        <tr>
+                            <td style="text-align:left;">
+                                {{ $consultation->diagnosis }}</td>
                         </tr>
                     </table>
                 </td>
