@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,13 @@ class StoreRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
-            'display_name' => 'required',
+        return  [
+            'name' => [
+                'required',
+                Rule::unique('roles')->ignore($this->route('role')->id)
+            ],
         ];
 
-        if ($this->method() !== 'PUT') {
-            $rules['name'] = 'required|unique:roles';
-        }
-
-        return $rules;
     }
 
     public function messages()
@@ -40,8 +38,6 @@ class StoreRequest extends FormRequest
         return [
             'name.required' => 'El identificador del rol es obligatorio.',
             'name.unique' => 'Este identificador ya ha sido registrado.',
-            'display_name.required' => 'El nombre del rol es obligatorio.',
-            'display_name.max' => 'El nombre del rol no debe tener mas de 10 caracteres.'
         ];
     }
 }

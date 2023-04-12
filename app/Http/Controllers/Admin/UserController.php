@@ -29,7 +29,7 @@ class UserController extends Controller
             ->addColumn('role', function (User $user) {
                 $return = '';
                 foreach ($user->roles as $role) {
-                    $return .= '<span class="badge badge-primary mr-1">' . $role->display_name . '</span>';
+                    $return .= '<span class="badge badge-primary mr-1">' . $role->name . '</span>';
                 }
                 return $return;
             })
@@ -55,10 +55,10 @@ class UserController extends Controller
     {
         $user = (new User)->fill($request->validated());
 
-        $user->image = $request->file('image')->store('public/images');
-
         $user->save();
 
+        Profile::create(['user_id' => $user->id]);
+        
         if ($request->filled('roles')) {
             $user->assignRole($request->roles);
         }
@@ -68,24 +68,28 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        $fecha_nacimiento = $user->profile->nacimiento;
+        $dia_actual = date("Y-m-d");
+        $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
+
+        $specialty = Specialty::find($user->profile->specialty_id);
         return view('admin.users.show', [
-            'user' => $user
+            'user' => $user,
+            'specialty' => $specialty,
+            'edad' => $edad_diff->format('%y'),
         ]);
     }
 
     public function edit(User $user)
     {
-        $roles = Role::with('permissions')->get();
+        $roles = Role::get();
         $specialties = Specialty::all();
         return view('admin.users.edit', compact('user', 'roles', 'specialties'));
     }
 
     public function update(UpdateRequest $request, User $user)
     {
-        if ($request->hasFile('image')) {
-            $user->image = $request->file('image')->store('public/images');
-        }
-        $user->update($request->except(['image']));
+        $user->update($request->validated());
 
         if ($request->filled('roles')) {
             $user->assignRole($request->roles);

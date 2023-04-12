@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Role\StoreRequest;
+use App\Http\Requests\Role\UpdateRequest;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Yajra\Datatables\Datatables;
@@ -21,7 +22,7 @@ class RoleController extends Controller
 
     public function datatables()
     {
-        return DataTables::of(Role::select('id', 'name', 'display_name'))
+        return DataTables::of(Role::select('id', 'name'))
         ->addColumn('btn', 'admin.roles.partials.btn')
         ->rawColumns(['btn'])
         ->toJson();
@@ -64,7 +65,7 @@ class RoleController extends Controller
         ]);
     }
 
-    public function update(StoreRequest $request, Role $role)
+    public function update(UpdateRequest $request, Role $role)
     {
         $role->update($request->validated());
         
@@ -73,12 +74,12 @@ class RoleController extends Controller
         if ($request->has('permissions')) {
             $role->givePermissionTo($request->permissions);
         }
-        return redirect()->route('admin.roles.index', $role)->withFlash('El rol fue actualizado correctamente');
+        return redirect()->route('admin.roles.index')->withFlash('El rol fue actualizado correctamente');
     }
 
     public function destroy(Role $role)
     {
-        if ($role->id === 1 || $role->id === 2) {
+        if ($role->id === 1 || $role->id === 2 || $role->id === 3) {
             return redirect()->route('admin.roles.index')->withFlash('Este rol no se puede eliminar');
         }
 

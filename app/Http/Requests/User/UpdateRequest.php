@@ -25,7 +25,6 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => 'required|max:255',
             'username' => [
                 'required',

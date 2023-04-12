@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\HorarioController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\DiaryController;
+use App\Http\Controllers\Admin\UsersProfileController;
 use App\Http\Controllers\CitaController;
 use Illuminate\Support\Facades\Auth;
 Route::view('/','welcome');
@@ -84,6 +85,9 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
 
     Route::get('mis-citas', [CitaController::class, 'index'])->name('mis-citas')->middleware('role:Doctor');
 
-    Route::get('profiles', [ProfileController::class,'show'])->name('profiles.show');
-    Route::put('profiles/{user}', [ProfileController::class, 'update'])->name('profiles.update');
+    Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::put('profile/{user}', [UsersProfileController::class, 'update'])->name('user.profiles.update');
 });

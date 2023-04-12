@@ -202,6 +202,8 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'services_index', 'display_name' => 'Listar servicios']);
         Permission::create(['name' => 'services_store', 'display_name' => 'Guardar servicios']);
 
+        Permission::create(['name' => 'profiles_edit', 'display_name' => 'Editar perfil']);
+
         // Asignar todos los permisos al admin
         $role = Role::findByName('Administrador');
         $role->syncPermissions(Permission::all());

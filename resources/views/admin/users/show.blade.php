@@ -3,35 +3,34 @@
 @section('title', 'Detalle del usuario')
 
 @section('content')
-    <div class="card">
-        <div class="card-header text-center">
-            <h4>Datos del usuario</h4>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="text-center">
-                        <img src="{{ Storage::url($user->image) }}" alt="{{ $user->image }}" height="80">
-                        <h5 class="mt-3">{{ $user->name }}</h5>
-                    </div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 border-right">
+                @if($user->profile->image)
+                <img src="{{ Storage::url( $user->profile->image ) }}" alt="{{ $user->name  }}" height="150">
+                @else
+                <img src="{{ Avatar::create( $user->name )->toBase64() }}" width="150"/>
+                @endif
+                <div class="mt-3">
+                    <h5 class="text-muted"><b>Nombre:</b> {{ $user->name }}</h5>
+                    <h5 class="text-muted"><b>Apellidos: </b>{{ $user->profile->surnames }}</h5>
+                    <h5 class="text-muted"><b>Email: </b>{{ $user->email }}</h5>
+                    <h5 class="text-muted"><b>Rol: </b>{{ $user->getRoleDisplayNames() }}</h5>
                 </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-4">
-                            <h5 class="text-muted">Nombre</h5>
-                            <h6 class="text-dark">{{ $user->name }}</h6>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="text-muted">Email</h5>
-                            <h6 class="text-dark">{{ $user->email }}</h6>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="text-muted">Rol</h5>
-                            <h6 class="text-dark">{{ $user->getRoleDisplayNames() }}</h6>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <div class="col-md-6">
+                <h5 class="text-muted"><b>Ci:</b> {{ $user->profile->ci }}</h5>
+                <h5 class="text-muted"><b>Fecha de nacimiento: </b>{{ $user->profile->nacimiento }}</h5>
+                <h5 class="text-muted"><b>Edad: </b>{{ $edad }} años</h5>
+                <h5 class="text-muted"><b>Celular: </b>{{ $user->profile->celular }}</h5>
+                <h5 class="text-muted"><b>Direccion: </b>{{ $user->profile->address }}</h5>
+                <h5 class="text-muted"><b>Genero: </b>{{ $user->profile->gender }}</h5>
+                @if($user->hasRole('Doctor'))
+                <h5 class="text-muted"><b>Especialidad: </b>{{ $specialty->description }}</h5>
+                @endif
             </div>
         </div>
     </div>
+</div>
 @endsection

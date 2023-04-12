@@ -18,7 +18,6 @@
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
-                            <th>Display_name</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -88,9 +87,6 @@ rel="stylesheet">
             },
             {
                 data: 'name'
-            },
-            {
-                data: 'display_name'
             },
             {
                 data: 'btn',

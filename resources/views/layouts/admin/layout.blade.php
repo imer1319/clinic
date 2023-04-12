@@ -53,7 +53,11 @@
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
                         <div class="profile_pic">
-                            <img src="{{ Avatar::create( auth()->user()->name )->toBase64() }}" class="img-circle profile_img">
+                            @if(auth()->user()->profile->image)
+                            <img src="{{ Storage::url( auth()->user()->profile->image) }}" alt="{{  auth()->user()->name }}" class="img-circle profile_img" style="border-radius: 50%;">
+                            @else
+                            <img src="{{ Avatar::create( auth()->user()->name )->toBase64() }}" alt="Avatar" class="img-circle profile_img">
+                            @endif
                         </div>
                         <div class="profile_info">
                             <span>Bienvenido,</span>
@@ -100,29 +104,29 @@
             csrfToken: "{{ csrf_token() }}",
             jsPermissions: {!! auth()->user()
                 ?->jsPermissions() !!}
-        }
-    </script>
-    <script src="/js/app.js"></script>
-    <!-- jQuery -->
-    <script src="{{ asset('admin/vendors/jquery/dist/jquery.min.js') }}"></script>
+            }
+        </script>
+        <script src="/js/app.js"></script>
+        <!-- jQuery -->
+        <script src="{{ asset('admin/vendors/jquery/dist/jquery.min.js') }}"></script>
 
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <!-- Bootstrap -->
-    <script src="{{ asset('admin/vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- FastClick -->
-    <script src="{{ asset('admin/vendors/fastclick/lib/fastclick.js') }}"></script>
-    <!-- NProgress -->
-    <script src="{{ asset('admin/vendors/nprogress/nprogress.js') }}"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+        <!-- Bootstrap -->
+        <script src="{{ asset('admin/vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+        <!-- FastClick -->
+        <script src="{{ asset('admin/vendors/fastclick/lib/fastclick.js') }}"></script>
+        <!-- NProgress -->
+        <script src="{{ asset('admin/vendors/nprogress/nprogress.js') }}"></script>
 
-    <!-- Custom Theme Scripts -->
-    <script src="{{ asset('admin/build/js/custom.min.js') }}"></script>
-    <script>
-        $(function() {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-    </script>
-    @yield('scripts')
+        <!-- Custom Theme Scripts -->
+        <script src="{{ asset('admin/build/js/custom.min.js') }}"></script>
+        <script>
+            $(function() {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        </script>
+        @yield('scripts')
 
-</body>
+    </body>
 
-</html>
+    </html>

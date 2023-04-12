@@ -7,7 +7,7 @@
 @endcan
 
 @can('roles_destroy')
-    @if (($id !== 1) and ($id !== 2))
+    @if (($id !== 1) and ($id !== 2) and ($id !== 3))
         <form action="{{ route('admin.roles.destroy', $id) }}" method="POST" style="display:inline">
             @csrf
             @method('DELETE')
