@@ -59,4 +59,43 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+    
+    public function consultations()
+    {
+        return $this->hasMany(Consultation::class,'doctor_id','patient_id');
+    }
+
+    public function vitalSigns()
+    {
+        return $this->hasMany(VitalSign::class);
+    }
+
+    public function archives()
+    {
+        return $this->hasMany(Archive::class);
+    }
+
+    public function dateHistorial()
+    {
+        return $this->hasOne(DateHistorial::class);
+    }
+
+    public function diaries()
+    {
+        return $this->hasMany(Diary::class,'doctor_id','patient_id');
+    }
+
+    public function scopeDoctors($query)
+    {
+        $query->whereHas('roles', function ($query) {
+            return $query->where('name', '=', 'Doctor');
+        });
+    }
+
+    public function scopePatients($query)
+    {
+        $query->whereHas('roles', function ($query) {
+            return $query->where('name', '=', 'Paciente');
+        });
+    }
 }

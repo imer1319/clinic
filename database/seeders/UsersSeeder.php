@@ -27,8 +27,7 @@ class UsersSeeder extends Seeder
         ]);
         //Asignar roles a los usuarios
         $admin->assignRole(Role::findByName('Administrador'));
-        
-        Profile::create(['user_id' => $admin->id]);
+        $admin->profile()->create();
 
         $doctor = User::create([
             'name' => 'House',
@@ -38,7 +37,7 @@ class UsersSeeder extends Seeder
         ]);
         //Asignar roles a los usuarios
         $doctor->assignRole(Role::findByName('Doctor'));
-        Profile::create(['user_id' => $doctor->id]);
+        $doctor->profile()->create();
 
         $paciente = User::create([
             'name' => 'Paciente',
@@ -46,8 +45,8 @@ class UsersSeeder extends Seeder
             'email' => 'paciente@paciente.com',
             'password' => '123123',
         ]);
-        Profile::create(['user_id' => $paciente->id]);
         //Asignar roles a los usuarios
         $paciente->assignRole(Role::findByName('Paciente'));
+        $paciente->profile()->create();
     }
 }

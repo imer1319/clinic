@@ -29,6 +29,6 @@ class Profile extends Model
 
     public function specialty()
     {
-        return $this->hasOne(Specialty::class);
+        return $this->belongsTo(Specialty::class);
     }
 }

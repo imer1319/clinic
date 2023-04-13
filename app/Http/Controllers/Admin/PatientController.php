@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Patient\StoreRequest;
 use App\Http\Requests\Patient\UpdateRequest;
 use App\Models\Doctor;
+use App\Models\User;
 use App\Models\VitalSigns;
 use Illuminate\Support\Facades\Storage;
 
@@ -26,10 +27,13 @@ class PatientController extends Controller
 
     public function datatables()
     {
-        return DataTables::of(Patient::select('id', 'name', 'surnames', 'ci')->orderBy('id', 'Desc'))
-            ->addColumn('btn', 'admin.patients.partials.btn')
-            ->rawColumns(['btn'])
-            ->toJson();
+        return DataTables::of(User::patients()->select('id','name', 'username'))
+        ->addColumn('ci', function (User $user) {
+            return $user->profile->ci;
+        })
+        ->addColumn('btn', 'admin.patients.partials.btn')
+        ->rawColumns(['btn','ci'])
+        ->toJson();
     }
 
     public function index()
@@ -37,24 +41,12 @@ class PatientController extends Controller
         return view('admin.patients.index');
     }
 
-    public function create()
-    {
-        $patient = new Patient();
-        return view('admin.patients.create', compact('patient'));
-    }
-
-    public function store(StoreRequest $request)
-    {
-        Patient::create($request->validated());
-
-        return redirect()->route('admin.patients.index')->with('flash', 'Paciente creado corretamente');
-    }
-
-    public function show(Patient $patient)
+    public function show(User $patient)
     {
         $fecha_nacimiento = $patient->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
+
         $diaries = $patient->diaries()->where('status','En espera')->where('date_cita','>=',date('Y-m-d'))->orderBy('date_cita')->get();
         return view('admin.patients.show', [
             'patient' => $patient,

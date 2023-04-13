@@ -15,8 +15,8 @@ class CreateDiariesTable extends Migration
     {
         Schema::create('diaries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('doctor_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('patient_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('doctor_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('patient_id')->constrained('users')->cascadeOnDelete();
             $table->date('date_cita');
             $table->string('hora_cita');
             $table->date('fecha_llegada')->nullable();

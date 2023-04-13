@@ -10,7 +10,7 @@
 <form action="{{ route('admin.doctors.destroy', $id) }}" method="POST" style="display:inline">
     @csrf
     @method('DELETE')
-    <button type="submit" name="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i
+    <button type="submit" name="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Esta seguro que desea eliminar al doctor?')"><i
         class="fa fa-trash-o"></i>
     </button>
 </form>

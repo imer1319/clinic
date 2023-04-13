@@ -24,7 +24,7 @@ class UpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
+        return  [
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'surnames' => 'required|max:255',
             'ci' => [
@@ -37,6 +37,5 @@ class UpdateRequest extends FormRequest
             'specialty_id' => 'nullable|numeric|exists:App\Models\Specialty,id',
             'gender' => 'required|in:Masculino,Femenino',
         ];
-        return $rules;
     }
 }

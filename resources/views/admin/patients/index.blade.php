@@ -9,16 +9,13 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5>Pacientes</h5>
-                    @can('patients_create')
-                    <a href="{{ route('admin.patients.create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Crear nuevo</a>
-                    @endcan
                 </div>
                 <table class="table" id="table-patients">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
-                            <th>Apellidos</th>
+                            <th>Username</th>
                             <th>Ci</th>
                             <th>Acciones</th>
                         </tr>
@@ -87,7 +84,7 @@ rel="stylesheet">
             "columns": [
             {data: 'id'},
             {data: 'name'},
-            {data: 'surnames'},
+            {data: 'username'},
             {data: 'ci'},
             {data: 'btn',"orderable": false,"searchable": false},
             ]
