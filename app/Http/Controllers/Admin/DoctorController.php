@@ -53,7 +53,8 @@ class DoctorController extends Controller
         return view('admin.doctors.show', [
             'user' => $doctor,
             'edad' => $edad_diff->format('%y'),
-            'diaries' => $doctor->diaries()->where('status','En espera')->where('date_cita','>=',date('Y-m-d'))->orderBy('date_cita')->get(),
+            'diaries' => $doctor->diariesDoctor()->where('status','En espera')->where('date_cita','>=',date('Y-m-d'))->orderBy('date_cita')->get(),
+            'consultations' => $doctor->consultationsDoctor()->take(5)->get(),
         ]);
     }
 

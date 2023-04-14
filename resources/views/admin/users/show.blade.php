@@ -21,13 +21,13 @@
             </div>
             <div class="col-md-6">
                 <h5 class="text-muted"><b>Ci:</b> {{ $user->profile->ci }}</h5>
-                <h5 class="text-muted"><b>Fecha de nacimiento: </b>{{ $user->profile->nacimiento }}</h5>
+                <h5 class="text-muted"><b>Fecha de nacimiento: </b>{{ $user->profile->nacimiento ? $user->profile->nacimiento->format('d M Y') : '' }}</h5>
                 <h5 class="text-muted"><b>Edad: </b>{{ $edad }} años</h5>
                 <h5 class="text-muted"><b>Celular: </b>{{ $user->profile->celular }}</h5>
                 <h5 class="text-muted"><b>Direccion: </b>{{ $user->profile->address }}</h5>
                 <h5 class="text-muted"><b>Genero: </b>{{ $user->profile->gender }}</h5>
                 @if($user->hasRole('Doctor'))
-                <h5 class="text-muted"><b>Especialidad: </b>{{ $specialty->description }}</h5>
+                <h5 class="text-muted"><b>Especialidad: </b>{{ $user->profile->specialty->description }}</h5>
                 @endif
             </div>
         </div>

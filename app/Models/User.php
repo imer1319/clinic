@@ -62,27 +62,37 @@ class User extends Authenticatable
     
     public function consultations()
     {
-        return $this->hasMany(Consultation::class,'doctor_id','patient_id');
+        return $this->hasMany(Consultation::class,'patient_id');
+    }
+
+    public function consultationsDoctor()
+    {
+        return $this->hasMany(Consultation::class,'doctor_id');
     }
 
     public function vitalSigns()
     {
-        return $this->hasMany(VitalSign::class);
+        return $this->hasMany(VitalSign::class, 'patient_id');
     }
 
     public function archives()
     {
-        return $this->hasMany(Archive::class);
+        return $this->hasMany(Archive::class, 'patient_id');
     }
 
     public function dateHistorial()
     {
-        return $this->hasOne(DateHistorial::class);
+        return $this->hasOne(DateHistorial::class, 'patient_id');
     }
 
-    public function diaries()
+    public function diariesPatient()
     {
-        return $this->hasMany(Diary::class,'doctor_id','patient_id');
+        return $this->hasMany(Diary::class,'patient_id');
+    }
+
+    public function diariesDoctor()
+    {
+        return $this->hasMany(Diary::class,'doctor_id');
     }
 
     public function scopeDoctors($query)

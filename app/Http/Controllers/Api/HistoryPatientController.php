@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\HistoryPatient;
 use App\Models\HistoryType;
-use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HistoryPatientController extends Controller
 {
-    public function index(Patient $patient)
+    public function index(User $patient)
     {
         return HistoryType::with(['historyQuestions' => function ($query) use ($patient) {
             $query->with(['historyPatient' => function ($q) use ($patient) {
@@ -23,7 +23,7 @@ class HistoryPatientController extends Controller
     {
         $request->validate([
             'answer' => 'required|min:1',
-            'patient_id' => 'required|numeric|exists:App\Models\Patient,id',
+            'patient_id' => 'required|numeric|exists:App\Models\User,id',
             'history_question_id' => 'required|numeric|exists:App\Models\HistoryQuestion,id'
         ]);
 
@@ -34,7 +34,7 @@ class HistoryPatientController extends Controller
     {
         $request->validate([
             'answer' => 'required|min:1',
-            'patient_id' => 'required|numeric|exists:App\Models\Patient,id',
+            'patient_id' => 'required|numeric|exists:App\Models\User,id',
             'history_question_id' => 'required|numeric|exists:App\Models\HistoryQuestion,id'
         ]);
 

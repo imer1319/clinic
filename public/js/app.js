@@ -2197,7 +2197,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     showDetailConsulta: function showDetailConsulta(consultation, index) {
       this.activeIndexConsulta = index;
       this.activeIndexReceta = null;
-      var sintoma = consultation.sintoma === 'null' ? consultation.sintoma : '';
+      var sintoma = consultation.sintoma !== 'null' ? consultation.sintoma : '';
       var diagnosis = consultation.diagnosis !== null ? consultation.diagnosis : '';
       var altura = consultation.vital_signs.altura !== null ? consultation.vital_signs.altura : '';
       var peso = consultation.vital_signs.peso !== null ? consultation.vital_signs.peso : '';
@@ -2205,7 +2205,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var fr = consultation.vital_signs.fr !== null ? consultation.vital_signs.fr : '';
       var fc = consultation.vital_signs.fc !== null ? consultation.vital_signs.fc : '';
       var presion = consultation.vital_signs.pa !== null ? consultation.vital_signs.pa : '';
-      this.description_cita = "MOTIVO DE LA CONSULTA\n".concat(consultation.motivo, " \nSINTOMAS SUBJETIVOS\n").concat(sintoma, "\n") + 'DIAGNOSTICOS \n' + diagnosis + '\nSIGNOS VITALES \n' + 'Altura : ' + altura + '\n' + 'Peso : ' + peso + '\n' + 'Temp : ' + temperatura + '\n' + 'P.A. : ' + presion + '\n' + 'F.R. : ' + fr + '\n' + 'F.C. : ' + fc + '\n';
+      this.description_cita = "MOTIVO DE LA CONSULTA\n".concat(consultation.motivo, " \nSINTOMAS SUBJETIVOS\n").concat(sintoma, "\n") + 'DIAGNOSTICOS \n' + diagnosis + '\nSIGNOS VITALES \n' + 'Altura : ' + altura + ' cm\n' + 'Peso : ' + peso + ' kg\n' + 'Temp : ' + temperatura + ' ºC\n' + 'P.A. : ' + presion + ' mmHg\n' + 'F.R. : ' + fr + ' r/m\n' + 'F.C. : ' + fc + ' f.c\n';
     },
     showDetailReceta: function showDetailReceta(consultation, index) {
       var _this = this;
@@ -2217,7 +2217,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this.activeIndexReceta = index;
               _this.activeIndexConsulta = null;
               prescripciones = '';
-              medical_instruction = consultation.medical_instruction === 'null' ? consultation.medical_instruction : '';
+              medical_instruction = consultation.medical_instruction === 'null' ? consultation.medical_instruction.instructions : '';
               if (consultation.medicines.length == 0) {
                 prescripciones = '';
               } else {
@@ -2359,6 +2359,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
       this.errors = [];
       axios.post('/api/consultations/store', this.form).then(function (res) {
+        console.log("imer");
+        console.log(res.data);
         window.location.href = '/consultations/' + res.data + '/edit';
         _this2.errors = [];
       })["catch"](function (err) {
@@ -3141,13 +3143,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     calcularIMC: function calcularIMC(peso, altura) {
-      var alturaMetros = altura / 100; // Convertir altura a metros
-      var imc = peso / (alturaMetros * alturaMetros); // Calcular IMC
-
-      return imc.toFixed(2); // Redondear IMC a 2 decimales y devolverlo
+      var alturaMetros = altura / 100;
+      var imc = peso / (alturaMetros * alturaMetros);
+      return imc.toFixed(2);
     }
   },
-
   computed: {
     imc: function imc() {
       if (this.vitals.altura === null && this.vitals.peso === null || this.vitals === "") {
@@ -3485,6 +3485,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     imc: function imc() {
+      console.log("imer");
       if (this.consultation.vital_signs.altura == null || this.consultation.vital_signs.peso == null) {
         return '';
       }
@@ -4493,7 +4494,7 @@ var render = function render() {
       domProps: {
         value: doctor.id
       }
-    }, [_vm._v(_vm._s(doctor.user.name))]);
+    }, [_vm._v(_vm._s(doctor.name))]);
   })], 2)]), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_c("div", {

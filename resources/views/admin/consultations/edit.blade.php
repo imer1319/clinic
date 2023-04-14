@@ -11,16 +11,16 @@
                         <h6><b>{{ $consultation->patient->name }}</b></h6>
                         <div class="d-flex">
                             <h6><b>{{ $edad }} años -</b></h6>
-                            <h6><b>&nbsp;{{ $consultation->patient->gender }}</b></h6>
+                            <h6><b>&nbsp;{{ $consultation->patient->profile->gender }}</b></h6>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <h6><b>EXP: {{ str_pad($consultation->patient->id, 5, '0', STR_PAD_LEFT) }}</b></h6>
-                        <h6><b>CEL: {{ $consultation->patient->celular }}</b></h6>
+                        <h6><b>CEL: {{ $consultation->patient->profile->celular }}</b></h6>
                     </div>
                     <div class="col-md-3">
-                        <h6><b> {{ $consultation->patient->address }}</b></h6>
-                        <h6><b>{{ $consultation->patient->city }}</b></h6>
+                        <h6><b> {{ $consultation->patient->profile->address }}</b></h6>
+                        <h6><b> Dr. {{ $consultation->doctor->name }}</b></h6>
                     </div>
                     <div class="col-md-3">
                         <div class="d-flex">

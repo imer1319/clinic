@@ -5,7 +5,7 @@
             <div class="form-group">
                 <select v-model="form.doctor_id" class="form-control">
                     <option value="0" selected>Seleccione un doctor</option>
-                    <option v-for="doctor in doctors" :value="doctor.id">{{ doctor.user.name }}</option>
+                    <option v-for="doctor in doctors" :value="doctor.id">{{ doctor.name }}</option>
                 </select>
             </div>
             <div class="form-group">
@@ -73,6 +73,8 @@ export default {
             this.errors = []
             axios.post('/api/consultations/store', this.form)
                 .then((res) => {
+                    console.log("imer")
+                    console.log(res.data)
                     window.location.href = '/consultations/' + res.data + '/edit';
                     this.errors = []
                 }).catch((err) => {

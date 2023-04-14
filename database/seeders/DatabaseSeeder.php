@@ -33,9 +33,7 @@ class DatabaseSeeder extends Seeder
         Role::truncate();
         Permission::truncate();
         Service::truncate();
-        Patient::truncate();
         Specialty::truncate();
-        Doctor::truncate();
         PhysicalExploration::truncate();
         HistoryType::truncate();
         HistoryQuestion::truncate();
@@ -48,7 +46,6 @@ class DatabaseSeeder extends Seeder
 
 
         Specialty::factory(6)->create();
-        Patient::factory(20)->create();
         
         $this->call([
             RolesSeeder::class,

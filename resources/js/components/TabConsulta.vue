@@ -433,6 +433,7 @@ export default {
     },
     computed: {
         imc() {
+            console.log("imer")
             if (this.consultation.vital_signs.altura == null || this.consultation.vital_signs.peso == null) {
                 return ''
             }

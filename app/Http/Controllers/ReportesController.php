@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\Models\Patient;
+use App\Models\User;
 use App\Models\HistoryType;
 use App\Models\Consultation;
 use App\Models\PhysicalExploration;
 
 class ReportesController extends Controller
 {
-    public function historialPatient(Patient $patient)
+    public function historialPatient(User $patient)
     {
-        $fecha_nacimiento = $patient->nacimiento;
+        $fecha_nacimiento = $patient->profile->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
         $pdf = \PDF::loadView('historialPatientPdf', [
@@ -40,7 +40,7 @@ class ReportesController extends Controller
 
     public function recetaPatient(Consultation $consultation)
     {
-        $fecha_nacimiento = $consultation->patient->nacimiento;
+        $fecha_nacimiento = $consultation->patient->profile->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
         $pdf = \PDF::loadView('recetaPatientPdf', [
@@ -65,7 +65,7 @@ class ReportesController extends Controller
 
     public function pruebasPatient(Consultation $consultation)
     {
-        $fecha_nacimiento = $consultation->patient->nacimiento;
+        $fecha_nacimiento = $consultation->patient->profile->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
         $pdf = \PDF::loadView('estudiosPatientPdf', [
@@ -90,7 +90,7 @@ class ReportesController extends Controller
 
     public function consultaPatient(Consultation $consultation)
     {
-        $fecha_nacimiento = $consultation->patient->nacimiento;
+        $fecha_nacimiento = $consultation->patient->profile->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
         $pdf = \PDF::loadView('consultationPatientPdf', [

@@ -88,10 +88,9 @@ export default {
     },
     methods: {
         calcularIMC(peso, altura) {
-            var alturaMetros = altura / 100; // Convertir altura a metros
-            var imc = peso / (alturaMetros * alturaMetros); // Calcular IMC
-
-            return imc.toFixed(2); // Redondear IMC a 2 decimales y devolverlo
+            var alturaMetros = altura / 100;
+            var imc = peso / (alturaMetros * alturaMetros); 
+            return imc.toFixed(2); 
         }
     },
     computed: {

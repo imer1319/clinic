@@ -26,8 +26,8 @@ class UpdateRequest extends FormRequest
         return [
             'motivo_consulta' => 'nullable|min:4',
             'sintoma' => 'nullable|min:4',
-            'doctor_id' => 'required|numeric|exists:App\Models\Doctor,id',
-            'patient_id' => 'required|numeric|exists:App\Models\Patient,id',
+            'doctor_id' => 'required|numeric|exists:App\Models\User,id',
+            'patient_id' => 'required|numeric|exists:App\Models\User,id',
             'diagnosis' => 'nullable|min:4'
         ];
     }
@@ -37,10 +37,6 @@ class UpdateRequest extends FormRequest
         return [
             'name.required' => 'El campo nombre es obligatorio.',
             'surnames.required' =>  'El campo apellidos es obligatorio.',
-            'ci.required' => 'El campo ci es obligatorio.',
-            'image.required' => 'El campo imagen es obligatorio.',
-            'image.image' => 'El campo imagen debe ser una imagen.',
-            'image.mimes' => 'El campo imagen debe ser un archivo con formato: jpeg, png, jpg, gif, svg.',
         ];
     }
 }

@@ -44,19 +44,48 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Paciente</th>
                             <th>Fecha</th>
                             <th>Hora</th>
-                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($diaries as $diary)
                         <tr>
-                            <td>{{ $diary->patient->name }}</td>
+                            <td width="10">{{ $loop->iteration }}</td>
+                            <td>{{ $diary->patient->name }} {{ $diary->patient->profile->surnames }}</td>
                             <td>{{ $diary->date_cita->format('M d') }}</td>
                             <td>{{ $diary->hora_cita->format('H:i A') }}</td>
-                            <td>{{ $diary->patient->name }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="text-center">No hay data</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card mt-2">
+            <div class="card-body">
+                <h5 class="text-center mb-3">Ultimas consultas realizadas</h5>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Paciente</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($consultations as $consultation)
+                        <tr>
+                            <td width="10">{{ $loop->iteration }}</td>
+                            <td>{{ $consultation->patient->name }} {{ $consultation->patient->profile->surnames }}</td>
+                            <td>{{ $consultation->created_at->format('d M Y') }}</td>
+                            <td>{{ $consultation->created_at->format('H:i A') }}</td>
                         </tr>
                         @empty
                         <tr>

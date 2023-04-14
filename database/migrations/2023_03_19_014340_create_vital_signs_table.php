@@ -16,7 +16,7 @@ class CreateVitalSignsTable extends Migration
         Schema::create('vital_signs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('consultation_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('patient_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('patient_id')->constrained('users')->cascadeOnDelete();
             $table->string('altura')->nullable();
             $table->string('peso')->nullable();
             $table->string('temp')->nullable();

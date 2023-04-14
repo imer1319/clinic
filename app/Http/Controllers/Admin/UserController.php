@@ -72,10 +72,8 @@ class UserController extends Controller
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
 
-        $specialty = Specialty::find($user->profile->specialty_id);
         return view('admin.users.show', [
             'user' => $user,
-            'specialty' => $specialty,
             'edad' => $edad_diff->format('%y'),
         ]);
     }

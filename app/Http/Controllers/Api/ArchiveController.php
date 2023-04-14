@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Archive;
-use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class ArchiveController extends Controller
 {
-    public function index(Patient $patient)
+    public function index(User $patient)
     {
         return $patient->archives()->latest()->get();
     }

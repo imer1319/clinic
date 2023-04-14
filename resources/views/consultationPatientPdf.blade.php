@@ -157,7 +157,7 @@
                         <tr>
                             <td class="title">
                                 <img src="data:image/jpg;base64,{{ base64_encode(file_get_contents(public_path('/icono.png'))) }}"
-                                    style="height: 130px;" alt="Company logo">
+                                style="height: 130px;" alt="Company logo">
                             </td>
 
                             <td>
@@ -183,9 +183,11 @@
 
                             <td>
                                 {{ $patient->name }}<br />
-                                {{ $patient->gender }}<br />
+                                {{ $patient->profile->gender }}<br />
                                 {{ $edad }} años<br />
-                                    {{ $patient->nacimiento->format('d M Y') }}</span>
+                                <span class="h6 text-capitalize">
+                                    {{ $patient->profile->nacimiento ? $patient->profile->nacimiento->format('d M Y') : 'none'  }}
+                                </span>
                             </td>
                         </tr>
                     </table>
@@ -196,18 +198,18 @@
             <span colspan="2">Servicios</span>
         </div>
         @if (count($services))
-            <table class="table">
-                <tr>
-                    <th>Servicios realizados</th>
-                    <th>Fecha</th>
-                </tr>
-                @foreach ($services as $service)
-                    <tr>
-                        <td style="text-align: center">{{ $service->name }}</td>
-                        <td style="text-align: center">{{ $service->created_at->format('d M Y H:i A') }}</td>
-                    </tr>
-                @endforeach
-            </table>
+        <table class="table">
+            <tr>
+                <th>Servicios realizados</th>
+                <th>Fecha</th>
+            </tr>
+            @foreach ($services as $service)
+            <tr>
+                <td style="text-align: center">{{ $service->name }}</td>
+                <td style="text-align: center">{{ $service->created_at->format('d M Y H:i A') }}</td>
+            </tr>
+            @endforeach
+        </table>
         @endif
         <br>
         <div class="heading">
@@ -219,12 +221,12 @@
                 <th>Respuesta</th>
             </tr>
             @foreach ($exploracions as $exploracion)
-                <tr>
-                    <td style="text-align: center">{{ $exploracion->question }}</td>
-                    <td style="text-align: center">
-                        {{ $exploracion->physicalExplorationQuestions ? $exploracion->physicalExplorationQuestions->answer : '' }}
-                    </td>
-                </tr>
+            <tr>
+                <td style="text-align: center">{{ $exploracion->question }}</td>
+                <td style="text-align: center">
+                    {{ $exploracion->physicalExplorationQuestions ? $exploracion->physicalExplorationQuestions->answer : '' }}
+                </td>
+            </tr>
             @endforeach
         </table>
 
@@ -238,61 +240,61 @@
                         <tr>
                             <td style="text-align:left;">
                                 {{ $consultation->motivo_consulta }}</td>
+                            </tr>
+                        </table>
+                        <div class="heading">
+                            <span>Sintomas</span>
+                        </div>
+                        <table class="table">
+                            <tr>
+                                <td style="text-align:left;">
+                                    {{ $consultation->sintoma }}</td>
+                                </tr>
+                            </table>
+                            <div class="heading">
+                                <span>Diagnostico</span>
+                            </div>
+                            <table class="table">
+                                <tr>
+                                    <td style="text-align:left;">
+                                        {{ $consultation->diagnosis }}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <div class="heading">
+                                    <span>Signos vitales</span>
+                                </div>
+                                <table class="table">
+                                    <tr>
+                                        <th style="text-align:left;">Altura</th>
+                                        <td>{{ $vital_signs->altura }} Cm</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align:left;">Peso</th>
+                                        <td>{{ $vital_signs->peso }} Kg</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align:left;">Temperatura</th>
+                                        <td>{{ $vital_signs->temp }} ºC</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align:left;">F.R.</th>
+                                        <td>{{ $vital_signs->fr }} r/m</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align:left;">P.A.</th>
+                                        <td>{{ $vital_signs->pa }} mmHg.</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align:left;">F.C.</th>
+                                        <td>{{ $vital_signs->fc }} f.c.</td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                     </table>
-                    <div class="heading">
-                        <span>Sintomas</span>
-                    </div>
-                    <table class="table">
-                        <tr>
-                            <td style="text-align:left;">
-                                {{ $consultation->sintoma }}</td>
-                        </tr>
-                    </table>
-                     <div class="heading">
-                        <span>Diagnostico</span>
-                    </div>
-                    <table class="table">
-                        <tr>
-                            <td style="text-align:left;">
-                                {{ $consultation->diagnosis }}</td>
-                        </tr>
-                    </table>
-                </td>
-                <td>
-                    <div class="heading">
-                        <span>Signos vitales</span>
-                    </div>
-                    <table class="table">
-                        <tr>
-                            <th style="text-align:left;">Altura</th>
-                            <td>{{ $vital_signs->altura }} Cm</td>
-                        </tr>
-                        <tr>
-                            <th style="text-align:left;">Peso</th>
-                            <td>{{ $vital_signs->peso }} Kg</td>
-                        </tr>
-                        <tr>
-                            <th style="text-align:left;">Temperatura</th>
-                            <td>{{ $vital_signs->temp }} ºC</td>
-                        </tr>
-                        <tr>
-                            <th style="text-align:left;">F.R.</th>
-                            <td>{{ $vital_signs->fr }} r/m</td>
-                        </tr>
-                        <tr>
-                            <th style="text-align:left;">P.A.</th>
-                            <td>{{ $vital_signs->pa }} mmHg.</td>
-                        </tr>
-                        <tr>
-                            <th style="text-align:left;">F.C.</th>
-                            <td>{{ $vital_signs->fc }} f.c.</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </div>
-</body>
+                </div>
+            </body>
 
-</html>
+            </html>

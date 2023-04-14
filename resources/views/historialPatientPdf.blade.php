@@ -167,9 +167,11 @@
 
 							<td>
 								{{ $patient->name }}<br />
-								{{ $patient->gender }}<br />
+								{{ $patient->profile->gender }}<br />
 								{{ $edad }} años<br />
-								<span class="h6 text-capitalize">{{ $patient->nacimiento->formatLocalized('%b') }} {{ $patient->nacimiento->format('d Y') }}</span>
+								<span class="h6 text-capitalize">
+									{{ $patient->profile->nacimiento ? $patient->profile->nacimiento->format('d M Y') : 'none'  }}
+								</span>
 							</td>
 						</tr>
 					</table>

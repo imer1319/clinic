@@ -15,7 +15,7 @@ class CreateDateHistorialsTable extends Migration
     {
         Schema::create('date_historials', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('patient_id')->constrained('users')->cascadeOnDelete();
             $table->date('date_historial')->nullable();
             $table->timestamps();
         });

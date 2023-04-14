@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Doctor;
-use App\Models\Patient;
 use App\Models\Service;
 use App\Models\Appointment;
 use App\Models\Consultation;
@@ -58,7 +56,7 @@ class HomeController extends Controller
         }
         // user created for year
         foreach ($year as $value) {
-            $patientYear[] = Patient::where(DB::raw("DATE_FORMAT(created_at, '%Y')"), $value)->count();
+            $patientYear[] = User::patients()->where(DB::raw("DATE_FORMAT(created_at, '%Y')"), $value)->count();
         }
         $consultations = '';
         if (Auth::user()->hasRole('Doctor')) {
@@ -70,8 +68,8 @@ class HomeController extends Controller
         }
         return view('home', [
             'users' => User::count(),
-            'patients' => Patient::count(),
-            'doctors' => Doctor::count(),
+            'patients' => User::patients()->count(),
+            'doctors' => User::doctors()->count(),
             'services' => Service::count(),
             'diaries' => $diaries,
             'consultations' => $consultations,

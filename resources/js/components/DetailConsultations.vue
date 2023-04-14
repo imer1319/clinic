@@ -82,7 +82,7 @@ export default {
             this.activeIndexConsulta = index;
             this.activeIndexReceta = null;
 
-            let sintoma = consultation.sintoma === 'null' ? consultation.sintoma : ''
+            let sintoma = consultation.sintoma !== 'null' ? consultation.sintoma : ''
             let diagnosis = consultation.diagnosis !== null ? consultation.diagnosis : ''
             let altura = consultation.vital_signs.altura !== null ? consultation.vital_signs.altura : ''
             let peso = consultation.vital_signs.peso !== null ? consultation.vital_signs.peso : ''
@@ -93,18 +93,18 @@ export default {
             this.description_cita = `MOTIVO DE LA CONSULTA\n${consultation.motivo} \nSINTOMAS SUBJETIVOS\n${sintoma}\n` +
                 'DIAGNOSTICOS \n' + diagnosis +
                 '\nSIGNOS VITALES \n' +
-                'Altura : ' + altura + '\n' +
-                'Peso : ' + peso + '\n' +
-                'Temp : ' + temperatura + '\n' +
-                'P.A. : ' + presion + '\n' +
-                'F.R. : ' + fr + '\n' +
-                'F.C. : ' + fc + '\n'
+                'Altura : ' + altura + ' cm\n' +
+                'Peso : ' + peso + ' kg\n' +
+                'Temp : ' + temperatura + ' ºC\n' +
+                'P.A. : ' + presion + ' mmHg\n' +
+                'F.R. : ' + fr + ' r/m\n' +
+                'F.C. : ' + fc + ' f.c\n'
         },
         async showDetailReceta(consultation, index) {
             this.activeIndexReceta = index;
             this.activeIndexConsulta = null;
             let prescripciones = ''
-            let medical_instruction = consultation.medical_instruction === 'null' ? consultation.medical_instruction : ''
+            let medical_instruction = consultation.medical_instruction === 'null' ? consultation.medical_instruction.instructions : ''
 
             if (consultation.medicines.length == 0) {
                 prescripciones = ''

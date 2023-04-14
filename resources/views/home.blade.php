@@ -95,7 +95,7 @@
                                 @forelse($diaries as $diary)
                                     <tr>
                                         <td>{{ $diary->patient->name }}</td>
-                                        <td>{{ $diary->doctor->user->name }}</td>
+                                        <td>{{ $diary->doctor->name }}</td>
                                         <td>{{ $diary->date_cita->format('M d') }}</td>
                                         <td>{{ $diary->hora_cita->format('H:i A') }}</td>
                                         <td>{{ $diary->status }}</td>
