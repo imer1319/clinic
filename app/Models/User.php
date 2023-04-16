@@ -108,4 +108,9 @@ class User extends Authenticatable
             return $query->where('name', '=', 'Paciente');
         });
     }
+
+    public function historyPatient()
+    {
+        return $this->hasOne(HistoryPatient::class, 'patient_id');
+    }
 }

@@ -97,10 +97,18 @@
         </li>
         @endcan
 
-        @if (Auth::user()->hasRole('Doctor'))
+        @if (auth()->user()->hasRole('Doctor'))
         <li>
             <a href="{{ route('admin.mis-citas') }}">
                 <i class="fa fa-wheelchair"></i> Mis citas
+            </a>
+        </li>
+        @endif
+
+        @if (auth()->user()->hasRole('Paciente'))
+        <li>
+            <a href="{{ route('admin.mis-archivos') }}">
+                <i class="fa fa-wheelchair"></i> Mis Archivos
             </a>
         </li>
         @endif

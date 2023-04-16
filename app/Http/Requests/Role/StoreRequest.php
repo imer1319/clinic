@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Consultation;
+namespace App\Http\Requests\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,19 +23,22 @@ class StoreRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'motivo' => 'required',
-            'doctor_id' => 'required|numeric|exists:App\Models\User,id',
-            'patient_id' => 'required|numeric|exists:App\Models\User,id',
+        return  [
+            'name' => [
+                'required',
+                'unique:roles,id',
+                'min:3',
+            ],
         ];
+
     }
 
     public function messages()
     {
         return [
-            'motivo.required' => 'El motivo de la consulta es es obligatorio.',
-            'doctor_id.required' => 'Debe seleccionar un doctor.',
-            'doctor_id.exists' => 'Debe seleccionar un doctor.',
+            'name.required' => 'El nombre del rol es obligatorio.',
+            'name.unique' => 'Este nombre ya ha sido registrado.',
+            'name.min' => 'El nombre del rol debe tener mínimo 3 caracteres.',
         ];
     }
 }

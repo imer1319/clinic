@@ -7,6 +7,7 @@ use App\Models\HistoryPatient;
 use App\Models\HistoryType;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\HistoryPatient\StoreRequest;
 
 class HistoryPatientController extends Controller
 {
@@ -19,25 +20,13 @@ class HistoryPatientController extends Controller
         }])->get();
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate([
-            'answer' => 'required|min:1',
-            'patient_id' => 'required|numeric|exists:App\Models\User,id',
-            'history_question_id' => 'required|numeric|exists:App\Models\HistoryQuestion,id'
-        ]);
-
-        return HistoryPatient::create($request->all());
+        return HistoryPatient::create($request->validated());
     }
 
-    public function update(Request $request, HistoryPatient $historyPatient)
+    public function update(StoreRequest $request, HistoryPatient $historyPatient)
     {
-        $request->validate([
-            'answer' => 'required|min:1',
-            'patient_id' => 'required|numeric|exists:App\Models\User,id',
-            'history_question_id' => 'required|numeric|exists:App\Models\HistoryQuestion,id'
-        ]);
-
-        return $historyPatient->update($request->all());
+        return $historyPatient->update($request->validated());
     }
 }

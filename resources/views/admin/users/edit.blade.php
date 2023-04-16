@@ -3,12 +3,16 @@
 @section('title', 'Editar usuario')
 
 @section('content')
+<div class="mt-5">
+    @include('admin.partials.flash-success')
+    @include('admin.partials.flash-error')
+</div>
+
 <div class="row">
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
                 <h5>Datos del usuario</h5>
-                @include('admin.partials.flash-error')
                 <form action="{{ route('admin.users.update', $user) }}" method="POST" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
@@ -69,7 +73,8 @@
 
                         <div class="form-group col-md-6">
                             <label for="nacimiento">Fecha de nacimiento</label>
-                            <input name="nacimiento" value="{{ old('nacimiento', $user->profile->nacimiento) }}" type="date"
+                            <input name="nacimiento" 
+                            value="{{ old('nacimiento', $user->profile->nacimiento) }}" type="date"
                             class="form-control">
                         </div>
 

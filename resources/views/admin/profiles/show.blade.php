@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-6 border-right">
                 @if(auth()->user()->profile->image)
-                <img src="{{ Storage::url( auth()->user()->image ) }}" alt="{{ auth()->user()->name  }}" height="150">
+                <img src="{{ Storage::url( auth()->user()->profile->image ) }}" alt="{{ auth()->user()->name  }}" height="150">
                 @else
                 <img src="{{ Avatar::create( auth()->user()->name )->toBase64() }}" width="150"/>
                 @endif
@@ -16,7 +16,9 @@
                     <h5 class="text-muted"><b>Nombre:</b> {{ auth()->user()->name }}</h5>
                     <h5 class="text-muted"><b>Apellidos: </b>{{ auth()->user()->profile->surnames }}</h5>
                     <h5 class="text-muted"><b>Email: </b>{{ auth()->user()->email }}</h5>
+                    @if(!auth()->user()->hasRole('Paciente'))
                     <h5 class="text-muted"><b>Rol: </b>{{ auth()->user()->getRoleDisplayNames() }}</h5>
+                    @endif
                 </div>
                 @can('profiles_edit')
                 <div>
@@ -31,7 +33,7 @@
                 <h5 class="text-muted"><b>Direccion: </b>{{ auth()->user()->profile->address }}</h5>
                 <h5 class="text-muted"><b>Genero: </b>{{ auth()->user()->profile->gender }}</h5>
                 @if(auth()->user()->hasRole('Doctor'))
-                <h5 class="text-muted"><b>Especialidad: </b>{{ auth()->user()->profile->specialty->name }}</h5>
+                <h5 class="text-muted"><b>Especialidad: </b>{{ auth()->user()->profile->specialty->description }}</h5>
                 @endif
             </div>
         </div>

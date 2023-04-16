@@ -3,6 +3,10 @@
 @section('title', 'Listado de roles')
 
 @section('content')
+<div class="mt-5">
+    @include('admin.partials.flash-success')
+    @include('admin.partials.flash-error')
+</div>
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -62,12 +66,12 @@ rel="stylesheet">
             language: {
                 "decimal": "",
                 "emptyTable": "No hay información",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Roles",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Roles",
                 "infoFiltered": "(Filtrado de _MAX_ total entradas)",
                 "infoPostFix": "",
                 "thousands": ",",
-                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "lengthMenu": "Mostrar _MENU_ Roles",
                 "loadingRecords": "Cargando...",
                 "processing": "Procesando...",
                 "search": "Buscar:",

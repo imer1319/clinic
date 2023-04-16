@@ -52,7 +52,7 @@ class PatientController extends Controller
             'diaries' => $diaries,
             'consultations' => $patient->consultations()->latest()->get(),
             'edad' => $edad_diff->format('%y'),
-            'doctors' => User::doctorsPatient()->get(),
+            'doctors' => User::doctors()->get(),
             'vitals' => VitalSigns::orderBy('created_at', 'desc')->where('patient_id', $patient->id)->first(),
         ]);
     }

@@ -3,10 +3,13 @@
 @section('title', 'Detalle del usuario')
 
 @section('content')
+<div class="mt-5">
+    @include('admin.partials.flash-success')
+    @include('admin.partials.flash-error')
+</div>
 <div class="card">
     <div class="card-body">
         <h3>Editar perfil</h3>
-        @include('admin.partials.flash-error')
         <form action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')

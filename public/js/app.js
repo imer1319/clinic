@@ -3372,12 +3372,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     saveService: function saveService(service) {
       var _this4 = this;
+      this.errors = [];
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/serviceConsultation/' + this.consultation.id, {
         service_id: service.id,
         consultation_id: this.consultation.id
       }).then(function () {
         _this4.$toastr.s("SE GUARDO CORRECTMENTE", "");
         _this4.getServices();
+        _this4.errors = [];
         $('#modal_servicios').modal('hide');
       })["catch"](function (err) {
         _this4.errors.push(err.response.data.errors);
@@ -3386,6 +3388,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     eliminarServicio: function eliminarServicio(servicio) {
       var _this5 = this;
+      this.errors = [];
       axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('/api/services/' + this.consultation.id + '/' + servicio.pivot.service_id).then(function () {
         _this5.getServices();
         _this5.$toastr.s("SE ELIMINÓ CORRECTMENTE", "");
@@ -3406,48 +3409,52 @@ __webpack_require__.r(__webpack_exports__);
       this.form_exploration_answers.answer = this.answer;
       if (this.modificarRespuesta == 'guardar') {
         this.addExplorationRespuesta();
-        console.log('guarnd');
         return;
       } else if (this.answer === '') {
         this.deleteExplorationRespuesta();
-        console.log('eliminando');
         return;
       }
       if (this.modificarRespuesta == 'editar') {
         this.updateExplorationRespuesta();
-        console.log('editando');
         return;
       }
     },
     addExplorationRespuesta: function addExplorationRespuesta() {
       var _this7 = this;
+      this.errors = [];
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/physicalExploration', this.form_exploration_answers).then(function () {
         _this7.getPhysicalExploration();
         _this7.answer = '';
+        _this7.$toastr.s("SE GUARDO CORRECTMENTE", "");
         $('#modal').modal('hide');
       })["catch"](function (err) {
-        _this7.errors = err.response.data.errors;
+        _this7.errors.push(err.response.data.errors);
+        _this7.$toastr.e("ERROR AL GUARDAR LOS CAMBIOS", "");
       });
     },
     updateExplorationRespuesta: function updateExplorationRespuesta() {
       var _this8 = this;
+      this.errors = [];
       this.form_exploration_answers.answer = this.answer;
       axios__WEBPACK_IMPORTED_MODULE_0___default().put('/api/physicalExploration/' + this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers).then(function () {
         _this8.getPhysicalExploration();
         _this8.answer = '';
         $('#modal').modal('hide');
       })["catch"](function (err) {
-        _this8.errors = err.response.data.errors;
+        _this8.errors.push(err.response.data.errors);
+        _this8.$toastr.e("ERROR AL GUARDAR LOS CAMBIOS", "");
       });
     },
     deleteExplorationRespuesta: function deleteExplorationRespuesta() {
       var _this9 = this;
+      this.errors = [];
       axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('/api/physicalExploration/' + this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers).then(function () {
         _this9.getPhysicalExploration();
         _this9.answer = '';
         $('#modal').modal('hide');
       })["catch"](function (err) {
-        _this9.errors = err.response.data.errors;
+        _this9.errors.push(err.response.data.errors);
+        _this9.$toastr.e("ERROR AL GUARDAR LOS CAMBIOS", "");
       });
     },
     guardarTodo: function guardarTodo() {
@@ -3683,6 +3690,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     openModal: function openModal(question) {
       var _this3 = this;
+      this.errors = [];
       this.historyTypes[question.history_type_id - 1].history_questions.forEach(function (element) {
         if (element.question == question.question) {
           _this3.formPatientAnswer.question = element.question;
@@ -3708,6 +3716,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     updateDate: function updateDate() {
       var _this4 = this;
+      this.errors = [];
       axios.put('/api/dateHistorial/' + this.dateHistorial.id, {
         patient_id: this.consultation.patient.id,
         date_historial: this.date_historial
@@ -3722,6 +3731,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     updatePatientAnswer: function updatePatientAnswer() {
       var _this5 = this;
+      this.errors = [];
       axios.put('/api/historyPatients/' + this.formPatientAnswer.id, this.formPatientAnswer).then(function () {
         _this5.getHistoryTypes();
         $('#modalPatientAnswer').modal('hide');
@@ -3733,6 +3743,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     savePatientAnswer: function savePatientAnswer() {
       var _this6 = this;
+      this.errors = [];
       axios.post('/api/historyPatients', this.formPatientAnswer).then(function () {
         $('#modalPatientAnswer').modal('hide');
         _this6.getHistoryTypes();
@@ -3741,7 +3752,8 @@ __webpack_require__.r(__webpack_exports__);
           patient_id: '',
           history_question_id: '',
           answer: ''
-        }, _this6.$toastr.s("SE GUARDO CORRECTMENTE", "");
+        }, _this6.errors = [];
+        _this6.$toastr.s("SE GUARDO CORRECTMENTE", "");
       })["catch"](function (err) {
         _this6.errors.push(err.response.data.errors);
         _this6.$toastr.e("HAY ERRORES");
@@ -6338,7 +6350,11 @@ var render = function render() {
     }
   }, [_vm._v(_vm._s(_vm.question))]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
-  }, [_c("div", {
+  }, [_c("error-component", {
+    attrs: {
+      errors: _vm.errors
+    }
+  }), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_c("input", {
     directives: [{
@@ -6381,7 +6397,7 @@ var render = function render() {
         return _vm.createOrUpdateOrDeleteExplorationRespuesta.apply(null, arguments);
       }
     }
-  }, [_vm._v("Agregar")])])])])])])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Agregar")])])], 1)])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-md-6"
   }, [_c("div", {
     staticClass: "card"
@@ -7196,7 +7212,11 @@ var render = function render() {
     staticClass: "card"
   }, [_c("div", {
     staticClass: "card-body"
-  }, [_c("label", [_vm._v("Fecha de elaboracion")]), _vm._v(" "), _c("input", {
+  }, [_c("error-component", {
+    attrs: {
+      errors: _vm.errors
+    }
+  }), _vm._v(" "), _c("label", [_vm._v("Fecha de elaboracion")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -7216,15 +7236,11 @@ var render = function render() {
         _vm.date_historial = $event.target.value;
       }
     }
-  })])]), _vm._v(" "), _c("div", {
+  })], 1)]), _vm._v(" "), _c("div", {
     staticClass: "card mt-2"
   }, [_c("div", {
     staticClass: "card-body"
-  }, [_c("error-component", {
-    attrs: {
-      errors: _vm.errors
-    }
-  }), _vm._v(" "), _c("div", {
+  }, [_c("div", {
     staticClass: "d-flex justify-content-between align-items-center"
   }, [_c("button", {
     staticClass: "btn border",
@@ -7240,7 +7256,7 @@ var render = function render() {
       alt: "guardar",
       width: "35"
     }
-  }), _vm._v("\n                         Guardar ")]), _vm._v(" "), _c("a", {
+  }), _vm._v("\n                     Guardar ")]), _vm._v(" "), _c("a", {
     staticClass: "btn border",
     attrs: {
       target: "_blank",
@@ -7252,7 +7268,7 @@ var render = function render() {
       alt: "impresora",
       width: "35"
     }
-  }), _vm._v("\n                         Imprimir ")])])], 1)])]), _vm._v(" "), _c("div", {
+  }), _vm._v("\n                     Imprimir ")])])])])]), _vm._v(" "), _c("div", {
     staticClass: "modal fade",
     attrs: {
       id: "modalPatientAnswer",
@@ -7273,7 +7289,11 @@ var render = function render() {
     }
   }, [_vm._v(_vm._s(_vm.formPatientAnswer.question))]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
-  }, [_c("input", {
+  }, [_c("error-component", {
+    attrs: {
+      errors: _vm.errors
+    }
+  }), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -7317,7 +7337,7 @@ var render = function render() {
         return _vm.createOrUpdatePatientAnswer.apply(null, arguments);
       }
     }
-  }, [_vm._v("Guardar")])])])])])])], 2);
+  }, [_vm._v("Guardar")])])], 1)])])])], 2);
 };
 var staticRenderFns = [function () {
   var _vm = this,

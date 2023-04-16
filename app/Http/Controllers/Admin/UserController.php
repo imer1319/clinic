@@ -63,7 +63,7 @@ class UserController extends Controller
             $user->assignRole($request->roles);
         }
 
-        return redirect()->route('admin.users.edit', $user)->with('flash', 'Usuario creado corretamente');
+        return redirect()->route('admin.users.edit', $user)->with('flash', 'El usuario ha sido creado corretamente');
     }
 
     public function show(User $user)
@@ -92,12 +92,12 @@ class UserController extends Controller
         if ($request->filled('roles')) {
             $user->assignRole($request->roles);
         }
-        return redirect()->route('admin.users.index')->with('flash', 'Usuario actualizado corretamente');
+        return redirect()->route('admin.users.index')->with('flash', 'El usuario ha sido actualizado corretamente');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('admin.users.index')->with('flash', 'Usuario eliminado corretamente');
+        return redirect()->route('admin.users.index')->with('flash', 'El usuario se eliminó');
     }
 }

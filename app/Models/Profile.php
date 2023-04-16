@@ -21,8 +21,6 @@ class Profile extends Model
         'user_id'
     ];
 
-    protected $dates = ['nacimiento'];
-
 
     public function user()
     {

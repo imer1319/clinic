@@ -11,7 +11,7 @@
         @csrf
         @method('DELETE')
 
-        <button type="submit" name="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i
+        <button type="submit" name="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar al usuario?')"><i
                 class="fa fa-trash-o"></i>
         </button>
     </form>

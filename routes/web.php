@@ -34,7 +34,7 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::resource('patients', PatientController::class);
 
 
-    Route::middleware('role:Admin')
+    Route::middleware('role:Administrador')
     ->put('users/{user}/roles', [UsersRolesController::class, 'update'])
     ->name('users.roles.update');
 
@@ -66,7 +66,8 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::get('pdf/pruebas/{consultation}', [ReportesController::class, 'pruebasPatient'])->name('pruebasPatient.pdf');
     Route::get('pdf/consulta/{consultation}', [ReportesController::class, 'consultaPatient'])->name('consultaPatient.pdf');
 
-    Route::get('mis-citas', [CitaController::class, 'index'])->name('mis-citas')->middleware('role:Doctor');
+    Route::get('mis-citas', [CitaController::class, 'citas'])->name('mis-citas')->middleware('role:Doctor');
+    Route::get('mis-archivos', [CitaController::class, 'archivos'])->name('mis-archivos')->middleware('role:Paciente');
 
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

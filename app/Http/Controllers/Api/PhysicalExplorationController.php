@@ -7,6 +7,7 @@ use App\Models\Consultation;
 use App\Models\PhysicalExploration;
 use App\Models\PhysicalExplorationQuestion;
 use Illuminate\Http\Request;
+use App\Http\Requests\PhysicalExploration\StoreRequest;
 
 class PhysicalExplorationController extends Controller
 {
@@ -17,26 +18,14 @@ class PhysicalExplorationController extends Controller
         }])->get();
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate([
-            'consultation_id' => 'required|numeric|exists:App\Models\Consultation,id',
-            'physical_exploration_id' => 'required|numeric|exists:App\Models\PhysicalExploration,id',
-            'answer' => 'required|min:4'
-        ]);
-
-        return PhysicalExplorationQuestion::create($request->all());
+        return PhysicalExplorationQuestion::create($request->validated());
     }
 
-    public function update(Request $request, PhysicalExplorationQuestion $physicalExplorationQuestion)
+    public function update(StoreRequest $request, PhysicalExplorationQuestion $physicalExplorationQuestion)
     {
-        $request->validate([
-            'consultation_id' => 'required|numeric|exists:App\Models\Consultation,id',
-            'physical_exploration_id' => 'required|numeric|exists:App\Models\PhysicalExploration,id',
-            'answer' => 'required|min:4'
-        ]);
-
-        return $physicalExplorationQuestion->update($request->all());
+        return $physicalExplorationQuestion->update($request->validated());
     }
 
     public function destroy(PhysicalExplorationQuestion $physicalExplorationQuestion)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Consultation;
+namespace App\Http\Requests\DateHistorial;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,18 +24,16 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'motivo' => 'required',
-            'doctor_id' => 'required|numeric|exists:App\Models\User,id',
-            'patient_id' => 'required|numeric|exists:App\Models\User,id',
+            'date_historial' => 'nullable|date|date_format:Y-m-d|before_or_equal:'. date("Y-m-d"),
+            'patient_id' => 'required|numeric|exists:App\Models\User,id'
         ];
     }
 
     public function messages()
     {
         return [
-            'motivo.required' => 'El motivo de la consulta es es obligatorio.',
-            'doctor_id.required' => 'Debe seleccionar un doctor.',
-            'doctor_id.exists' => 'Debe seleccionar un doctor.',
+            'date_historial.date' => 'La fecha del historial debe tener un formato de fecha',
+            'date_historial.before_or_equal' => 'La fecha del historial debe ser menor o igual a hoy',
         ];
     }
 }

@@ -14,4 +14,9 @@ class HistoryPatient extends Model
         'history_question_id',
         'answer'
     ];
+
+    public function patient()
+    {
+        return $this->belongsTo(User::class, 'patient_id');
+    }
 }

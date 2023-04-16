@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\DateHistorial;
+use App\Http\Requests\DateHistorial\StoreRequest;
 
 class DateHistorialController extends Controller
 {
@@ -14,13 +15,8 @@ class DateHistorialController extends Controller
         return $patient->dateHistorial;
     }
 
-    public function update(Request $request, DateHistorial $dateHistorial)
+    public function update(StoreRequest $request, DateHistorial $dateHistorial)
     {
-        $request->validate([
-            'date_historial' => 'nullable|date|date_format:Y-m-d|before_or_equal:'. date("Y-m-d"),
-            'patient_id' => 'required|numeric|exists:App\Models\User,id'
-        ]);
-
-        return $dateHistorial->update($request->all());
+        return $dateHistorial->update($request->validated());
     }
 }

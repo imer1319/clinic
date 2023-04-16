@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Consultation;
+namespace App\Http\Requests\HistoryPatient;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,18 +24,17 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'motivo' => 'required',
-            'doctor_id' => 'required|numeric|exists:App\Models\User,id',
+            'answer' => 'required|min:2',
             'patient_id' => 'required|numeric|exists:App\Models\User,id',
+            'history_question_id' => 'required|numeric|exists:App\Models\HistoryQuestion,id'
         ];
     }
 
     public function messages()
     {
         return [
-            'motivo.required' => 'El motivo de la consulta es es obligatorio.',
-            'doctor_id.required' => 'Debe seleccionar un doctor.',
-            'doctor_id.exists' => 'Debe seleccionar un doctor.',
+            'answer.required' => 'El campo respuesta es obligatorio.',
+            'answer.min' => 'La respuesta debe tener al menos 2 caracter.',
         ];
     }
 }

@@ -41,6 +41,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
+                                        <error-component :errors="errors" />
                                         <div class="form-group">
                                             <input v-model="answer" type="text" class="form-control"
                                             placeholder="respuesta"
@@ -314,6 +315,7 @@ export default {
             })
         },
         saveService(service) {
+            this.errors = [];
             axios.post('/api/serviceConsultation/'+this.consultation.id, {
                 service_id: service.id,
                 consultation_id: this.consultation.id,
@@ -321,6 +323,7 @@ export default {
             .then(() => {
                 this.$toastr.s("SE GUARDO CORRECTMENTE", "");
                 this.getServices()
+                this.errors = [];
                 $('#modal_servicios').modal('hide');
             }).catch(err => {
                 this.errors.push(err.response.data.errors);
@@ -328,6 +331,7 @@ export default {
             })
         },
         eliminarServicio(servicio){
+            this.errors = [];
             axios.delete('/api/services/' + this.consultation.id+'/'+servicio.pivot.service_id)
             .then(() => {
                 this.getServices()
@@ -349,29 +353,30 @@ export default {
             this.form_exploration_answers.answer = this.answer
             if (this.modificarRespuesta == 'guardar') {
                 this.addExplorationRespuesta()
-                console.log('guarnd')
                 return
             } else if (this.answer === '') {
                 this.deleteExplorationRespuesta()
-                console.log('eliminando')
                 return
             } if (this.modificarRespuesta == 'editar') {
                 this.updateExplorationRespuesta()
-                console.log('editando')
                 return
             }
         },
         addExplorationRespuesta() {
+            this.errors = [];
             axios.post('/api/physicalExploration', this.form_exploration_answers)
             .then(() => {
                 this.getPhysicalExploration()
                 this.answer = ''
+                this.$toastr.s("SE GUARDO CORRECTMENTE", "");
                 $('#modal').modal('hide');
             }).catch(err => {
-                this.errors = err.response.data.errors;
+                this.errors.push(err.response.data.errors);
+                this.$toastr.e("ERROR AL GUARDAR LOS CAMBIOS", "");
             })
         },
         updateExplorationRespuesta() {
+            this.errors = [];
             this.form_exploration_answers.answer = this.answer
             axios.put('/api/physicalExploration/' + this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers)
             .then(() => {
@@ -379,17 +384,20 @@ export default {
                 this.answer = ''
                 $('#modal').modal('hide');
             }).catch(err => {
-                this.errors = err.response.data.errors;
+                this.errors.push(err.response.data.errors);
+                this.$toastr.e("ERROR AL GUARDAR LOS CAMBIOS", "");
             })
         },
         deleteExplorationRespuesta() {
+            this.errors = [];
             axios.delete('/api/physicalExploration/' + this.form_exploration_answers.physical_exploration_id, this.form_exploration_answers)
             .then(() => {
                 this.getPhysicalExploration()
                 this.answer = ''
                 $('#modal').modal('hide');
             }).catch(err => {
-                this.errors = err.response.data.errors;
+                this.errors.push(err.response.data.errors);
+                this.$toastr.e("ERROR AL GUARDAR LOS CAMBIOS", "");
             })
         },
         guardarTodo() {

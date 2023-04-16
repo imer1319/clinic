@@ -20,7 +20,7 @@ class ArchiveController extends Controller
         $request->validate([
             'title' => 'required|min:2',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'patient_id' => 'required|numeric|exists:App\Models\Patient,id',
+            'patient_id' => 'required|numeric|exists:App\Models\User,id',
         ]);
 
         $archive = (new Archive)->fill($request->all());

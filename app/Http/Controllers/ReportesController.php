@@ -13,6 +13,8 @@ class ReportesController extends Controller
 {
     public function historialPatient(User $patient)
     {
+        $this->authorize('view', $patient->historyPatient);
+
         $fecha_nacimiento = $patient->profile->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
@@ -40,6 +42,8 @@ class ReportesController extends Controller
 
     public function recetaPatient(Consultation $consultation)
     {
+        $this->authorize('view', $consultation);
+
         $fecha_nacimiento = $consultation->patient->profile->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
@@ -65,6 +69,8 @@ class ReportesController extends Controller
 
     public function pruebasPatient(Consultation $consultation)
     {
+        $this->authorize('view', $consultation);
+
         $fecha_nacimiento = $consultation->patient->profile->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
@@ -90,6 +96,8 @@ class ReportesController extends Controller
 
     public function consultaPatient(Consultation $consultation)
     {
+        $this->authorize('view', $consultation);
+
         $fecha_nacimiento = $consultation->patient->profile->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));

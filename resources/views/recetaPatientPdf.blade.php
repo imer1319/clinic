@@ -176,7 +176,7 @@
 								{{ $patient->profile->gender }}<br />
 								{{ $edad }} años<br />
 								<span class="h6 text-capitalize">
-									{{ $patient->profile->nacimiento ? $patient->profile->nacimiento->format('d M Y') : 'none'  }}
+									{{ $patient->profile->nacimiento }}
 								</span>
 							</td>
 						</tr>
