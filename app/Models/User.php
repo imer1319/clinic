@@ -113,4 +113,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(HistoryPatient::class, 'patient_id');
     }
+
+    public function horarios()
+    {
+        return $this->hasMany(Horario::class);
+    }
 }

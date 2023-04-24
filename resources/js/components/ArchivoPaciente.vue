@@ -18,7 +18,6 @@
 			</button>
 		</div>
 		<div class="pre-scrollable">
-
 			<table class="table">
 				<thead>
 					<tr>

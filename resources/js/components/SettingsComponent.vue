@@ -51,6 +51,12 @@ export default {
                     title: 'Servicios',
                     img: '/imagenes/servicios.png',
                     can: 'services_index'
+                },
+                {
+                    component: 'form-specialties',
+                    title: 'Especialidades',
+                    img: '/imagenes/specialty.png',
+                    can: 'specialties_index'
                 }
             ]
         }

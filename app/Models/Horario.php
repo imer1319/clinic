@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Specialty extends Model
+class Horario extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['description','status'];
-
-    public function user()
+    
+    public function doctor()
     {
-        return $this->belongsTo(Profile::class);
+        return $this->belongsTo(User::class);
     }
 }

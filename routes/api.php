@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\DiaryController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\HorarioController;
 use App\Http\Controllers\Api\ServiceConsultationController;
+use App\Http\Controllers\Api\SpecialtyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,10 @@ Route::put('medicines/{medicine}', [MedicineController::class, 'update']);
 Route::get('services', [ServiceController::class, 'index']);
 Route::post('services/store', [ServiceController::class, 'store']);
 Route::put('services/{service}', [ServiceController::class, 'update']);
+
+Route::get('specialties', [SpecialtyController::class, 'index']);
+Route::post('specialties/store', [SpecialtyController::class, 'store']);
+Route::put('specialties/{specialty}', [SpecialtyController::class, 'update']);
 
 Route::get('consultations', [ConsultationController::class, 'index']);
 Route::post('consultations/store', [ConsultationController::class, 'store']);

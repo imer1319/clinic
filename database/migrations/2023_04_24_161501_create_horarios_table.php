@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSpecialtiesTable extends Migration
+class CreateHorariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CreateSpecialtiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('specialties', function (Blueprint $table) {
+        Schema::create('horarios', function (Blueprint $table) {
             $table->id();
-            $table->text('description');
-            $table->enum('status',['ACTIVO','BAJA']);
+            $table->foreignId('doctor_id')->constrained('users')->cascadeOnDelete();
+            $table->string('dia_semana');
+            $table->time('inicio_am');
+            $table->time('fin_am');
+            $table->time('inicio_pm');
+            $table->time('fin_pm');
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ class CreateSpecialtiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('specialties');
+        Schema::dropIfExists('horarios');
     }
 }

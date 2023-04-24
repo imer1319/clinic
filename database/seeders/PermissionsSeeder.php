@@ -201,6 +201,9 @@ class PermissionsSeeder extends Seeder
 
         Permission::create(['name' => 'services_index', 'display_name' => 'Listar servicios']);
         Permission::create(['name' => 'services_store', 'display_name' => 'Guardar servicios']);
+        
+        Permission::create(['name' => 'specialties_index', 'display_name' => 'Listar especialidades']);
+        Permission::create(['name' => 'specialties_store', 'display_name' => 'Guardar especialidades']);
 
         Permission::create(['name' => 'profiles_edit', 'display_name' => 'Editar perfil']);
 
