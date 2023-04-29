@@ -31,8 +31,11 @@ class PatientController extends Controller
         ->addColumn('ci', function (User $user) {
             return $user->profile->ci;
         })
+        ->addColumn('surnames', function (User $user) {
+            return $user->profile->surnames;
+        })
         ->addColumn('btn', 'admin.patients.partials.btn')
-        ->rawColumns(['btn','ci'])
+        ->rawColumns(['btn','ci','surnames'])
         ->toJson();
     }
 

@@ -45,11 +45,6 @@ class User extends Authenticatable
         return $this->roles->pluck('name')->implode(', ');
     }
 
-    public function doctor()
-    {
-        return $this->hasOne(Doctor::class);
-    }
-
     public function notifications()
     {
         return $this->hasMany(Notification::class);
@@ -116,6 +111,6 @@ class User extends Authenticatable
 
     public function horarios()
     {
-        return $this->hasMany(Horario::class);
+        return $this->hasMany(Horario::class,'doctor_id');
     }
 }

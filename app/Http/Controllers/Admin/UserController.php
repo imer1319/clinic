@@ -10,6 +10,7 @@ use App\Http\Requests\User\UpdateRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Models\Profile;
 use App\Models\Specialty;
+use App\Models\Horario;
 use Yajra\Datatables\Datatables;
 
 class UserController extends Controller
@@ -26,16 +27,16 @@ class UserController extends Controller
     public function datatables()
     {
         return DataTables::of(User::select('id', 'username', 'name'))
-            ->addColumn('role', function (User $user) {
-                $return = '';
-                foreach ($user->roles as $role) {
-                    $return .= '<span class="badge badge-primary mr-1">' . $role->name . '</span>';
-                }
-                return $return;
-            })
-            ->addColumn('btn', 'admin.users.partials.btn')
-            ->rawColumns(['btn', 'role'])
-            ->toJson();
+        ->addColumn('role', function (User $user) {
+            $return = '';
+            foreach ($user->roles as $role) {
+                $return .= '<span class="badge badge-primary mr-1">' . $role->name . '</span>';
+            }
+            return $return;
+        })
+        ->addColumn('btn', 'admin.users.partials.btn')
+        ->rawColumns(['btn', 'role'])
+        ->toJson();
     }
 
     public function index()
@@ -61,6 +62,18 @@ class UserController extends Controller
         
         if ($request->filled('roles')) {
             $user->assignRole($request->roles);
+        }
+
+        if($user->hasRole('Doctor')){
+            for ($i=0; $i < 7; $i++) { 
+                $user->horarios()->create([
+                    'dia_semana' => $i,
+                    'morning_start' => '06:00:00',
+                    'morning_end' => '12:00:00',
+                    'afternoon_start' => '14:00:00',
+                    'afternoon_end' => '18:00:00',
+                ]);
+            }
         }
 
         return redirect()->route('admin.users.edit', $user)->with('flash', 'El usuario ha sido creado corretamente');

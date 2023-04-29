@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5>Total usuarios</h5>
+                                <h5>Usuarios</h5>
                                 <h3>{{ $users }}</h3>
                             </div>
                             <h1><i class="fa fa-user"></i></h1>
@@ -24,10 +24,10 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5>Total pacientes</h5>
+                                <h5>Pacientes</h5>
                                 <h3>{{ $patients }}</h3>
                             </div>
-                            <h1><i class="fa fa-user"></i></h1>
+                            <h1><i class="fa fa-wheelchair"></i></h1>
                         </div>
                     </div>
                 </div>
@@ -37,10 +37,10 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5>Total servicios</h5>
+                                <h5>Servicios</h5>
                                 <h3>{{ $services }}</h3>
                             </div>
-                            <h1><i class="fa fa-user"></i></h1>
+                            <h1><i class="fa fa-cog"></i></h1>
                         </div>
                     </div>
                 </div>
@@ -50,10 +50,10 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5>Total Doctores</h5>
+                                <h5>Doctores</h5>
                                 <h3>{{ $doctors }}</h3>
                             </div>
-                            <h1><i class="fa fa-user"></i></h1>
+                            <h1><i class="fa fa-user-md"></i></h1>
                         </div>
                     </div>
                 </div>

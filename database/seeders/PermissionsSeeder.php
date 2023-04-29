@@ -183,6 +183,7 @@ class PermissionsSeeder extends Seeder
         //     'name' => 'subservices_destroy',
         //     'display_name' => 'Eliminar sub servicio'
         // ]);
+        Permission::create(['name' => 'horarios_edit', 'display_name' => 'Editar horario']);
 
         Permission::create(['name' => 'notifications_store', 'display_name' => 'Notificar doctor']);
         Permission::create(['name' => 'settings_index', 'display_name' => 'Configuraciones del sistema']);

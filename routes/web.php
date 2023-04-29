@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\UsersPermissionsController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\DiaryController;
+use App\Http\Controllers\Admin\HorarioController;
 use App\Http\Controllers\Admin\UsersProfileController;
 use App\Http\Controllers\CitaController;
 use Illuminate\Support\Facades\Auth;
@@ -29,8 +30,6 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('doctors', DoctorController::class);
-    // Route::resource('services', ServiceController::class)
-    // ->except(['show']);
     Route::resource('patients', PatientController::class);
 
 
@@ -40,10 +39,11 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
 
     Route::put('users/{user}/permissions', [UsersPermissionsController::class, 'update'])
     ->name('users.permissions.update');
-    
+
+    Route::get('horarios/{doctor}', [HorarioController::class, 'edit'])->name('horarios.edit');
+    Route::put('horarios/{doctor}', [HorarioController::class, 'update'])->name('horarios.update');
 
     // Datatables
-
     Route::get('api/patients', [PatientController::class, 'datatables']);
     // Route::get('api/services', [ServiceController::class, 'datatables']);
     Route::get('api/doctors', [DoctorController::class, 'datatables']);

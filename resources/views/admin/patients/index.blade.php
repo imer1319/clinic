@@ -15,6 +15,7 @@
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
+                            <th>Apellidos</th>
                             <th>Username</th>
                             <th>Ci</th>
                             <th>Acciones</th>
@@ -84,6 +85,7 @@ rel="stylesheet">
             "columns": [
             {data: 'id'},
             {data: 'name'},
+            {data: 'surnames'},
             {data: 'username'},
             {data: 'ci'},
             {data: 'btn',"orderable": false,"searchable": false},

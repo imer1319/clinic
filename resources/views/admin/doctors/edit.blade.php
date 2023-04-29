@@ -3,12 +3,17 @@
 @section('title', 'Editar doctor')
 
 @section('content')
+@include('admin.partials.flash-error')
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h3>Actualizar datos del doctor</h3>
-                @include('admin.partials.flash-error')
+                <div class="d-flex align-items-center justify-content-between">
+                    <h3>Actualizar datos del doctor</h3>
+                    @can('horarios_edit')
+                        <a href="{{ route('admin.horarios.edit', $doctor) }}" class="btn btn-primary">Editar horario</a>
+                    @endcan
+                </div>
                 <form action="{{ route('admin.doctors.update', $doctor) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')

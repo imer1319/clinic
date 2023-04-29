@@ -49,7 +49,7 @@ class HomeController extends Controller
         for ($i = 1; $i <= 12; $i++) {
             $consultations = '';
             if (Auth::user()->hasRole('Doctor')) {
-                $patientMonth[] = Consultation::whereYear('created_at', $date->year)->whereMonth('created_at', '=', $i)->where('doctor_id', Auth::user()->doctor->id)->count();
+                $patientMonth[] = Consultation::whereYear('created_at', $date->year)->whereMonth('created_at', '=', $i)->where('doctor_id', Auth::id())->count();
             } else {
                 $patientMonth[] = Consultation::whereYear('created_at', $date->year)->whereMonth('created_at', '=', $i)->count();
             }
@@ -60,8 +60,8 @@ class HomeController extends Controller
         }
         $consultations = '';
         if (Auth::user()->hasRole('Doctor')) {
-            $diaries =  Diary::where('doctor_id', Auth::user()->doctor->id)->get();
-            $consultations =  Consultation::where('doctor_id', Auth::user()->doctor->id)->get();
+            $diaries =  Diary::where('doctor_id', Auth::id())->get();
+            $consultations =  Consultation::where('doctor_id', Auth::id())->get();
         } else {
             $diaries =  Diary::all();
             $consultations =  Consultation::all();

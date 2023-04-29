@@ -17,10 +17,11 @@ class CreateHorariosTable extends Migration
             $table->id();
             $table->foreignId('doctor_id')->constrained('users')->cascadeOnDelete();
             $table->string('dia_semana');
-            $table->time('inicio_am');
-            $table->time('fin_am');
-            $table->time('inicio_pm');
-            $table->time('fin_pm');
+            $table->time('morning_start');
+            $table->time('morning_end');
+            $table->time('afternoon_start');
+            $table->time('afternoon_end');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }
