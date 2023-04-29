@@ -55,7 +55,7 @@
                         <span>Especialidad</span>
                     </div>
                     <div class="col-md-6">
-                        <p>{{ $doctor->profile->specialty->description }}</p>
+                        <p>{{ $doctor->profile->specialty ? $doctor->profile->specialty->description : ''  }}</p>
                     </div>
                 </div>
             </div>

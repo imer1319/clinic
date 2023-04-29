@@ -20,11 +20,18 @@
                     <h5 class="text-muted"><b>Rol: </b>{{ auth()->user()->getRoleDisplayNames() }}</h5>
                     @endif
                 </div>
-                @can('profiles_edit')
-                <div>
-                    <a href="{{ route('admin.profile.edit') }}" class="btn btn-warning"><i class="fa fa-edit"></i> Editar perfil</a>
+                <div class="d-flex justify-content-between align-items-center">
+                    @can('profiles_edit')
+                    <div>
+                        <a href="{{ route('admin.profile.edit') }}" class="btn btn-warning"><i class="fa fa-edit"></i> Editar perfil</a>
+                    </div>
+                    @endcan
+                    @if(auth()->user()->hasRole('Doctor'))
+                    @can('horarios_edit')
+                    <a href="{{ route('admin.horarios.edit', auth()->id()) }}" class="btn btn-primary">Editar horario</a>
+                    @endcan
+                    @endif
                 </div>
-                @endcan
             </div>
             <div class="col-md-6">
                 <h5 class="text-muted"><b>Ci:</b> {{ auth()->user()->profile->ci }}</h5>
@@ -33,7 +40,9 @@
                 <h5 class="text-muted"><b>Direccion: </b>{{ auth()->user()->profile->address }}</h5>
                 <h5 class="text-muted"><b>Genero: </b>{{ auth()->user()->profile->gender }}</h5>
                 @if(auth()->user()->hasRole('Doctor'))
-                <h5 class="text-muted"><b>Especialidad: </b>{{ auth()->user()->profile->specialty->description }}</h5>
+                <h5 class="text-muted"><b>Especialidad: </b>
+                    {{ auth()->user()->profile->specialty->description }}
+                </h5>
                 @endif
             </div>
         </div>
