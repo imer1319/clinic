@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Diary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,7 @@ class CitaController extends Controller
        $fecha_nacimiento = auth()->user()->profile->nacimiento;
        $dia_actual = date("Y-m-d");
        $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
+       $diaries = Diary::where('patient_id', auth()->id());
        return view('admin.patients.mis_archivos', [
         'paciente' => auth()->user(),
         'edad' => $edad_diff->format('%y'),

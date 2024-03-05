@@ -9,6 +9,7 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5>Doctores</h5>
+                    <a href="{{ route('admin.doctors.create') }}" class="btn btn-success">+</a>
                 </div>
                 <table class="table" id="table-doctors">
                     <thead>

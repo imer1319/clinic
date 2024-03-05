@@ -11,9 +11,7 @@ class ServiceController extends Controller
 {
     public function index(Consultation $consultation)
     {
-        return Service::with(['consultations' => function($query) use($consultation){
-            $query->where('consultations.id', $consultation->id);
-        }])->get();
+        return Service::all();
     }
 
     public function store(Request $request)

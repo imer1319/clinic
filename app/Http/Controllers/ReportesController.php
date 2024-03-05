@@ -107,7 +107,7 @@ class ReportesController extends Controller
             }])->get(),
             'patient' => $consultation->patient,
             'consultation' => $consultation,
-            'services' => $consultation->services,
+            'services' => $consultation->subservices,
             'vital_signs' => $consultation->vitalSigns,
             'edad' => $edad_diff->format('%y'),
         ]);

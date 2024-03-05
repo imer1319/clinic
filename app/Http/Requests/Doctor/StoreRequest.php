@@ -26,10 +26,10 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'surnames' => 'required|max:255',
-            'ci' => 'required|digits:8',
+            'ci' => 'required|min:8',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'nacimiento' => 'required|date',
-            'celular' => 'required|numeric|digits:8',
+            'celular' => 'required|numeric',
             'address' => 'required',
             'email' => 'required|email|max:255|unique:users',
             'username' => 'required|max:60|unique:users',

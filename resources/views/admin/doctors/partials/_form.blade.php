@@ -18,12 +18,12 @@
     <div class="form-group col-md-4">
         <label for="nacimiento">Fecha de nacimiento</label>
         <input name="nacimiento" value="{{ old('nacimiento', $doctor->nacimiento) }}" type="date"
-            class="form-control">
+        class="form-control">
     </div>
 
     <div class="form-group col-md-4">
         <label for="celular">Celular</label>
-        <input name="celular" value="{{ old('celular', $doctor->celular) }}" type="text" class="form-control">
+        <input name="celular" value="{{ old('celular', $doctor->celular) }}" type="number" class="form-control">
     </div>
 
     <div class="form-group col-md-4">
@@ -33,9 +33,9 @@
             <label class="custom-file-label" for="image-doctor">Seleccionar imagen</label>
         </div>
         @if ($doctor->image)
-            <span class="text-muted">Dejar en blanco si no quieres editar la imagen</span>
-            <br>
-            <img src="{{ Storage::url($doctor->image->image) }}" alt="{{ $doctor->image->image }}" width="120px">
+        <span class="text-muted">Dejar en blanco si no quieres editar la imagen</span>
+        <br>
+        <img src="{{ Storage::url($doctor->image->image) }}" alt="{{ $doctor->image->image }}" width="120px">
         @endif
     </div>
     <div class="form-group col-md-4">
@@ -47,9 +47,9 @@
         <select id="specialty_id" name="specialty_id" class="form-control @error('doctor_id') is-invalid @enderror">
             <option value="">Seleccionar especialidad</option>
             @foreach ($specialties as $specialty)
-                <option value="{{ $specialty->id }}" {{ (old('specialty_id')==$specialty->id)? 'selected':'' }}>
-                    {{ $specialty->description }}
-                </option>
+            <option value="{{ $specialty->id }}" {{ (old('specialty_id')==$specialty->id)? 'selected':'' }}>
+                {{ $specialty->description }}
+            </option>
             @endforeach
         </select>
     </div>
@@ -58,12 +58,12 @@
         <br>
         <label class="mr-3">
             <input type=radio name="gender" value="Masculino"
-                {{ old('gender', $doctor->gender) == 'Masculino' ? 'checked' : '' }}>
+            {{ old('gender', $doctor->gender) == 'Masculino' ? 'checked' : '' }}>
             <b>Hombre</b>
         </label>
         <label>
             <input type=radio name="gender" value="Femenino"
-                {{ old('gender', $doctor->gender) == 'Femenino' ? 'checked' : '' }}>
+            {{ old('gender', $doctor->gender) == 'Femenino' ? 'checked' : '' }}>
             <b>Mujer</b>
         </label>
     </div>
@@ -88,7 +88,7 @@
     <div class="form-group col-md-4">
         <label for="password-confirm">Confirmar contraseña</label>
         <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
-            autocomplete="new-password">
+        autocomplete="new-password">
     </div>
 </div>
 <div class="form-group btn-group">

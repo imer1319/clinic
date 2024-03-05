@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Consultation;
-use App\Models\StudioCarriedOut;
 use Illuminate\Http\Request;
+use App\Models\Consultation;
+use App\Models\ConsultaSubservicio;
 
-class StudioCarriedOutController extends Controller
+class ConsultaSubservicioController extends Controller
 {
     public function index(Consultation $consultation)
     {
@@ -18,14 +18,14 @@ class StudioCarriedOutController extends Controller
     {
         $request->validate([
             'consultation_id' => 'required|numeric|exists:App\Models\Consultation,id',
-            'subservice_id' => 'required|numeric|exists:App\Models\Laboratory,id'
+            'subservice_id' => 'required|numeric|exists:subservicios,id'
         ]);
 
-        return StudioCarriedOut::create($request->all());
+        return ConsultaSubservicio::create($request->all());
     }
 
-    public function destroy(StudioCarriedOut $studioCarriedOut)
+    public function destroy(ConsultaSubservicio $consultaSubservicio)
     {
-        return $studioCarriedOut->delete();
+        return $consultaSubservicio->delete();
     }
 }

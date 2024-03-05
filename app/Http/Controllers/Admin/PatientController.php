@@ -12,6 +12,7 @@ use App\Http\Requests\Profile\UpdateRequest;
 use App\Models\Doctor;
 use App\Models\User;
 use App\Models\VitalSigns;
+use App\Models\Specialty;
 use Illuminate\Support\Facades\Storage;
 
 class PatientController extends Controller
@@ -44,46 +45,68 @@ class PatientController extends Controller
         return view('admin.patients.index');
     }
 
-    public function show(User $patient)
+    public function create()
     {
-        $fecha_nacimiento = $patient->profile->nacimiento;
-        $dia_actual = date("Y-m-d");
-        $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
-        $diaries = $patient->diariesPatient()->where('status','En espera')->where('date_cita','>=',date('Y-m-d'))->orderBy('date_cita')->get();
-        return view('admin.patients.show', [
-            'patient' => $patient,
-            'diaries' => $diaries,
-            'consultations' => $patient->consultations()->latest()->get(),
-            'edad' => $edad_diff->format('%y'),
-            'doctors' => User::doctors()->get(),
-            'vitals' => VitalSigns::orderBy('created_at', 'desc')->where('patient_id', $patient->id)->first(),
-        ]);
+        $patient = new User;
+        return view('admin.patients.create',compact('patient'));
     }
 
-    public function edit(User $patient)
+    public function store(StoreRequest $request)
     {
-        return view('admin.patients.edit', compact('patient'));
-    }
+     $user = (new User)->fill($request->validated());
 
-    public function update(UpdateRequest $request, User $patient)
-    {
-        $patient->update($request->validated());
+     $user->save();
 
-        $patient->profile()->update([
-            'surnames' => $request->surnames,
-            'ci' => $request->ci,
-            'nacimiento' => $request->nacimiento,
-            'address' => $request->address,
-            'celular' => $request->celular,
-            'gender' => $request->gender,
-            'specialty_id' => $request->specialty_id,
-        ]);
-        return redirect()->route('admin.patients.index')->with('flash', 'Paciente actualizado corretamente');
-    }
-    public function destroy(User $patient)
-    {
-        $patient->delete();
+     $user->profile()->create($request->validated());
 
-        return redirect()->route('admin.patients.index')->with('flash', 'Paciente eliminado corretamente');
-    }
+     $user->assignRole('Paciente');
+
+     return redirect()->route('admin.patients.index')->with('flash', 'Paciente creado corretamente');
+ }
+
+ public function show(User $patient)
+ {
+    $fecha_nacimiento = $patient->profile->nacimiento;
+    $dia_actual = date("Y-m-d");
+    $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
+    $diaries = $patient->diariesPatient()->where('status','En espera')->where('date_cita','>=',date('Y-m-d'))->orderBy('date_cita')->get();
+    return view('admin.patients.show', [
+        'patient' => $patient,
+        'diaries' => $diaries,
+        'consultations' => $patient->consultations()->latest()->get(),
+        'edad' => $edad_diff->format('%y'),
+        'doctors' => User::doctors()->with('profile')->get(),
+        'especialidades' => Specialty::all(),
+        'vitals' => VitalSigns::orderBy('created_at', 'desc')
+        ->where('patient_id', $patient->id)
+        ->first(),
+    ]);
+}
+
+public function edit(User $patient)
+{
+    return view('admin.patients.edit', compact('patient'));
+}
+
+public function update(UpdateRequest $request, User $patient)
+{
+    $patient->update($request->validated());
+
+    $patient->profile()->update([
+        'surnames' => $request->surnames,
+        'ci' => $request->ci,
+        'nacimiento' => $request->nacimiento,
+        'address' => $request->address,
+        'celular' => $request->celular,
+        'gender' => $request->gender,
+        'specialty_id' => $request->specialty_id,
+    ]);
+    return redirect()->route('admin.patients.index')->with('flash', 'Paciente actualizado corretamente');
+}
+public function destroy(User $patient)
+{
+    $patient->delete();
+
+    return redirect()->route('admin.patients.index')->with('flash', 'Paciente eliminado corretamente');
+}
 }

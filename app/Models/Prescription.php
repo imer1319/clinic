@@ -11,14 +11,9 @@ class Prescription extends Model
 
     protected $fillable = [
         'consultation_id',
-        'medicine_id',
+        'medicamento',
         'tomar',
         'frecuencia',
         'durante',
     ];
-
-    public function medicine()
-    {
-        return $this->belongsTo(Medicine::class);
-    }
 }

@@ -11,9 +11,8 @@ class Service extends Model
 
     protected $fillable = ['name' ,'status'];
 
-    public function consultations()
+    public function subservicios()
     {
-        return $this->belongsToMany(Consultation::class, 'consultation_service');
+        return $this->hasMany(Subservicio::class);
     }
-
 }

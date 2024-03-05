@@ -35,18 +35,6 @@ export default {
                     can: 'historial_index',
                 },
                 {
-                    component: 'form-medicina',
-                    title: 'Medicamentos',
-                    img: '/imagenes/medicina.png',
-                    can: 'medicinas_index',
-                },
-                {
-                    component: 'form-pruebas',
-                    title: 'Pruebas laboratorio',
-                    img: '/imagenes/examen-de-orina.png',
-                    can: 'pruebas_index'
-                },
-                {
                     component: 'form-diagnosis',
                     title: 'Servicios',
                     img: '/imagenes/servicios.png',

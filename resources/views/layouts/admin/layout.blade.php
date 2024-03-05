@@ -53,7 +53,7 @@
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
                         <div class="profile_pic">
-                            @if(auth()->user()->profile->image)
+                            @if(optional(optional(auth()->user())->profile)->image)
                             <img src="{{ Storage::url( auth()->user()->profile->image) }}" alt="{{  auth()->user()->name }}" class="img-circle profile_img" style="border-radius: 50%;">
                             @else
                             <img src="{{ Avatar::create( auth()->user()->name )->toBase64() }}" alt="Avatar" class="img-circle profile_img">

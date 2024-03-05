@@ -78,8 +78,8 @@ class Consultation extends Model
         return $this->created_at->format('H:i A');
     }
 
-    public function services()
+    public function subservices()
     {
-        return $this->belongsToMany(Service::class, 'consultation_service')->withPivot('id');
+        return $this->belongsToMany(Subservicio::class,'consultation_subservice', 'subservice_id','consultation_id')->withPivot('id', 'created_at');
     }
 }

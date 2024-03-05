@@ -16,8 +16,10 @@ Vue.component('form-medicina', require('./components/FormMedicina.vue').default)
 Vue.component('form-pruebas', require('./components/FormPruebas.vue').default);
 Vue.component('form-consulta', require('./components/FormConsulta.vue').default);
 Vue.component('form-vitales', require('./components/FormVitales.vue').default);
-Vue.component('form-diagnosis', require('./components/FormDiagnosis.vue').default);
 Vue.component('form-specialties', require('./components/FormSpecialties.vue').default);
+Vue.component('form-diagnosis', require('./components/FormDiagnosis.vue').default);
+Vue.component('form-servicios', require('./components/FormServicio.vue').default);
+Vue.component('form-subservicios', require('./components/FormSubservicio.vue').default);
 
 Vue.component('form-exploracion-list', require('./components/FormExploracionList.vue').default);
 Vue.component('form-diagnostico-list', require('./components/FormDiagnosticoList.vue').default);

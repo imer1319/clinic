@@ -56,7 +56,6 @@
         </div>
     </div>
     <div class="col-md-8">
-
         <div class="card">
             <div class="card-body">
                 <h5 class="text-center mb-3">Mis proximas citas medicas</h5>

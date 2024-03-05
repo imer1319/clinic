@@ -57,7 +57,7 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="pills-laboratorios-tab" data-toggle="pill"
                             data-target="#pills-laboratorios" type="button" role="tab"
-                            aria-controls="pills-laboratorios" aria-selected="false">Pruebas laboratorio</button>
+                            aria-controls="pills-laboratorios" aria-selected="false">Servicios y subservicios</button>
                     </li>
                 </ul>
                 <hr>

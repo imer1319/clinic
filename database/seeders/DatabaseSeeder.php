@@ -8,7 +8,6 @@ use App\Models\Doctor;
 use App\Models\HistoryQuestion;
 use App\Models\HistoryType;
 use App\Models\Laboratory;
-use App\Models\Medicine;
 use App\Models\Patient;
 use App\Models\PhysicalExploration;
 use App\Models\Specialty;
@@ -28,25 +27,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        User::truncate();
-        Role::truncate();
-        Permission::truncate();
-        Service::truncate();
-        Specialty::truncate();
-        PhysicalExploration::truncate();
-        HistoryType::truncate();
-        HistoryQuestion::truncate();
-        Laboratory::truncate();
-        Medicine::truncate();
-        Service::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        DB::statement('SET session_replication_role = replica;');
+        DB::statement('TRUNCATE TABLE users, roles, permissions, services, specialties, physical_explorations, history_types, history_questions, laboratories RESTART IDENTITY CASCADE;');
+        DB::statement('SET session_replication_role = DEFAULT;');
 
         Storage::disk('public')->deleteDirectory('images');
 
 
+
         Specialty::factory(6)->create();
-        
+
         $this->call([
             RolesSeeder::class,
             PermissionsSeeder::class,
@@ -55,7 +45,6 @@ class DatabaseSeeder extends Seeder
             HistoryTypeSeeder::class,
             HistoryQuestionSeeder::class,
             LaboratorySeeder::class,
-            MedicineSeeder::class,
             ServiceSeeder::class,
         ]);
     }

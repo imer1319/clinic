@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateConsultationServiceTable extends Migration
+class CreateSubserviciosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateConsultationServiceTable extends Migration
      */
     public function up()
     {
-        Schema::create('consultation_service', function (Blueprint $table) {
+        Schema::create('subservicios', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('consultation_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('service_id')->constrained()->cascadeOnDelete();
+            $table->string('nombre');
+            $table->unsignedBigInteger('precio');
+            $table->enum('status',['ACTIVO','BAJA']);
+            $table->foreignId('servicio_id')->constrained('services');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateConsultationServiceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('consultation_service');
+        Schema::dropIfExists('subservicios');
     }
 }

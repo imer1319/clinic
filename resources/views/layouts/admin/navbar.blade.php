@@ -6,7 +6,7 @@
         <ul class=" navbar-right">
             <li class="nav-item dropdown open" style="padding-left: 15px;">
                 <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                    @if(auth()->user()->profile->image)
+                    @if(optional(optional(auth()->user())->profile)->image)
                     <img src="{{ Storage::url( auth()->user()->profile->image) }}" alt="{{  auth()->user()->name }}" width="120px">
                     {{ auth()->user()->name }}
                     @else

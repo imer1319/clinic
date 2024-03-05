@@ -101,16 +101,16 @@ export default {
                 'F.C. : ' + fc + ' f.c\n'
         },
         async showDetailReceta(consultation, index) {
+            console.log(consultation.prescriptions)
             this.activeIndexReceta = index;
             this.activeIndexConsulta = null;
             let prescripciones = ''
             let medical_instruction = consultation.medical_instruction === 'null' ? consultation.medical_instruction.instructions : ''
-
-            if (consultation.medicines.length == 0) {
+            if (consultation.prescriptions.length == 0) {
                 prescripciones = ''
             } else {
-                consultation.medicines.forEach(prescription => {
-                    prescripciones += `*${prescription.medicine} - ${prescription.concentration} - Tomar: ${prescription.pivot.tomar} - Cada: ${prescription.pivot.frecuencia} Hrs - Durante: ${prescription.pivot.durante} Dias\n`
+                consultation.prescriptions.forEach(prescription => {
+                    prescripciones += `*${prescription.medicamento} - Tomar: ${prescription.tomar} - Cada: ${prescription.frecuencia} Hrs - Durante: ${prescription.durante} Dias\n`
                 })
             }
             this.description_cita = "MEDICAMENTOS" + "\n"

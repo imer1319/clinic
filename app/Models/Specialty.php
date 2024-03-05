@@ -11,7 +11,7 @@ class Specialty extends Model
 
     protected $fillable = ['description','status'];
 
-    public function user()
+    public function profile()
     {
         return $this->belongsTo(Profile::class);
     }

@@ -24,6 +24,8 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\HorarioController;
 use App\Http\Controllers\Api\ServiceConsultationController;
 use App\Http\Controllers\Api\SpecialtyController;
+use App\Http\Controllers\Api\SubservicioController;
+use App\Http\Controllers\Api\ConsultaSubservicioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +52,10 @@ Route::put('medicines/{medicine}', [MedicineController::class, 'update']);
 Route::get('services', [ServiceController::class, 'index']);
 Route::post('services/store', [ServiceController::class, 'store']);
 Route::put('services/{service}', [ServiceController::class, 'update']);
+
+Route::get('subservicios', [SubservicioController::class, 'index']);
+Route::post('subservicios/store', [SubservicioController::class, 'store']);
+Route::put('subservicios/{subservicio}', [SubservicioController::class, 'update']);
 
 Route::get('specialties', [SpecialtyController::class, 'index']);
 Route::post('specialties/store', [SpecialtyController::class, 'store']);
@@ -86,6 +92,12 @@ Route::get('studioCarriedOut/{consultation}', [StudioCarriedOutController::class
 Route::post('studioCarriedOut', [StudioCarriedOutController::class,'store']);
 Route::delete('studioCarriedOut/{studioCarriedOut}', [StudioCarriedOutController::class, 'destroy']);
 
+
+Route::get('consultaSubservicio/{consultation}', [ConsultaSubservicioController::class, 'index']);
+Route::post('consultaSubservicio', [ConsultaSubservicioController::class,'store']);
+Route::delete('consultaSubservicio/{consultaSubservicio}', [StudioCarriedOutController::class, 'destroy']);
+
+
 Route::get('studioInstruction/{consultation}', [StudioInstructionController::class, 'index']);
 Route::post('studioInstruction', [StudioInstructionController::class,'store']);
 Route::put('studioInstruction/{studioInstruction}', [StudioInstructionController::class, 'update']);
@@ -103,6 +115,7 @@ Route::put('dateHistorial/{dateHistorial}', [DateHistorialController::class, 'up
 
 Route::post('diaries', [DiaryController::class, 'store']);
 Route::put('diaries/{diary}', [DiaryController::class, 'update']);
+Route::delete('diaries/{diary}', [DiaryController::class, 'destroy'])->name('delete.diary');
 
 Route::get('notifications/{user}', [NotificationController::class, 'index']);
 Route::put('notifications/{notification}', [NotificationController::class, 'update']);

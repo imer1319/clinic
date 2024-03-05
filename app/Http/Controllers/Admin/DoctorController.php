@@ -10,6 +10,7 @@ use App\Models\Appointment;
 use App\Models\Horario;
 use App\Models\Specialty;
 use App\Models\User;
+use App\Models\Profile;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -27,13 +28,12 @@ class DoctorController extends Controller
 
     public function datatables()
     {
-        return DataTables::of(User::doctors()->select('id','name', 'username'))
+        return DataTables::of(User::with('profile','profile.specialty')->doctors()->select('id','name', 'username'))
         ->addColumn('speciality', function (User $user) {
-            $specialty = Specialty::find($user->profile->specialty_id);
-            return $specialty ? $specialty->description : '';
+            return optional(optional($user->profile)->specialty)->description;
         })
         ->addColumn('ci', function (User $user) {
-            return $user->profile->ci;
+            return optional($user->profile)->ci;
         })
         ->addColumn('btn', 'admin.doctors.partials.btn')
         ->rawColumns(['btn','ci', 'speciality'])
@@ -45,6 +45,26 @@ class DoctorController extends Controller
         return view('admin.doctors.index');
     }
 
+    public function create()
+    {
+        $doctor = new User;
+        $specialties = Specialty::all();
+        return view('admin.doctors.create',compact('doctor','specialties'));
+    }
+
+    public function store(StoreRequest $request)
+    {
+        $user = (new User)->fill($request->validated());
+
+        $user->save();
+
+        $user->profile()->create($request->validated());
+
+        $user->assignRole('Doctor');
+
+        return redirect()->route('admin.doctors.index')->with('flash', 'Doctor creado corretamente');
+    }
+
     public function show(User $doctor)
     {
         $fecha_nacimiento = $doctor->nacimiento;
@@ -53,7 +73,12 @@ class DoctorController extends Controller
         return view('admin.doctors.show', [
             'user' => $doctor,
             'edad' => $edad_diff->format('%y'),
-            'diaries' => $doctor->diariesDoctor()->where('status','En espera')->where('date_cita','>=',date('Y-m-d'))->orderBy('date_cita')->get(),
+            'diaries' => $doctor
+            ->diariesDoctor()
+            ->where('status','En espera')
+            ->where('date_cita','>=',date('Y-m-d'))
+            ->orderBy('date_cita')
+            ->get(),
             'consultations' => $doctor->consultationsDoctor()->take(5)->get(),
         ]);
     }
@@ -61,8 +86,9 @@ class DoctorController extends Controller
     public function edit(User $doctor)
     {
         $specialties = Specialty::all();
+        $doctor->load('profile');
         return view('admin.doctors.edit', compact('doctor', 'specialties'));
-    }
+    } 
 
     public function update(UpdateRequest $request, User $doctor)
     {
@@ -79,7 +105,7 @@ class DoctorController extends Controller
             'celular' => $request->celular,
             'gender' => $request->gender,
             'specialty_id' => $request->specialty_id,
-            'image' => $doctor->profile->image 
+            'image' => $doctor->profile->image
         ]);
         return redirect()->route('admin.doctors.index')->with('flash', 'Doctor actualizado corretamente');
     }
@@ -87,7 +113,7 @@ class DoctorController extends Controller
     public function destroy(User $doctor)
     {
         $url = str_replace('storage', 'public', $doctor->profile->image);
-        
+
         Storage::delete($url);
 
         $doctor->delete();

@@ -24,15 +24,17 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:60',
-            'surnames' => 'required|max:150',
-            'ci' => 'required|numeric',
-            'celular' => 'required|numeric|min:8',
-            'address' => 'required|min:5',
-            'city' => 'required|min:5',
+            'name' => 'required|max:255',
+            'surnames' => 'required|max:255',
+            'ci' => 'required|min:8',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'nacimiento' => 'required|date',
+            'celular' => 'required|numeric',
+            'address' => 'required',
+            'email' => 'required|email|max:255|unique:users',
+            'username' => 'required|max:60|unique:users',
+            'password' => 'required|string|min:8|confirmed',
             'gender'=> 'required|in:Masculino,Femenino',
-            'nacimiento' => 'required|date|date_format:Y-m-d|before:'. date("Y-m-d"),
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 

@@ -56,8 +56,9 @@ class HomeController extends Controller
         }
         // user created for year
         foreach ($year as $value) {
-            $patientYear[] = User::patients()->where(DB::raw("DATE_FORMAT(created_at, '%Y')"), $value)->count();
+            $patientYear[] = User::patients()->whereRaw("TO_CHAR(created_at, 'YYYY') = ?", [$value])->count();
         }
+
         $consultations = '';
         if (Auth::user()->hasRole('Doctor')) {
             $diaries =  Diary::where('doctor_id', Auth::id())->get();

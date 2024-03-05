@@ -191,15 +191,13 @@
 		<table class="table">
 			<tr>
 				<th>Medicamento</th>
-				<th>Concentracion</th>
 				<th>Dosis</th>
 				<th>Frecuencia (hrs)</th>
 				<th>Duracion (Dias)</th>
 			</tr>
 			@foreach($prescriptions as $prescription)
 			<tr>
-				<td>{{ $prescription->medicine->medicine }}</td>
-				<td>{{ $prescription->medicine->concentration }}</td>
+				<td>{{ $prescription->medicamento }}</td>
 				<td>{{ $prescription->tomar }}</td>
 				<td>{{ $prescription->frecuencia }}</td>
 				<td>{{ $prescription->durante }}</td>

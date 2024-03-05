@@ -205,7 +205,7 @@
             </tr>
             @foreach ($services as $service)
             <tr>
-                <td style="text-align: center">{{ $service->name }}</td>
+                <td style="text-align: center">{{ $service->nombre }}</td>
                 <td style="text-align: center">{{ $service->created_at->format('d M Y H:i A') }}</td>
             </tr>
             @endforeach
