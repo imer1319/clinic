@@ -35,6 +35,11 @@ class PatientController extends Controller
         ->addColumn('surnames', function (User $user) {
             return $user->profile->surnames;
         })
+        ->filterColumn('ci', function ($query, $keyword) {
+            $query->whereHas('profile', function ($q) use ($keyword) {
+                $q->where('ci', 'LIKE', "%{$keyword}%");
+            });
+        })
         ->addColumn('btn', 'admin.patients.partials.btn')
         ->rawColumns(['btn','ci','surnames'])
         ->toJson();
@@ -54,7 +59,7 @@ class PatientController extends Controller
     public function store(StoreRequest $request)
     {
      $user = (new User)->fill($request->validated());
-
+     $user->password = $request->ci;
      $user->save();
 
      $user->profile()->create($request->validated());

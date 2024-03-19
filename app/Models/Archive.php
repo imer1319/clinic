@@ -9,6 +9,6 @@ class Archive extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title','patient_id','image'];
+    protected $fillable = ['title','patient_id','image','consultation_id'];
 
 }

@@ -35,6 +35,11 @@ class DoctorController extends Controller
         ->addColumn('ci', function (User $user) {
             return optional($user->profile)->ci;
         })
+        ->filterColumn('ci', function ($query, $keyword) {
+            $query->whereHas('profile', function ($q) use ($keyword) {
+                $q->where('ci', 'LIKE', "%{$keyword}%");
+            });
+        })
         ->addColumn('btn', 'admin.doctors.partials.btn')
         ->rawColumns(['btn','ci', 'speciality'])
         ->toJson();
@@ -55,7 +60,7 @@ class DoctorController extends Controller
     public function store(StoreRequest $request)
     {
         $user = (new User)->fill($request->validated());
-
+        $user->password = $request->ci;
         $user->save();
 
         $user->profile()->create($request->validated());
@@ -88,7 +93,7 @@ class DoctorController extends Controller
         $specialties = Specialty::all();
         $doctor->load('profile');
         return view('admin.doctors.edit', compact('doctor', 'specialties'));
-    } 
+    }
 
     public function update(UpdateRequest $request, User $doctor)
     {

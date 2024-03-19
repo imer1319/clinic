@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Consultation;
 use App\Models\ConsultaSubservicio;
+use Illuminate\Support\Facades\Storage;
 
 class ConsultaSubservicioController extends Controller
 {
     public function index(Consultation $consultation)
     {
-        return $consultation->load('subservices');
+        return $consultation->load('subservices','consultaSubservicio.imagen');
     }
 
     public function store(Request $request)
@@ -26,6 +27,13 @@ class ConsultaSubservicioController extends Controller
 
     public function destroy(ConsultaSubservicio $consultaSubservicio)
     {
-        return $consultaSubservicio->delete();
+        $imagen = $consultaSubservicio->imagen;
+        if ($imagen) {
+            Storage::delete($imagen->imagen);
+            $imagen->delete();
+        }
+        $consultaSubservicio->delete();
+        return response()->json(['message' => 'ConsultaSubservicio eliminado exitosamente']);
     }
+
 }

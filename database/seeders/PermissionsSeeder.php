@@ -103,23 +103,6 @@ class PermissionsSeeder extends Seeder
             'display_name' => 'Eliminar doctores'
         ]);
 
-        // $viewServicesPermission = Permission::create([
-        //     'name' => 'services_index',
-        //     'display_name' => 'Listar servicios'
-        // ]);
-        // $createServicesPermission = Permission::create([
-        //     'name' => 'services_create',
-        //     'display_name' => 'Crear servicios'
-        // ]);
-        // $updateServicesPermission = Permission::create([
-        //     'name' => 'services_edit',
-        //     'display_name' => 'Actualizar servicios'
-        // ]);
-        // $deleteServicesPermission = Permission::create([
-        //     'name' => 'services_destroy',
-        //     'display_name' => 'Eliminar servicios'
-        // ]);
-
         $viewPatientsPermission = Permission::create([
             'name' => 'patients_index',
             'display_name' => 'Listar paciente'
@@ -141,48 +124,6 @@ class PermissionsSeeder extends Seeder
             'display_name' => 'Eliminar paciente'
         ]);
 
-        // $viewAppointmentsPermission = Permission::create([
-        //     'name' => 'appointments_index',
-        //     'display_name' => 'Listar cita'
-        // ]);
-        // $showAppointmentsPermission = Permission::create([
-        //     'name' => 'appointments_show',
-        //     'display_name' => 'Ver cita'
-        // ]);
-        // $createAppointmentsPermission = Permission::create([
-        //     'name' => 'appointments_create',
-        //     'display_name' => 'Crear cita'
-        // ]);
-        // $updateAppointmentsPermission = Permission::create([
-        //     'name' => 'appointments_edit',
-        //     'display_name' => 'Actualizar cita'
-        // ]);
-        // $deleteAppointmentsPermission = Permission::create([
-        //     'name' => 'appointments_destroy',
-        //     'display_name' => 'Eliminar cita'
-        // ]);
-
-
-        // $viewSubServicesPermission = Permission::create([
-        //     'name' => 'subservices_index',
-        //     'display_name' => 'Listar sub servicio'
-        // ]);
-        // $showSubServicesPermission = Permission::create([
-        //     'name' => 'subservices_show',
-        //     'display_name' => 'Ver sub servicio'
-        // ]);
-        // $createSubServicesPermission = Permission::create([
-        //     'name' => 'subservices_create',
-        //     'display_name' => 'Crear sub servicio'
-        // ]);
-        // $updateSubServicesPermission = Permission::create([
-        //     'name' => 'subservices_edit',
-        //     'display_name' => 'Actualizar sub servicio'
-        // ]);
-        // $deleteSubServicesPermission = Permission::create([
-        //     'name' => 'subservices_destroy',
-        //     'display_name' => 'Eliminar sub servicio'
-        // ]);
         Permission::create(['name' => 'horarios_edit', 'display_name' => 'Editar horario']);
 
         Permission::create(['name' => 'notifications_store', 'display_name' => 'Notificar doctor']);
@@ -207,6 +148,14 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'specialties_store', 'display_name' => 'Guardar especialidades']);
 
         Permission::create(['name' => 'profiles_edit', 'display_name' => 'Editar perfil']);
+
+        Permission::create(['name' => 'create_consulta_subservicio', 'display_name' => 'Crear subservicios a consulta medica']);
+
+        Permission::create(['name' => 'create_consulta_imagen', 'display_name' => 'Crear imagen a consulta medica']);
+
+        Permission::create(['name' => 'destroy_consulta_subservicio', 'display_name' => 'Eliminar subservicios a consulta medica']);
+
+        Permission::create(['name' => 'create_subservicio_imagen', 'display_name' => 'Crear imagen a subservicio']);
 
         // Asignar todos los permisos al admin
         $role = Role::findByName('Administrador');

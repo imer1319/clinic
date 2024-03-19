@@ -2069,7 +2069,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['patient'],
+  props: ['patient', 'consultation'],
   mounted: function mounted() {
     this.getArchivos();
   },
@@ -2090,7 +2090,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getArchivos: function getArchivos() {
       var _this = this;
-      axios.get('/api/archives/' + this.patient.id).then(function (res) {
+      axios.get('/api/archives/' + this.consultation.id).then(function (res) {
         _this.archives = res.data;
       });
     },
@@ -2109,6 +2109,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
       this.form.image = this.image;
       this.form.patient_id = this.patient.id;
+      this.form.consultation_id = this.consultation.id;
       var forms = new FormData();
       for (var key in this.form) {
         forms.append(key, this.form[key]);
@@ -3728,10 +3729,20 @@ __webpack_require__.r(__webpack_exports__);
       subservicios: [],
       consultaSubservicios: [],
       servicio_id: 1,
-      subservicio: {}
+      subservicio: {},
+      subservicioImagen: {
+        id: '',
+        imagen: {
+          imagen: ''
+        }
+      },
+      imageSubservice: null
     };
   },
   methods: {
+    selectFile: function selectFile(event) {
+      this.imageSubservice = event.target.files[0];
+    },
     getServices: function getServices() {
       var _this2 = this;
       axios.get('/api/services').then(function (response) {
@@ -3763,14 +3774,38 @@ __webpack_require__.r(__webpack_exports__);
         _this6.instructciones = _this6.instructions.instructions;
       });
     },
-    createOrUpdate: function createOrUpdate() {
-      if (this.instructions.id) {
-        this.updateStudioInstructions();
-        return;
-      } else {
-        this.saveStudioInstructions();
-        return;
+    guardarImagenSubservicio: function guardarImagenSubservicio() {
+      var _this7 = this;
+      var form = {
+        imagen: this.imageSubservice,
+        consultation_subservice_id: this.subservicioImagen.id
+      };
+      var forms = new FormData();
+      for (var key in form) {
+        forms.append(key, form[key]);
       }
+      axios.post('/api/imagenSubservicio', forms).then(function () {
+        _this7.$toastr.s("SE GUARDO CORRECTMENTE", "");
+        _this7.getConsultaSubservicios();
+        $('#modal_imagen').modal('hide');
+      })["catch"](function (err) {
+        _this7.errors.push(err.response.data.errors);
+        _this7.$toastr.e("HAY ERRORES");
+      });
+    },
+    showImagenSubservicio: function showImagenSubservicio(sub) {
+      var _this8 = this;
+      this.subservicioImagen.id = sub.id;
+      this.consultaSubservicios.consulta_subservicio.forEach(function (subser) {
+        if (subser.id == sub.id) {
+          _this8.subservicioImagen.imagen = subser.imagen;
+        }
+      });
+      $('#modal_imagen').modal('show');
+    },
+    closeImagenSubservicio: function closeImagenSubservicio() {
+      this.subservicioImagen.id = '';
+      $('#modal_imagen').modal('hide');
     },
     openModal: function openModal() {
       $('#modal_laboratoryStudies').modal('show');
@@ -3782,60 +3817,47 @@ __webpack_require__.r(__webpack_exports__);
       this.subservicio.consultation_id = this.consultation.id;
     },
     saveStudioCarrieOut: function saveStudioCarrieOut(studio) {
-      var _this7 = this;
+      var _this9 = this;
       axios.post('/api/consultaSubservicio', {
         subservice_id: studio.id,
         consultation_id: this.consultation.id
       }).then(function () {
-        _this7.$toastr.s("SE GUARDO CORRECTMENTE", "");
-        _this7.getStudiosCarriedOut();
+        _this9.$toastr.s("SE GUARDO CORRECTMENTE", "");
+        _this9.getConsultaSubservicios();
         $('#modal_laboratoryStudies').modal('hide');
       })["catch"](function (err) {
-        _this7.errors.push(err.response.data.errors);
-        _this7.$toastr.e("HAY ERRORES");
+        _this9.errors.push(err.response.data.errors);
+        _this9.$toastr.e("HAY ERRORES");
       });
     },
     saveStudioInstructions: function saveStudioInstructions() {
-      var _this8 = this;
+      var _this10 = this;
       axios.post('/api/studioInstruction', {
         instructions: this.instructciones,
         consultation_id: this.consultation.id
-      }).then(function () {
-        _this8.$toastr.s("SE GUARDO CORRECTMENTE", "");
-      })["catch"](function (err) {
-        _this8.errors.push(err.response.data.errors);
-        _this8.$toastr.e("HAY ERRORES");
-      });
-    },
-    eliminarSubservicio: function eliminarSubservicio(consultaSubservicio) {
-      var _this9 = this;
-      axios["delete"]('/api/consultaSubservicio/' + consultaSubservicio.pivot.id).then(function () {
-        _this9.getStudiosCarriedOut();
-      })["catch"](function (err) {
-        _this9.errors.push(err.response.data.errors);
-        _this9.$toastr.e("HUBO ERRORES AL ELIMINAR");
-      });
-    },
-    updateStudioInstructions: function updateStudioInstructions() {
-      var _this10 = this;
-      axios.put('/api/studioInstruction/' + this.instructions.id, {
-        instructions: this.instructciones,
-        consultation_id: this.consultation.id,
-        id: this.instructions.id
       }).then(function () {
         _this10.$toastr.s("SE GUARDO CORRECTMENTE", "");
       })["catch"](function (err) {
         _this10.errors.push(err.response.data.errors);
         _this10.$toastr.e("HAY ERRORES");
       });
+    },
+    eliminarSubservicio: function eliminarSubservicio(consultaSubservicio) {
+      var _this11 = this;
+      axios["delete"]('/api/consultaSubservicio/' + consultaSubservicio.pivot.id).then(function () {
+        _this11.getConsultaSubservicios();
+      })["catch"](function (err) {
+        _this11.errors.push(err.response.data.errors);
+        _this11.$toastr.e("HUBO ERRORES AL ELIMINAR");
+      });
     }
   },
   computed: {
     filterSubservicios: function filterSubservicios() {
-      var _this11 = this;
+      var _this12 = this;
       var questions = [];
       this.subservicios.map(function (question) {
-        if (question.servicio_id === _this11.servicio_id) {
+        if (question.servicio_id === _this12.servicio_id) {
           questions.push(question);
         }
       });
@@ -7029,20 +7051,20 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.consultation.motivo_consulta,
-      expression: "consultation.motivo_consulta"
+      value: _vm.consultation.motivo,
+      expression: "consultation.motivo"
     }],
     staticClass: "form-control",
     attrs: {
       rows: "3"
     },
     domProps: {
-      value: _vm.consultation.motivo_consulta
+      value: _vm.consultation.motivo
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.$set(_vm.consultation, "motivo_consulta", $event.target.value);
+        _vm.$set(_vm.consultation, "motivo", $event.target.value);
       }
     }
   })]), _vm._v(" "), _c("div", {
@@ -7452,7 +7474,7 @@ var render = function render() {
     staticClass: "col-md-12"
   }, [_c("div", {
     staticClass: "d-flex justify-content-between align-items-center mb-3"
-  }, [_c("h5", [_vm._v("Servicios realizados")]), _vm._v(" "), _c("a", {
+  }, [_c("h5", [_vm._v("Servicios realizados")]), _vm._v(" "), _vm.can("create_consulta_subservicio") ? _c("a", {
     staticClass: "btn border text-success cursor-pointer",
     attrs: {
       "data-toggle": "modal_laboratoryStudies"
@@ -7464,7 +7486,7 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fa fa-plus"
-  }), _vm._v("\n              Agregar")])]), _vm._v(" "), _c("div", {
+  }), _vm._v("\n                  Agregar\n            ")]) : _vm._e()]), _vm._v(" "), _c("div", {
     staticClass: "card mb-3"
   }, [_c("div", {
     staticClass: "card-body"
@@ -7478,13 +7500,30 @@ var render = function render() {
         width: "10px"
       }
     }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(subservicio.nombre))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(subservicio.precio))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm._f("fechaFormateada")(subservicio.pivot.created_at)))]), _vm._v(" "), _c("td", {
+      staticClass: "d-flex"
+    }, [_c("h5", [_c("a", {
+      on: {
+        click: function click($event) {
+          return _vm.showImagenSubservicio(subservicio);
+        }
+      }
+    }, [_c("img", {
+      staticClass: "mr-3",
+      attrs: {
+        src: "/imagenes/clip.png",
+        alt: "clip",
+        width: "20"
+      }
+    })])]), _vm._v(" "), _vm.can("destroy_consulta_subservicio") ? _c("h5", {
       on: {
         click: function click($event) {
           $event.preventDefault();
           return _vm.eliminarSubservicio(subservicio);
         }
       }
-    }, [_vm._m(1, true)])]);
+    }, [_c("i", {
+      staticClass: "fa fa-trash text-danger cursor-pointer"
+    })]) : _vm._e()])]);
   }), 0)])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-md-8"
   }, [_c("div", {
@@ -7530,7 +7569,7 @@ var render = function render() {
     on: {
       click: function click($event) {
         $event.preventDefault();
-        return _vm.createOrUpdate.apply(null, arguments);
+        return _vm.saveStudioInstructions.apply(null, arguments);
       }
     }
   }, [_c("img", {
@@ -7554,6 +7593,79 @@ var render = function render() {
   }), _vm._v("\n                     Imprimir ")])])])])]), _vm._v(" "), _c("div", {
     staticClass: "modal fade",
     attrs: {
+      id: "modal_imagen",
+      tabindex: "-1",
+      "aria-labelledby": "modalLabel",
+      "aria-hidden": "true",
+      "data-backdrop": "static"
+    }
+  }, [_c("div", {
+    staticClass: "modal-dialog modal-lg modal-dialog-scrollable"
+  }, [_c("div", {
+    staticClass: "modal-content"
+  }, [_c("div", {
+    staticClass: "modal-header"
+  }, [_c("h5", {
+    staticClass: "modal-title",
+    attrs: {
+      id: "modalLabel"
+    }
+  }, [_vm._v(" Cargar Imagen ")]), _vm._v(" "), _c("button", {
+    staticClass: "close",
+    attrs: {
+      type: "button"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.closeImagenSubservicio();
+      }
+    }
+  }, [_c("span", {
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("×")])])]), _vm._v(" "), _c("div", {
+    staticClass: "modal-body"
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_vm.subservicioImagen.imagen === null ? _c("div", [_c("label", [_vm._v("Cargar imagen")]), _vm._v(" "), _c("div", {
+    staticClass: "custom-file"
+  }, [_c("input", {
+    staticClass: "custom-file-input",
+    attrs: {
+      type: "file",
+      id: "fileInput",
+      accept: "image/*"
+    },
+    on: {
+      change: _vm.selectFile
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "custom-file-label",
+    attrs: {
+      "for": "inputGroupFile04"
+    }
+  }, [_vm._v("Choose file")])])]) : _c("div", [_c("hr"), _vm._v(" "), _c("img", {
+    attrs: {
+      src: "/".concat(_vm.subservicioImagen.imagen.imagen.replace("public", "storage")),
+      alt: "img",
+      width: "100%",
+      height: "400px"
+    }
+  }), _vm._v(" "), _c("i", [_vm._v("Dejar en blanco para mantener la imagen")])])]), _vm._v(" "), _vm.can("create_subservicio_imagen") ? _c("div", {
+    staticClass: "form-group"
+  }, [_c("a", {
+    staticClass: "btn btn-primary text-white",
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.guardarImagenSubservicio();
+      }
+    }
+  }, [_vm._v("Guardar imagen")])]) : _vm._e()])])])]), _vm._v(" "), _c("div", {
+    staticClass: "modal fade",
+    attrs: {
       id: "modal_laboratoryStudies",
       tabindex: "-1",
       "aria-labelledby": "modalLabel",
@@ -7563,7 +7675,7 @@ var render = function render() {
     staticClass: "modal-dialog modal-lg"
   }, [_c("div", {
     staticClass: "modal-content"
-  }, [_vm._m(2), _vm._v(" "), _c("div", {
+  }, [_vm._m(1), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
   }, [_c("div", {
     staticClass: "row"
@@ -7594,12 +7706,12 @@ var render = function render() {
       domProps: {
         value: sevicio.id
       }
-    }, [_vm._v(_vm._s(sevicio.name) + "\n                                ")]);
+    }, [_vm._v(_vm._s(sevicio.name) + "\n                            ")]);
   }), 0)])]), _vm._v(" "), _c("div", {
     staticClass: "pre-scrollable"
   }, [_c("table", {
     staticClass: "table"
-  }, [_vm._m(3), _vm._v(" "), _c("tbody", _vm._l(_vm.filterSubservicios, function (subservicio) {
+  }, [_vm._m(2), _vm._v(" "), _c("tbody", _vm._l(_vm.filterSubservicios, function (subservicio) {
     return _c("tr", [_c("td", {
       staticClass: "cursor-pointer",
       on: {
@@ -7608,7 +7720,7 @@ var render = function render() {
           return _vm.saveStudioCarrieOut(subservicio);
         }
       }
-    }, [_vm._v("\n                                        " + _vm._s(subservicio.nombre) + "\n                                    ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(subservicio.precio))])]);
+    }, [_vm._v("\n                                    " + _vm._s(subservicio.nombre) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(subservicio.precio))])]);
   }), 0)])])])])])])]);
 };
 var staticRenderFns = [function () {
@@ -7616,15 +7728,9 @@ var staticRenderFns = [function () {
     _c = _vm._self._c;
   return _c("thead", [_c("tr", [_c("th", [_vm._v("#")]), _vm._v(" "), _c("th", [_vm._v("Servicio realizado")]), _vm._v(" "), _c("th", [_vm._v("Precio")]), _vm._v(" "), _c("th", [_vm._v("Fecha ")]), _vm._v(" "), _c("th", {
     attrs: {
-      width: "20"
+      width: "30"
     }
   })])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("h5", [_c("i", {
-    staticClass: "fa fa-trash text-danger cursor-pointer"
-  })]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;

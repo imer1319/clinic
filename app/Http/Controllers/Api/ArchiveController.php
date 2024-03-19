@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Archive;
 use App\Models\User;
+use App\Models\Consultation;
 use Illuminate\Support\Facades\Storage;
 
 class ArchiveController extends Controller
 {
-    public function index(User $patient)
+    public function index(Consultation $consultation)
     {
-        return $patient->archives()->latest()->get();
+        return $consultation->archives()->latest()->get();
     }
 
     public function store(Request $request)
@@ -21,6 +22,7 @@ class ArchiveController extends Controller
             'title' => 'required|min:2',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'patient_id' => 'required|numeric|exists:App\Models\User,id',
+            'consultation_id' => 'required|numeric|exists:App\Models\Consultation,id',
         ]);
 
         $archive = (new Archive)->fill($request->all());

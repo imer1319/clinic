@@ -3,10 +3,11 @@
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5>Servicios realizados</h5>
-                <a class="btn border text-success cursor-pointer" data-toggle="modal_laboratoryStudies"
+                <a v-if="can('create_consulta_subservicio')" class="btn border text-success cursor-pointer" data-toggle="modal_laboratoryStudies"
                 @click="openModal()">
                 <i class="fa fa-plus"></i>
-            &nbsp; Agregar</a>
+                &nbsp; Agregar
+            </a>
         </div>
         <div class="card mb-3">
             <div class="card-body">
@@ -17,7 +18,7 @@
                             <th>Servicio realizado</th>
                             <th>Precio</th>
                             <th>Fecha </th>
-                            <th width="20"></th>
+                            <th width="30"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,8 +27,15 @@
                             <td>{{ subservicio.nombre }}</td>
                             <td>{{ subservicio.precio }}</td>
                             <td>{{ subservicio.pivot.created_at | fechaFormateada }}</td>
-                            <td @click.prevent="eliminarSubservicio(subservicio)">
-                                <h5><i class="fa fa-trash text-danger cursor-pointer"></i></h5>
+                            <td class="d-flex">
+                                <h5>
+                                    <a @click="showImagenSubservicio(subservicio)">
+                                        <img src="/imagenes/clip.png" alt="clip" class="mr-3" width="20">
+                                    </a>
+                                </h5>
+                                <h5 v-if="can('destroy_consulta_subservicio')" @click.prevent="eliminarSubservicio(subservicio)">
+                                    <i class="fa fa-trash text-danger cursor-pointer"></i>
+                                </h5>
                             </td>
                         </tr>
                     </tbody>
@@ -50,7 +58,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
-                    <button @click.prevent="createOrUpdate" class="btn border">
+                    <button @click.prevent="saveStudioInstructions" class="btn border">
                         <img src="/imagenes/guardar.png" alt="guardar" width="35">
                     &nbsp;Guardar </button>
                     <a target="_blank" :href="`/pdf/pruebas/${consultation.id}`" class="btn border">
@@ -60,53 +68,83 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modal_laboratoryStudies" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <div class="modal fade" id="modal_imagen" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Servicios</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="modalLabel"> Cargar Imagen </h5>
+                    <button type="button" class="close" @click.prevent="closeImagenSubservicio()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <h6>Filtrar por servicio</h6>
-                            <select class="form-control" v-model="servicio_id">
-                                <option :value="sevicio.id" v-for="sevicio in servicios" :key="sevicio.id">{{
-                                    sevicio.name }}
-                                </option>
-                            </select>
+                 <div class="form-group" >
+                    <div v-if="subservicioImagen.imagen ===  null">
+                        <label>Cargar imagen</label>
+                        <div class="custom-file">
+                            <input type="file" id="fileInput" @change="selectFile" class="custom-file-input" accept="image/*">
+                            <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
                         </div>
                     </div>
-                    <div class="pre-scrollable">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Precio</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="subservicio in filterSubservicios">
-                                    <td class="cursor-pointer" @click.prevent="saveStudioCarrieOut(subservicio)">
-                                        {{ subservicio.nombre }}
-                                    </td>
-                                    <td>{{ subservicio.precio }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div v-else>
+                        <hr>
+                        <img :src="`/${subservicioImagen.imagen.imagen.replace('public','storage')}`" alt="img" width="100%" height="400px" />
+                        <i>Dejar en blanco para mantener la imagen</i>
                     </div>
+                </div>
+                <div class="form-group" v-if="can('create_subservicio_imagen')">
+                    <a @click.prevent="guardarImagenSubservicio()" class="btn btn-primary text-white">Guardar imagen</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="modal_laboratoryStudies" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Servicios</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <h6>Filtrar por servicio</h6>
+                        <select class="form-control" v-model="servicio_id">
+                            <option :value="sevicio.id" v-for="sevicio in servicios" :key="sevicio.id">{{
+                                sevicio.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pre-scrollable">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="subservicio in filterSubservicios">
+                                <td class="cursor-pointer" @click.prevent="saveStudioCarrieOut(subservicio)">
+                                    {{ subservicio.nombre }}
+                                </td>
+                                <td>{{ subservicio.precio }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 </template>
 <script>
     import moment from 'moment';
-
     export default {
         props: ['consultation'],
         mounted() {
@@ -132,15 +170,25 @@
                 subservicios: [],
                 consultaSubservicios: [],
                 servicio_id: 1,
-                subservicio:{}
+                subservicio:{},
+                subservicioImagen:{
+                    id:'',
+                    imagen:{
+                        imagen:''
+                    }
+                },
+                imageSubservice:null,
             }
         },
         methods: {
+            selectFile(event) {
+                this.imageSubservice = event.target.files[0]
+            },
             getServices() {
                 axios.get('/api/services')
                 .then(response => {
-                   this.servicios = response.data;
-               })
+                    this.servicios = response.data;
+                })
             },
             getSubservicios() {
                 axios.get('/api/subservicios')
@@ -149,10 +197,10 @@
                 })
             },
             getConsultaSubservicios(){
-               axios.get('/api/consultaSubservicio/'+this.consultation.id)
+                axios.get('/api/consultaSubservicio/'+this.consultation.id)
                 .then(response => {
                     this.consultaSubservicios = response.data;
-                }) 
+                })
             },
             getStudiosCarriedOut() {
                 axios.get('/api/consultaSubservicio/' + this.consultation.id)
@@ -167,14 +215,37 @@
                     this.instructciones = this.instructions.instructions
                 })
             },
-            createOrUpdate() {
-                if (this.instructions.id) {
-                    this.updateStudioInstructions()
-                    return
-                } else {
-                    this.saveStudioInstructions()
-                    return
+            guardarImagenSubservicio(){
+                let form = {
+                    imagen: this.imageSubservice,
+                    consultation_subservice_id: this.subservicioImagen.id
                 }
+                let forms = new FormData();
+                for (let key in form) {
+                    forms.append(key, form[key])
+                }
+                axios.post('/api/imagenSubservicio', forms)
+                .then(() => {
+                    this.$toastr.s("SE GUARDO CORRECTMENTE", "");
+                    this.getConsultaSubservicios()
+                    $('#modal_imagen').modal('hide');
+                }).catch(err => {
+                    this.errors.push(err.response.data.errors);
+                    this.$toastr.e("HAY ERRORES");
+                })
+            },
+            showImagenSubservicio(sub) {
+                this.subservicioImagen.id = sub.id;
+                this.consultaSubservicios.consulta_subservicio.forEach(subser =>{
+                    if(subser.id == sub.id){
+                        this.subservicioImagen.imagen = subser.imagen;
+                    }
+                })
+                $('#modal_imagen').modal('show');
+            },
+            closeImagenSubservicio(){
+                this.subservicioImagen.id = '';
+                $('#modal_imagen').modal('hide');
             },
             openModal() {
                 $('#modal_laboratoryStudies').modal('show');
@@ -192,7 +263,7 @@
                 })
                 .then(() => {
                     this.$toastr.s("SE GUARDO CORRECTMENTE", "");
-                    this.getStudiosCarriedOut()
+                    this.getConsultaSubservicios()
                     $('#modal_laboratoryStudies').modal('hide');
                 }).catch(err => {
                     this.errors.push(err.response.data.errors);
@@ -213,24 +284,12 @@
             eliminarSubservicio(consultaSubservicio) {
                 axios.delete('/api/consultaSubservicio/' + consultaSubservicio.pivot.id)
                 .then(() => {
-                    this.getStudiosCarriedOut()
+                    this.getConsultaSubservicios()
                 }).catch(err => {
                     this.errors.push(err.response.data.errors);
                     this.$toastr.e("HUBO ERRORES AL ELIMINAR");
                 })
             },
-            updateStudioInstructions() {
-                axios.put('/api/studioInstruction/' + this.instructions.id, {
-                    instructions: this.instructciones,
-                    consultation_id: this.consultation.id,
-                    id: this.instructions.id
-                }).then(() => {
-                    this.$toastr.s("SE GUARDO CORRECTMENTE", "");
-                }).catch(err => {
-                    this.errors.push(err.response.data.errors);
-                    this.$toastr.e("HAY ERRORES");
-                })
-            }
         },
         computed: {
             filterSubservicios() {

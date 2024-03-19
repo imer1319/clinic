@@ -28,16 +28,8 @@
                             <label for="email">Email:</label>
                             <input name="email" value="{{ old('email', $patient->email) }}" type="email" class="form-control">
                         </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="password">Contraseña</label>
-                            <input id="password" type="password" class="form-control" name="password" autocomplete="new-password">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="password-confirm">Confirmar contraseña</label>
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
-                            autocomplete="new-password">
+                        <div class="col-12">
+                            <span><i>La contraseña será el numero de ci</i> </span>
                         </div>
                         <br>
                     </div>
@@ -66,19 +58,6 @@
                             <label>Direccion</label>
                             <input type="text" name="address" class="form-control" value="{{ old('address',  $patient->profile->address) }}">
                         </div>
-                        @if($patient->hasRole('Doctor'))
-                        <div class="form-group col-md-4">
-                            <label for="specialty_id">Especialidad:</label>
-                            <select id="specialty_id" name="specialty_id" class="form-control @error('patient_id') is-invalid @enderror">
-                                <option value="">Seleccionar especialidad</option>
-                                @foreach ($specialties as $specialty)
-                                <option value="{{ $specialty->id }}" {{ (old('specialty_id') == $specialty->id) || ($patient->profile->specialty_id == $specialty->id) ? 'selected':'' }}>
-                                    {{ $specialty->description }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @endif
                         <div class="form-group col-md-4">
                             <label for="gender">Genero :</label>
                             <br>
@@ -93,26 +72,6 @@
                                 <b>Mujer</b>
                             </label>
                         </div>
-                        @if(!$patient->hasRole('Paciente'))
-                        <div class="form-group col-md-4">
-                            <label for="image">Imagen</label>
-                            <div class="custom-file">
-                                <input type="file" name="image" class="custom-file-input" id="image-patient" accept="image/*">
-                                <label class="custom-file-label" for="image-patient">Seleccionar imagen</label>
-                            </div>
-                            <span class="text-muted">Dejar en blanco si no quieres editar la imagen</span>
-                            <br>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <div class="text-center">
-                                @if ( $patient->profile->image)
-                                <img src="{{ Storage::url( $patient->profile->image) }}" alt="{{  $patient->name }}" width="120px">
-                                @else
-                                <img src="{{ Avatar::create( $patient->name )->toBase64() }}" alt="Avatar" width="100px">
-                                @endif
-                            </div>
-                        </div>
-                        @endif
                     </div>
                     <div class="form-group btn-group">
                         <button class="btn btn-primary">Actualizar datos</button>

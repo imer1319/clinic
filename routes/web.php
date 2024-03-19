@@ -18,7 +18,9 @@ use App\Http\Controllers\Admin\DiaryController;
 use App\Http\Controllers\Admin\HorarioController;
 use App\Http\Controllers\Admin\UsersProfileController;
 use App\Http\Controllers\CitaController;
+use App\Http\Controllers\BackupController;
 use Illuminate\Support\Facades\Auth;
+
 Route::view('/','welcome');
 Route::view('/about','about');
 
@@ -74,4 +76,5 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::put('profile/{user}', [UsersProfileController::class, 'update'])->name('user.profiles.update');
+    Route::get('/backup/run', [BackupController::class, 'runBackup'])->name('backup.download');
 });

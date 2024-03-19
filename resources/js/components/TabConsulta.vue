@@ -67,7 +67,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <h6><b>Motivos consulta</b></h6>
-                        <textarea v-model="consultation.motivo_consulta" rows="3" class="form-control"></textarea>
+                        <textarea v-model="consultation.motivo" rows="3" class="form-control"></textarea>
                     </div>
                     <div class="form-group">
                         <h6><b>Sintomas subjetivos</b></h6>
@@ -346,5 +346,5 @@
                 })
             }
         }
-    }   
+    }
 </script>

@@ -20,4 +20,9 @@ class Subservicio extends Model
     {
         return $this->belongsTo(Service::class);
     }
+
+    public function imagen()
+    {
+        return $this->hasOne(ImagenSubservicio::class);
+    }
 }

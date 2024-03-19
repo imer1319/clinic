@@ -54,13 +54,13 @@
                     <div class="profile clearfix">
                         <div class="profile_pic">
                             @if(optional(optional(auth()->user())->profile)->image)
-                            <img src="{{ Storage::url( auth()->user()->profile->image) }}" alt="{{  auth()->user()->name }}" class="img-circle profile_img" style="border-radius: 50%;">
+                            <img src="{{ Storage::url( auth()->user()->profile->image) }}" alt="{{  auth()->user()->name }}" class="img-circle profile_img" style="border-radius: 50%; width: 65px;height: 65px;object-fill:cover">
                             @else
                             <img src="{{ Avatar::create( auth()->user()->name )->toBase64() }}" alt="Avatar" class="img-circle profile_img">
                             @endif
                         </div>
                         <div class="profile_info">
-                            <span>Bienvenido,</span>
+                            <span>{{ Auth::user()->getRoleDisplayNames() }}</span>
                             <h2>{{ Auth::user()->name }}</h2>
                         </div>
                     </div>

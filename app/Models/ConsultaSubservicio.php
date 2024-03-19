@@ -17,4 +17,9 @@ class ConsultaSubservicio extends Model
     {
         return $this->belongsTo(Consultation::class);
     }
+
+    public function imagen()
+    {
+        return $this->hasOne(ImagenSubservicio::class,'consultation_subservice_id');
+    }
 }

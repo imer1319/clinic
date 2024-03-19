@@ -38,7 +38,7 @@ class UsersSeeder extends Seeder
         //Asignar roles a los usuarios
         $doctor->assignRole(Role::findByName('Doctor'));
         $doctor->profile()->create();
-        for ($i=0; $i < 7; $i++) { 
+        for ($i=0; $i < 7; $i++) {
             $doctor->horarios()->create([
                 'dia_semana' => $i,
                 'morning_start' => '06:00:00',
@@ -56,5 +56,15 @@ class UsersSeeder extends Seeder
         //Asignar roles a los usuarios
         $paciente->assignRole(Role::findByName('Paciente'));
         $paciente->profile()->create();
+
+        $secre = User::create([
+            'name' => 'Secretaria',
+            'username' => 'Secretaria',
+            'email' => 'secretaria@secretaria.com',
+            'password' => '123123',
+        ]);
+        //Asignar roles a los usuarios
+        $secre->assignRole(Role::findByName('Secretaria'));
+        $secre->profile()->create();
     }
 }

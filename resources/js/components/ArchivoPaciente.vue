@@ -42,11 +42,11 @@
 		</div>
 		<archivo-show-paciente :data="showArchiveForm" />
 	</div>
-</template>	
+</template>
 <script>
 import moment from 'moment';
 export default {
-	props: ['patient'],
+	props: ['patient','consultation'],
 	mounted() {
 		this.getArchivos()
 	},
@@ -66,7 +66,7 @@ export default {
 	},
 	methods: {
 		getArchivos() {
-			axios.get('/api/archives/' + this.patient.id)
+			axios.get('/api/archives/' + this.consultation.id)
 				.then(res => {
 					this.archives = res.data
 				})
@@ -85,6 +85,7 @@ export default {
 		saveArchive() {
 			this.form.image = this.image
 			this.form.patient_id = this.patient.id
+			this.form.consultation_id = this.consultation.id
 			let forms = new FormData();
 			for (let key in this.form) {
 				forms.append(key, this.form[key])

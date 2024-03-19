@@ -112,7 +112,7 @@
             </a>
         </li>
         @endif
-        
+
         @can('settings_index')
         <li>
             <a href="{{ route('admin.settings') }}">
@@ -120,5 +120,11 @@
             </a>
         </li>
         @endcan
+        <li>
+            <a href="{{ route('admin.backup.download') }}">
+                <i class="fa fa-hdd-o"></i> Backup
+            </a>
+        </li>
+
     </ul>
 </div>

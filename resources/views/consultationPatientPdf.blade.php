@@ -162,8 +162,8 @@
 
                             <td>
                                 EXP #: {{ str_pad($patient->id, 5, '0', STR_PAD_LEFT) }}<br />
-                                Fecha: {{ date('M d Y') }}<br />
-                                Hora: {{ date('H:i A') }}
+                                Fecha: {{ $consultation->created_at->format('M d Y') }}<br />
+                                Hora: {{ $consultation->created_at->format('H:i A') }}
                             </td>
                         </tr>
                     </table>
@@ -194,23 +194,6 @@
                 </td>
             </tr>
         </table>
-        <div class="heading">
-            <span colspan="2">Servicios</span>
-        </div>
-        @if (count($services))
-        <table class="table">
-            <tr>
-                <th>Servicios realizados</th>
-                <th>Fecha</th>
-            </tr>
-            @foreach ($services as $service)
-            <tr>
-                <td style="text-align: center">{{ $service->nombre }}</td>
-                <td style="text-align: center">{{ $service->created_at->format('d M Y H:i A') }}</td>
-            </tr>
-            @endforeach
-        </table>
-        @endif
         <br>
         <div class="heading">
             <span colspan="2">Exploracion física</span>
@@ -239,7 +222,7 @@
                     <table class="table">
                         <tr>
                             <td style="text-align:left;">
-                                {{ $consultation->motivo_consulta }}</td>
+                                {{ $consultation->motivo }}</td>
                             </tr>
                         </table>
                         <div class="heading">
@@ -292,6 +275,36 @@
                                     </tr>
                                 </table>
                             </td>
+                        </tr>
+                    </table>
+
+                    <div class="heading">
+                        <span colspan="2">Medicamentos</span>
+                    </div>
+                    @if (count($medicamentos))
+                    <table class="table">
+                        <tr>
+                            <th>Medicamento</th>
+                            <th>Dosis</th>
+                            <th>Frecuencia (Horas)</th>
+                            <th>Durante (dias)</th>
+                        </tr>
+                        @foreach ($medicamentos as $medicamento)
+                        <tr>
+                            <td style="text-align: center">{{ $medicamento->medicamento }}</td>
+                            <td style="text-align: center">{{ $medicamento->tomar }}</td>
+                            <td style="text-align: center">{{ $medicamento->frecuencia }}</td>
+                            <td style="text-align: center">{{ $medicamento->durante }}</td>
+                        </tr>
+                        @endforeach
+                    </table>
+                    @endif
+                    <div class="heading">
+                        <span colspan="2">Instrucciones médicas</span>
+                    </div>
+                    <table class="table">
+                        <tr>
+                            <td>{{ $medicalInstruction->instructions }}</td>
                         </tr>
                     </table>
                 </div>

@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\ServiceConsultationController;
 use App\Http\Controllers\Api\SpecialtyController;
 use App\Http\Controllers\Api\SubservicioController;
 use App\Http\Controllers\Api\ConsultaSubservicioController;
+use App\Http\Controllers\Api\ImagenSubservicioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -95,14 +96,14 @@ Route::delete('studioCarriedOut/{studioCarriedOut}', [StudioCarriedOutController
 
 Route::get('consultaSubservicio/{consultation}', [ConsultaSubservicioController::class, 'index']);
 Route::post('consultaSubservicio', [ConsultaSubservicioController::class,'store']);
-Route::delete('consultaSubservicio/{consultaSubservicio}', [StudioCarriedOutController::class, 'destroy']);
+Route::delete('consultaSubservicio/{consultaSubservicio}', [ConsultaSubservicioController::class, 'destroy']);
 
 
 Route::get('studioInstruction/{consultation}', [StudioInstructionController::class, 'index']);
 Route::post('studioInstruction', [StudioInstructionController::class,'store']);
 Route::put('studioInstruction/{studioInstruction}', [StudioInstructionController::class, 'update']);
 
-Route::get('archives/{patient}', [ArchiveController::class, 'index']);
+Route::get('archives/{consultation}', [ArchiveController::class, 'index']);
 Route::post('archives', [ArchiveController::class,'store']);
 Route::delete('archives/{archive}', [ArchiveController::class, 'destroy']);
 
@@ -128,3 +129,6 @@ Route::get('getServices', [ServiceConsultationController::class, 'getServices'])
 Route::get('services/{consultation}', [ServiceConsultationController::class, 'index']);
 Route::post('serviceConsultation/{consultation}', [ServiceConsultationController::class, 'store']);
 Route::delete('services/{consultation}/{id}', [ServiceConsultationController::class, 'destroy']);
+
+Route::post('imagenSubservicio', [ImagenSubservicioController::class,'store']);
+Route::put('imagenSubservicio/{imagenSubservicio}', [ImagenSubservicioController::class, 'update']);

@@ -51,7 +51,6 @@ class ReportesController extends Controller
             'patient' => $consultation->patient,
             'prescriptions' => $consultation->prescriptions,
             'vital_signs' => $consultation->vitalSigns,
-            'instrucciones' => $consultation->medicalInstruction,
             'edad' => $edad_diff->format('%y'),
         ]);
         $pdf->getDomPDF()->setHttpContext(
@@ -76,8 +75,8 @@ class ReportesController extends Controller
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
         $pdf = \PDF::loadView('estudiosPatientPdf', [
             'patient' => $consultation->patient,
-            'laboratories' => $consultation->laboratories,
-            'vital_signs' => $consultation->vitalSigns,
+            'subservicios' => $consultation->subservices,
+            'imagenes' => $consultation->archives,
             'instrucciones' => $consultation->studiosInstruction,
             'edad' => $edad_diff->format('%y'),
         ]);
@@ -107,7 +106,8 @@ class ReportesController extends Controller
             }])->get(),
             'patient' => $consultation->patient,
             'consultation' => $consultation,
-            'services' => $consultation->subservices,
+            'medicamentos' => $consultation->prescriptions,
+            'medicalInstruction' => $consultation->medicalInstruction,
             'vital_signs' => $consultation->vitalSigns,
             'edad' => $edad_diff->format('%y'),
         ]);

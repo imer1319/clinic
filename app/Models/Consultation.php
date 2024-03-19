@@ -80,6 +80,16 @@ class Consultation extends Model
 
     public function subservices()
     {
-        return $this->belongsToMany(Subservicio::class,'consultation_subservice', 'subservice_id','consultation_id')->withPivot('id', 'created_at');
+        return $this->belongsToMany(Subservicio::class,'consultation_subservice', 'consultation_id','subservice_id')->withPivot('id', 'created_at');
+    }
+
+    public function consultaSubservicio()
+    {
+        return $this->hasMany(ConsultaSubservicio::class,'consultation_id');
+    }
+
+    public function archives()
+    {
+        return $this->hasMany(Archive::class, 'consultation_id');
     }
 }

@@ -27,13 +27,12 @@ class StoreRequest extends FormRequest
             'name' => 'required|max:255',
             'surnames' => 'required|max:255',
             'ci' => 'required|min:8',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'nacimiento' => 'required|date',
             'celular' => 'required|numeric',
             'address' => 'required',
             'email' => 'required|email|max:255|unique:users',
             'username' => 'required|max:60|unique:users',
-            'password' => 'required|string|min:8|confirmed',
             'gender'=> 'required|in:Masculino,Femenino',
         ];
     }
@@ -48,7 +47,6 @@ class StoreRequest extends FormRequest
             'ci.numeric' => 'El campo ci debe ser numerico.',
             'phone.required' => 'El campo telefono es obligatorio.',
             'address.required' => 'El campo direccion es obligatorio.',
-            'image.required' => 'El campo imagen es obligatorio.',
             'image.image' => 'El campo imagen debe ser una imagen.',
             'image.mimes' => 'El campo imagen debe ser un archivo con formato: jpeg, png, jpg, gif, svg.',
         ];

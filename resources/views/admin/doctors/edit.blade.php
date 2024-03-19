@@ -33,16 +33,8 @@
                             <label for="email">Email:</label>
                             <input name="email" value="{{ old('email', $doctor->email) }}" type="email" class="form-control">
                         </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="password">Contraseña</label>
-                            <input id="password" type="password" class="form-control" name="password" autocomplete="new-password">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="password-confirm">Confirmar contraseña</label>
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
-                            autocomplete="new-password">
+                        <div class="form-group col-md-12">
+                            <span><i>La contraseña será el numero de ci</i> </span>
                         </div>
                         <br>
                     </div>

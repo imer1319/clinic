@@ -68,7 +68,7 @@ class RoleController extends Controller
     public function update(UpdateRequest $request, Role $role)
     {
         $role->update($request->validated());
-        
+
         $role->permissions()->detach();
 
         if ($request->has('permissions')) {
@@ -79,7 +79,7 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
-        if ($role->id === 1 || $role->id === 2 || $role->id === 3) {
+        if ($role->id === 1 || $role->id === 2 || $role->id === 3 || $role->id === 4) {
             return redirect()->route('admin.roles.index')->withFlash('Este rol no se puede eliminar');
         }
 
