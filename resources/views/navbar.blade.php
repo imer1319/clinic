@@ -11,6 +11,9 @@
             <li class="nav-item {{ Request::is('about') ? 'active' : '' }}">
                 <a class="nav-link" href="/about">UAJMS</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://wa.me/59175167255" target="_blank">Whatsapp</a>
+            </li>
             @guest
             <li class="nav-item {{ Request::is('login') ? 'active' : '' }}">
                 <a class="nav-link" data-cy="login" href="/login">Iniciar sesión</a>

@@ -34,7 +34,6 @@ Route::name('admin.')->middleware(['auth'])->group(function () {
     Route::resource('doctors', DoctorController::class);
     Route::resource('patients', PatientController::class);
 
-
     Route::middleware('role:Administrador')
     ->put('users/{user}/roles', [UsersRolesController::class, 'update'])
     ->name('users.roles.update');
