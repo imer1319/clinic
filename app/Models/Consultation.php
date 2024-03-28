@@ -48,11 +48,6 @@ class Consultation extends Model
         return $this->hasMany(Prescription::class);
     }
 
-    public function diagnoses()
-    {
-        return $this->belongsToMany(Diagnosis::class, 'consultation_diagnoses');
-    }
-
     public function medicalInstruction()
     {
         return $this->hasOne(MedicalInstruction::class);

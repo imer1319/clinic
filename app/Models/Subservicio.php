@@ -23,6 +23,6 @@ class Subservicio extends Model
 
     public function imagen()
     {
-        return $this->hasOne(ImagenSubservicio::class);
+        return $this->hasOne(ImagenSubservicio::class,'consultation_subservice_id');
     }
 }

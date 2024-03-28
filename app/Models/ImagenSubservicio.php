@@ -15,6 +15,6 @@ class ImagenSubservicio extends Model
 
     public function subservicio()
     {
-        return $this->belongsTo(ConsultaSubservicio::class,'consultation_id');
+        return $this->belongsTo(ConsultaSubservicio::class,'consultation_id','consultation_subservice_id');
     }
 }

@@ -122,11 +122,19 @@
                             <span><b>{{ $diary->motivo }}</b></span>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-primary">{{ $diary->status }}</span>
-                                <span>
-                                    <a href="#" class="start-consultation" data-diary-id="{{ $diary->id }}" onclick="return confirm('¿Seguro que desea iniciar esta consulta?')">
-                                        <i class="fa fa-play text-primary"></i>
-                                    </a>
-                                </span>
+                                <form action="{{ route('admin.diaries.update', $diary) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="motivo" value="{{ $diary->motivo }}">
+                                    <input type="hidden" name="doctor_id" value="{{ $diary->doctor->id }}">
+                                    <input type="hidden" name="patient_id" value="{{ $patient->id }}">
+                                    <span>
+                                        <button type="submit" style="display: none;"></button>
+                                        <a href="#" class="start-consultation" onclick="event.preventDefault(); this.closest('form').submit(); return confirm('¿Seguro que desea iniciar esta consulta?')">
+                                            <i class="fa fa-play text-primary"></i>
+                                        </a>
+                                    </span>
+                                </form>
                                 <span>
                                     <a href="#" style="z-index: 999;" class="text-danger delete-diary" data-url="{{ route('delete.diary', $diary->id) }}">
                                         <i class="fa fa-trash"></i>
@@ -136,18 +144,9 @@
                         </div>
                     </div>
                 </div>
-                <form id="start-consultation-form-{{ $diary->id }}" action="{{ route('admin.diaries.update', $diary) }}" method="POST" style="display: none;">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" name="motivo" value="{{ $diary->motivo }}">
-                    <input type="hidden" name="doctor_id" value="{{ $diary->doctor->id }}">
-                    <input type="hidden" name="patient_id" value="{{ $patient->id }}">
-                </form>
-
-
-                @empty
-                <span class="mx-auto">Aún no hay citas </span>
-                @endforelse
+            @empty
+                <span class="mx-auto">Aún no hay citas</span>
+            @endforelse
             </div>
             <div class="card mt-2 pre-scrollable">
                 <h6 class="pt-2 px-2">CONSULTAS INICIADAS</h6>
@@ -246,7 +245,6 @@
     @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
-
     <script>
         var hoy = new Date();
         var maxFecha = new Date();
@@ -339,21 +337,17 @@
                     $('#errors').html("");
                     window.location.reload()
                 },
-
                 error: function(xhr, status, error) {
                     $('#errors').html("");
 
                     var response = JSON.parse(xhr.responseText);
                     var errorString = '<div class="alert alert-danger">';
-
                     if (response.error) {
                         errorString += response.error;
                     }
-
                     if (response.available_hours && response.available_hours.error) {
                         errorString += response.available_hours.error;
                     }
-
                     if (response.errors) {
                         errorString += '<ul>';
                         $.each(response.errors, function(key, value) {
@@ -363,13 +357,9 @@
                         });
                         errorString += '</ul>';
                     }
-
                     errorString += '</div>';
-
                     $("#errors").append(errorString);
                 }
-
-
             });
         }
 

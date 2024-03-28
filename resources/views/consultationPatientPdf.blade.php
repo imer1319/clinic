@@ -304,7 +304,7 @@
                     </div>
                     <table class="table">
                         <tr>
-                            <td>{{ $medicalInstruction->instructions }}</td>
+                            <td>{{ optional($medicalInstruction)->instructions }}</td>
                         </tr>
                     </table>
                 </div>

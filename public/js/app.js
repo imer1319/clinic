@@ -3732,9 +3732,7 @@ __webpack_require__.r(__webpack_exports__);
       subservicio: {},
       subservicioImagen: {
         id: '',
-        imagen: {
-          imagen: ''
-        }
+        imagen: {}
       },
       imageSubservice: null
     };
@@ -3795,16 +3793,21 @@ __webpack_require__.r(__webpack_exports__);
     },
     showImagenSubservicio: function showImagenSubservicio(sub) {
       var _this8 = this;
-      this.subservicioImagen.id = sub.id;
+      this.subservicioImagen.id = sub.pivot.id;
       this.consultaSubservicios.consulta_subservicio.forEach(function (subser) {
-        if (subser.id == sub.id) {
-          _this8.subservicioImagen.imagen = subser.imagen;
+        if (subser.id == sub.pivot.id) {
+          if (subser.imagen != null) {
+            _this8.subservicioImagen.imagen = subser.imagen;
+          } else {
+            _this8.subservicioImagen.imagen = '';
+          }
         }
       });
       $('#modal_imagen').modal('show');
     },
     closeImagenSubservicio: function closeImagenSubservicio() {
       this.subservicioImagen.id = '';
+      this.subservicioImagen.imagen = {}; // Reinicializar como un objeto vacío
       $('#modal_imagen').modal('hide');
     },
     openModal: function openModal() {
@@ -7578,7 +7581,7 @@ var render = function render() {
       alt: "guardar",
       width: "35"
     }
-  }), _vm._v("\n                     Guardar ")]), _vm._v(" "), _c("a", {
+  }), _vm._v("\n                         Guardar ")]), _vm._v(" "), _c("a", {
     staticClass: "btn border",
     attrs: {
       target: "_blank",
@@ -7590,7 +7593,7 @@ var render = function render() {
       alt: "impresora",
       width: "35"
     }
-  }), _vm._v("\n                     Imprimir ")])])])])]), _vm._v(" "), _c("div", {
+  }), _vm._v("\n                         Imprimir ")])])])])]), _vm._v(" "), _c("div", {
     staticClass: "modal fade",
     attrs: {
       id: "modal_imagen",
@@ -7610,7 +7613,7 @@ var render = function render() {
     attrs: {
       id: "modalLabel"
     }
-  }, [_vm._v(" Cargar Imagen ")]), _vm._v(" "), _c("button", {
+  }, [_vm._v(" Imagen subservicio ")]), _vm._v(" "), _c("button", {
     staticClass: "close",
     attrs: {
       type: "button"
@@ -7629,7 +7632,7 @@ var render = function render() {
     staticClass: "modal-body"
   }, [_c("div", {
     staticClass: "form-group"
-  }, [_vm.subservicioImagen.imagen === null ? _c("div", [_c("label", [_vm._v("Cargar imagen")]), _vm._v(" "), _c("div", {
+  }, [_c("div", [_vm._v(_vm._s(_vm.subservicioImagen))]), _vm._v(" "), !_vm.subservicioImagen.imagen || !_vm.subservicioImagen.imagen.imagen ? _c("div", [_c("label", [_vm._v("Cargar imagen")]), _vm._v(" "), _c("div", {
     staticClass: "custom-file"
   }, [_c("input", {
     staticClass: "custom-file-input",
@@ -7646,14 +7649,14 @@ var render = function render() {
     attrs: {
       "for": "inputGroupFile04"
     }
-  }, [_vm._v("Choose file")])])]) : _c("div", [_c("hr"), _vm._v(" "), _c("img", {
+  }, [_vm._v("Choose file")])])]) : _c("div", [_c("img", {
     attrs: {
       src: "/".concat(_vm.subservicioImagen.imagen.imagen.replace("public", "storage")),
       alt: "img",
       width: "100%",
       height: "400px"
     }
-  }), _vm._v(" "), _c("i", [_vm._v("Dejar en blanco para mantener la imagen")])])]), _vm._v(" "), _vm.can("create_subservicio_imagen") ? _c("div", {
+  })])]), _vm._v(" "), _vm.can("create_subservicio_imagen") && !_vm.subservicioImagen.imagen ? _c("div", {
     staticClass: "form-group"
   }, [_c("a", {
     staticClass: "btn btn-primary text-white",
@@ -7663,7 +7666,7 @@ var render = function render() {
         return _vm.guardarImagenSubservicio();
       }
     }
-  }, [_vm._v("Guardar imagen")])]) : _vm._e()])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Guardar\n                            imagen")])]) : _vm._e()])])])]), _vm._v(" "), _c("div", {
     staticClass: "modal fade",
     attrs: {
       id: "modal_laboratoryStudies",
@@ -7706,7 +7709,7 @@ var render = function render() {
       domProps: {
         value: sevicio.id
       }
-    }, [_vm._v(_vm._s(sevicio.name) + "\n                            ")]);
+    }, [_vm._v(_vm._s(sevicio.name) + "\n                                ")]);
   }), 0)])]), _vm._v(" "), _c("div", {
     staticClass: "pre-scrollable"
   }, [_c("table", {
@@ -7720,7 +7723,7 @@ var render = function render() {
           return _vm.saveStudioCarrieOut(subservicio);
         }
       }
-    }, [_vm._v("\n                                    " + _vm._s(subservicio.nombre) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(subservicio.precio))])]);
+    }, [_vm._v("\n                                        " + _vm._s(subservicio.nombre) + "\n                                    ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(subservicio.precio))])]);
   }), 0)])])])])])])]);
 };
 var staticRenderFns = [function () {

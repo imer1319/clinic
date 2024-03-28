@@ -233,6 +233,20 @@
 			</tr>
 			@endforeach
 		</table>
+
+		<div style="page-break-after:always;"></div>
+		<div class="heading">
+			<span>Imagen de los Sub servicios</span>
+		</div>
+		<table >
+			@foreach($consultaSubservicios as $consultaSubservicio)
+			<tr>
+				<td align="center">
+					<img src="{{ public_path(Storage::url($consultaSubservicio->imagen->imagen)) }}" width="70%" height="60%" alt="Imagen">
+				</td>
+			</tr>
+			@endforeach
+		</table>
 	</div>
 </body>
 </html>

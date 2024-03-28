@@ -69,13 +69,13 @@ class ReportesController extends Controller
     public function pruebasPatient(Consultation $consultation)
     {
         $this->authorize('view', $consultation);
-
         $fecha_nacimiento = $consultation->patient->profile->nacimiento;
         $dia_actual = date("Y-m-d");
         $edad_diff = date_diff(date_create($fecha_nacimiento), date_create($dia_actual));
         $pdf = \PDF::loadView('estudiosPatientPdf', [
             'patient' => $consultation->patient,
             'subservicios' => $consultation->subservices,
+            'consultaSubservicios' => $consultation->consultaSubservicio->load('imagen'),
             'imagenes' => $consultation->archives,
             'instrucciones' => $consultation->studiosInstruction,
             'edad' => $edad_diff->format('%y'),
