@@ -11,7 +11,7 @@ class ImagenSubservicioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'consultation_subservice_id' => 'required|numeric|exists:App\Models\ConsultaSubservicio,id',
+            'consultation_subservice_id' => 'required|numeric|exists:consultation_subservice,id',
             'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $imagen = (new ImagenSubservicio)->fill($request->all());

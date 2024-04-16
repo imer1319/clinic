@@ -23,17 +23,17 @@ class StoreRequest extends FormRequest
      */
     public function rules()
     {
+        // dd($this->all());
         return [
             'name' => 'required|max:255',
             'surnames' => 'required|max:255',
-            'ci' => 'required|min:8',
+            'ci' => 'required|unique:profiles,ci',
+            'username' => 'required|unique:users,username',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'nacimiento' => 'required|date',
             'celular' => 'required|numeric',
             'address' => 'required',
             'email' => 'required|email|max:255|unique:users',
-            'username' => 'required|max:60|unique:users',
-            'password' => 'required|string|min:8|confirmed',
             'specialty_id' => 'required|numeric|exists:App\Models\Specialty,id',
             'gender'=> 'required|in:Masculino,Femenino',
         ];

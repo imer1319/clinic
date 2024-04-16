@@ -38,7 +38,7 @@ class UpdateRequest extends FormRequest
             'surnames' => 'required|max:255',
             'ci' => [
                 'required', 'numeric',
-                Rule::unique('profiles')->ignore($this->user_id)
+                Rule::unique('profiles')->ignore($this->profile_id)
             ],
             'nacimiento' => 'required|date',
             'celular' => 'required|numeric',

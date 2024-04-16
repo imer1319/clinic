@@ -76,6 +76,11 @@ return [
             'prefix_indexes' => true,
             'schema' => 'public',
             'sslmode' => 'prefer',
+            'dump' => [
+                'add_extra_option' => '--format=c',
+                'dump_binary_path' => 'C:\Program Files\PostgreSQL\16\bin'
+                // 'dump_binary_path' => '/usr/bin'
+            ]
         ],
 
         'sqlsrv' => [

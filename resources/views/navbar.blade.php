@@ -26,6 +26,10 @@
                 </li>
                 @endif
             @endguest
+            
+            <li class="nav-item">
+                <a class="nav-link" href="https://wa.me/59175167255" target="_blank">Contactanos</a>
+            </li>
         </ul>
     </div>
 </nav>

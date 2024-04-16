@@ -19,7 +19,7 @@ class NotificationController extends Controller
     public function store(Diary $diary)
     {
         Notification::create([
-            'user_id' => $diary->doctor->user->id,
+            'user_id' => $diary->doctor->id,
             'body' => "Tienes una cita el ". $diary->date_cita->format('d, M') ." a las ".$diary->hora_cita->format('H:i A') ." Hrs con el paciente ". $diary->patient->name.", por motivo de ". $diary->motivo ."."
         ]);
         return redirect()->route('home')->with('flash','Se ha notificado al doctor');

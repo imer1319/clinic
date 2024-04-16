@@ -43,14 +43,14 @@ class UsersSeeder extends Seeder
                 'dia_semana' => $i,
                 'morning_start' => '06:00:00',
                 'morning_end' => '12:00:00',
-                'afternoon_start' => '14:00:00',
+                'afternoon_start' => '15:00:00',
                 'afternoon_end' => '18:00:00',
             ]);
         }
         $paciente = User::create([
-            'name' => 'Paciente',
-            'username' => 'Paciente',
-            'email' => 'paciente@paciente.com',
+            'name' => 'Omar ',
+            'username' => 'Omar',
+            'email' => 'omar@paciente.com',
             'password' => '123123',
         ]);
         //Asignar roles a los usuarios
@@ -58,9 +58,9 @@ class UsersSeeder extends Seeder
         $paciente->profile()->create();
 
         $secre = User::create([
-            'name' => 'Secretaria',
-            'username' => 'Secretaria',
-            'email' => 'secretaria@secretaria.com',
+            'name' => 'Carolina',
+            'username' => 'Carito92',
+            'email' => 'carolina@secretaria.com',
             'password' => '123123',
         ]);
         //Asignar roles a los usuarios

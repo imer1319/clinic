@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Factura</title>
+    <title>Historial</title>
 
     <link rel="icon" href="{{ asset('icono.png') }}" type="image/x-icon" />
 
@@ -304,7 +304,7 @@
                     </div>
                     <table class="table">
                         <tr>
-                            <td>{{ $medicalInstruction->instructions }}</td>
+                            <td>{{ optional($medicalInstruction)->instructions }}</td>
                         </tr>
                     </table>
                 </div>

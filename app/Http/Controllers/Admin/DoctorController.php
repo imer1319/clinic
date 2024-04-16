@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
 use App\Http\Requests\Doctor\StoreRequest;
-use App\Http\Requests\Profile\UpdateRequest;
+use App\Http\Requests\Doctor\UpdateRequest;
 use App\Models\Appointment;
 use App\Models\Horario;
 use App\Models\Specialty;
@@ -98,6 +98,9 @@ class DoctorController extends Controller
     public function update(UpdateRequest $request, User $doctor)
     {
         $doctor->update($request->validated());
+        // por si cambia de ci, cambiara tambien la contraseña
+        $doctor->password = $request->ci;
+        $doctor->save();
 
         if ($request->hasFile('image')) {
             $doctor->profile->image = $request->file('image')->store('public/images');

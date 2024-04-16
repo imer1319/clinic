@@ -120,11 +120,13 @@
             </a>
         </li>
         @endcan
+        @if (auth()->user()->hasRole('Administrador'))
         <li>
             <a href="{{ route('admin.backup.download') }}">
                 <i class="fa fa-hdd-o"></i> Backup
             </a>
         </li>
+        @endif
 
     </ul>
 </div>

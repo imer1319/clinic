@@ -26,8 +26,8 @@ class UpdateRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'surnames' => 'required|max:255',
-            'ci' => 'required|numeric',
-            'celular' => 'required|numeric|min:8',
+            'ci' => 'required',
+            'celular' => 'required|numeric',
             'city' => 'required|min:5',
             'address' => 'required|min:5',
             'gender'=> 'required|in:Masculino,Femenino',

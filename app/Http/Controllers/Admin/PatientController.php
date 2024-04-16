@@ -95,8 +95,10 @@ public function edit(User $patient)
 
 public function update(UpdateRequest $request, User $patient)
 {
-    $patient->update($request->validated());
-
+    $patient = (new User)->fill($request->validated());
+    // por si cambia de ci, cambiara tambien la contraseña
+    $patient->password = $request->ci;
+    $patient->save();
     $patient->profile()->update([
         'surnames' => $request->surnames,
         'ci' => $request->ci,

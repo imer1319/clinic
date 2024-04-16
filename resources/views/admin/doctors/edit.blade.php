@@ -10,9 +10,9 @@
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
                     <h3>Actualizar datos del doctor</h3>
-                    @can('horarios_edit')
+                    @if(auth()->user()->hasRole('Doctor'))
                         <a href="{{ route('admin.horarios.edit', $doctor) }}" class="btn btn-primary">Editar horario</a>
-                    @endcan
+                    @endif
                 </div>
                 <form action="{{ route('admin.doctors.update', $doctor) }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -111,6 +111,7 @@
                         </div>
                         @endif
                     </div>
+                    <input type="hidden" name="profile_id" value="{{$doctor->profile->id}}">
                     <div class="form-group btn-group">
                         <button class="btn btn-primary">Actualizar datos</button>
                     </div>

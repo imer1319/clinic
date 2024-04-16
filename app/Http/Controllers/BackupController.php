@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\File;
 
 class BackupController extends Controller
 {
-    public function runBackup(Request $request)
+    public function runBackup()
     {
         Artisan::call('backup:run --only-db');
         $path = storage_path('app/Laravel/*');
@@ -24,10 +24,6 @@ class BackupController extends Controller
             }
         }
         $response = response()->download($latest_filename);
-
-        $response->send(function () use ($latest_filename) {
-            File::delete($latest_filename);
-        });
 
         return $response;
     }

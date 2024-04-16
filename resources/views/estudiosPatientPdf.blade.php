@@ -4,7 +4,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<title>Factura</title>
+	<title>Historial</title>
 
 	<link rel="icon" href="{{ asset('icono.png') }}" type="image/x-icon" />
 
@@ -229,6 +229,20 @@
 			<tr>
 				<td align="center">
 					<img src="{{ public_path(Storage::url($imagen->image)) }}" height="90%" alt="Imagen">
+				</td>
+			</tr>
+			@endforeach
+		</table>
+
+		<div style="page-break-after:always;"></div>
+		<div class="heading">
+			<span>Imagen de los Sub servicios</span>
+		</div>
+		<table >
+			@foreach($consultaSubservicios as $consultaSubservicio)
+			<tr>
+				<td align="center">
+					<img src="{{ public_path(Storage::url($consultaSubservicio->imagen->imagen)) }}" width="70%" height="60%" alt="Imagen">
 				</td>
 			</tr>
 			@endforeach

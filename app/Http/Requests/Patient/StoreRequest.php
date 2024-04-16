@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'surnames' => 'required|max:255',
-            'ci' => 'required|min:8',
+            'ci' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'nacimiento' => 'required|date',
             'celular' => 'required|numeric',

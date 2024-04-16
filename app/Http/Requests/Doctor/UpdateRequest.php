@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Doctor;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -23,15 +24,32 @@ class UpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
+            'name' => 'required|max:255',
+            'username' => [
+                'required',
+                Rule::unique('users')->ignore($this->user_id)
+            ],
+            'email' => [
+                'required','email','max:255',
+                Rule::unique('users')->ignore($this->user_id)
+            ],
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'surnames' => 'required|max:255',
-            'ci' => 'required',
+            'ci' => [
+                'required', 'numeric',
+                Rule::unique('profiles')->ignore($this->profile_id)
+            ],
             'nacimiento' => 'required|date',
             'celular' => 'required|numeric',
             'address' => 'required',
-            'specialty_id' => 'required|numeric|exists:App\Models\Specialty,id',
+            'specialty_id' => 'nullable|numeric|exists:App\Models\Specialty,id',
             'gender' => 'required|in:Masculino,Femenino',
         ];
+        if ($this->filled('password')) {
+            $rules['password'] = ['confirmed', 'min:6'];
+        }
+        return $rules;
     }
 
     public function messages()
