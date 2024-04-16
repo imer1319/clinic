@@ -149,7 +149,7 @@
             @empty
                 <span class="mx-auto">Aún no hay citas</span>
             @endforelse
-            </div> -->
+            </div>
             <div class="card mt-2 pre-scrollable">
                 <h6 class="pt-2 px-2">CONSULTAS INICIADAS</h6>
                 @forelse ($consultations as $consultation)
